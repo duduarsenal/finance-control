@@ -1,21 +1,15 @@
-import { useState } from "react";
+import { ButtonProps } from "@typings";
 import { cn } from "../../utils/cn";
 
-export function Button({ className }: React.ButtonHTMLAttributes<HTMLButtonElement>){
-    const [pending, setPending] = useState<boolean>(false);
-    
-    function handlePending(){
-        setPending(prevState => !prevState);
-    }
+export function Button({ className, handleButton, icon, value }: ButtonProps){
 
     return(
         <button   
-            className={cn("bg-blue-400 p-2 font-semibold text-[18px]", className, {
-            "bg-orange-400": pending,
-            })}
-            onClick={handlePending}
+            className={cn("w-full h-10 my-8 transition-all rounded-sm outline-white outline-2 outline hover:bg-[#1f1f1f]", className, {"flex w-full items-center justify-center gap-4": icon})}
+            onClick={handleButton}
         >
-            Enviar
+            {icon}
+            {value}
         </button>
     )
 }
