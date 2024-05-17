@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export interface UserProps{
     username: string
@@ -21,4 +21,15 @@ export interface IsErrorProps {
 export interface LoginProps {
     username: string
     password: string
+}
+
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
+    label: string
+    icon?: JSX.Element
+    setState: React.Dispatch<React.SetStateAction<string>>
+}
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
+    icon?: JSX.Element
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handleButton: (e?: any) => void;
 }

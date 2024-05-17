@@ -12,7 +12,8 @@
       "@components": ["./src/components"],
       "@context": ["./src/contexts"],
       "@typings": ["./src/typings.ts"],
-      "@style": ["./src/style/index.css"]
+      "@style": ["./src/style/index.css"],
+      "@hooks": ["./src/hooks"]
     },
 
     /* Bundler mode */
