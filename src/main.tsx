@@ -1,5 +1,5 @@
 import { AuthProvider } from '@context'
-import { Home, Login, NotFound } from '@pages'
+import { Dashboard, Login, NotFound } from '@pages'
 import '@style'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Dashboard />
       },
       {
         path: "/login",
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Home />
+        element: <Dashboard />
+      },
+      {
+        path: "/home",
+        element: <Dashboard />
       }
     ],
   }

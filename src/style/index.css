@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 * {
-    font-family: "Roboto", sans-serif;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: -1.5px;
     color: #ffffff;
 }

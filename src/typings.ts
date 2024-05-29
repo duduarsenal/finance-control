@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode} from "react";
 
 export interface UserProps{
     username: string
@@ -6,11 +6,18 @@ export interface UserProps{
 }
 
 export interface AuthContextType {
-    userData: UserProps;
-    setUserData: React.Dispatch<React.SetStateAction<UserProps>>;
+    userData?: UserProps;
+    setUserData?: React.Dispatch<React.SetStateAction<UserProps>>;
 }
 
 export interface AuthProviderProps {
+    children: ReactNode;
+}
+export interface UserContextType {
+    userData: UserProps;
+}
+
+export interface UserProviderProps {
     children: ReactNode;
 }
 
@@ -32,4 +39,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     icon?: JSX.Element
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleButton: (e?: any) => void;
+}
+
+export interface LoadingProps {
+    isTrue?: boolean;
+    className?: string;
+    message?: string;
+}
+
+export interface SelectProps{
+    icon?: JSX.Element
+    label: string
+    options: {label: string, value: string | number}[]
+    value: {label: string, value: string | number} | null
+    setValue: React.Dispatch<React.SetStateAction<{label: string, value: string | number} | null>>
 }
