@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { UseSession } from "@context";
-import { useNavigate } from "react-router-dom";
-import { verifyLogin } from "@hooks";
-import { Button, Input } from "@components";
+import { SetStateAction, useEffect, useState } from "react";
+import { Button, Input, LogoMark } from "@components";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useSessionData } from "@hooks";
 
 export function Login() {
 
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const { userData } = UseSession();
+    const { userData } = useSessionData();
+    const [setIsPageHeader, setIsLoading]: [React.Dispatch<SetStateAction<string>>, React.Dispatch<SetStateAction<boolean>>] = useOutletContext();
 
     useEffect(() => {
         if (userData?.usertoken) {
@@ -18,16 +18,23 @@ export function Login() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData])
 
-    function handleLogin(e: Event) {
-        e.preventDefault();
+    useEffect(() => {
+        setIsLoading(true)
+        setIsPageHeader(window.location.pathname)
 
-        console.log(verifyLogin({ username, password }));
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500)
+    }, [])
+
+    function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
     }
 
     return (
         <div className="flex items-center justify-center h-full select-none">
-            <form className="flex flex-col gap-4 h-80 w-96">
-                <h2 className="mx-auto text-[30px] font-[500]">Dudu Finance</h2>
+            <form className="flex flex-col gap-4 min-h-80 w-96">
+                <LogoMark />
                 <Input
                     label="Username"
                     type="text"

@@ -1,3 +1,7 @@
 export { Button } from './Button'
 export { Header } from './Header'
 export { Input } from './Input'
+export { Loading } from './Loading'
+export { LogoMark } from './LogoMark'
+export { DashboardTable } from './DashboardTable'
+export { Select } from './Select'

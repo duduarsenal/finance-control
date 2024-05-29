@@ -1,7 +1,11 @@
-export function Header() {
+import { cn } from "src/utils/cn";
+import { LogoMark } from '@components'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function Header({className}: any) {
     return (
-        <section className="absolute top-0 flex items-center w-screen h-16 bg-black px-28">
-            <h3 className="text-[32px] font-[600]">Dudu Finances</h3>
+        <section className={cn("absolute top-0 flex items-center w-screen h-16 bg-black px-28", className)}>
+            <LogoMark />
         </section>
     )
 }

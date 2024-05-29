@@ -14,12 +14,11 @@ export function NotFound() {
             const dt = new Date(new Date().setSeconds(new Date().getSeconds() + 15)).toJSON();
             localStorage.setItem('timer', dt);
 
-            const pathname = window.location.pathname
+            const pathname = window.location.pathname.split("/")[1]
             const url = "https://api.giphy.com/v1/gifs/random"
             const key = import.meta.env.VITE_API_KEY
-            const tag = ["/rgb", "/rubberduck", "/trollface"].includes(pathname) 
-            ? pathname.split("/")[1] 
-            : "memes"
+            const tag = ["rgb", "rubberduck", "trollface", "lgbt", "creepy"].includes(pathname) 
+            ? pathname : "memes"
     
             const responseUrl = await fetch(`${url}?api_key=${key}&tag=${tag}`)
             
