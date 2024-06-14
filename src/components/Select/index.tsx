@@ -4,14 +4,14 @@ import { cn } from "src/utils/cn";
 import { IoClose } from "react-icons/io5";
 import { SelectProps } from "@typings";
 
-export function Select({ label, options, icon, value, setValue }: SelectProps) {
+export function Select({ label, options, icon, value, setValue, className, transparent = true }: SelectProps) {
 
     const [select, setSelect] = useState(false);
 
     return (
-        <div className="relative px-2 rounded-sm select-none outline-white outline-1 outline w-max">
+        <div className="relative select-none w-max">
             <div
-                className="flex items-center h-full justify-between gap-4 hover:brightness-200 min-w-[250px]"
+                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-200 min-w-[250px] outline-brand-white-gray outline-1 outline px-2 rounded-sm", className)}
                 onClick={() => setSelect(!select)}
             >
                 {icon && icon}
@@ -32,7 +32,8 @@ export function Select({ label, options, icon, value, setValue }: SelectProps) {
             <div className={cn("absolute top-[calc(100%+1px)] outline-white outline-1 outline w-full left-0 transition-all rounded-sm mt-0 flex flex-col z-50",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
-                    "opacity-100": select
+                    "opacity-100": select,
+                    "bg-brand-black": !transparent
                 }
             )}>
                 {options && options.map(({ label, value }) => (

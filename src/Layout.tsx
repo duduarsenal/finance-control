@@ -13,7 +13,7 @@ export default function Layout({error}: IsErrorProps) {
     <>
       {isPageHeader != "/login" && <Header /> }
       <Loading isTrue={isLoading} />
-      <div className={cn("pt-16 h-screen px-28", { "pt-0": isPageHeader == "/login"})}>
+      <div className={cn("pt-16 h-screen px-28 overflow-x-hidden text-brand-white", { "pt-0": isPageHeader == "/login"})}>
         <img src="src/assets/bg-gradient.png" 
           alt="Background gradient" 
           className="fixed top-0 left-0 w-screen h-screen bg-black object-fit -z-10" 
