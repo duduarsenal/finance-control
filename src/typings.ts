@@ -31,7 +31,7 @@ export interface LoginProps {
 }
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
-    label: string
+    label?: string
     icon?: JSX.Element
     setState: React.Dispatch<React.SetStateAction<string>>
 }
@@ -53,4 +53,39 @@ export interface SelectProps{
     options: {label: string, value: string | number}[]
     value: {label: string, value: string | number} | null
     setValue: React.Dispatch<React.SetStateAction<{label: string, value: string | number} | null>>
+    className?: string
+    transparent?: boolean
+    colors?: boolean
+}
+
+export interface DashboardProps{
+    type: string
+    content: ContentTableProps[]
+}
+
+interface ContentTableProps{
+    data: string
+    descricao: string
+    categoria: string
+    parcelas: number
+    valor: number
+}
+
+export interface ModalCategoriaProps{
+    setModalCategoria: React.Dispatch<React.SetStateAction<boolean>>
+    categorias: CategoriaProps[] | null
+    setCategorias: React.Dispatch<React.SetStateAction<CategoriaProps[] | null>>
+    saveCategorias: () => void
+}
+
+export interface CategoriaProps{
+    label: string
+    value: string
+    cor: GenericProps | null
+    emoji: GenericProps | null
+}
+
+export interface GenericProps{
+    label: string
+    value: string | number
 }

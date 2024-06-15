@@ -3,7 +3,7 @@ import { useId, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { cn } from "src/utils/cn";
 
-export function Input({ className, type, label, value, icon, setState }: InputProps) {
+export function Input({ className, type, label, value, icon, setState, autoComplete = "off", ...props }: InputProps) {
 
     const id = useId();
     const [thisType, setThisType] = useState<string | undefined>(type)
@@ -16,13 +16,14 @@ export function Input({ className, type, label, value, icon, setState }: InputPr
             <span className="absolute top-2/4 translate-y-[10%] brightness-0 px-1 text-[22px]">{icon}</span>
             {label}
             <input
+                {...props}
                 id={id}
                 value={value}
                 onChange={(e) => setState(e.target.value)}
                 type={thisType}
                 className={cn("h-8 rounded-sm text-[20px] text-black outline-none px-1", className,
                     { "pr-9": type === "password", "pl-9": icon })}
-                autoComplete="off"
+                autoComplete={autoComplete}
             />
             {type == "password" &&
                 <span

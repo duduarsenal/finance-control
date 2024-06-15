@@ -1,14 +1,14 @@
 import { Button, DashboardTable, Select } from "@components";
-import { CategoriaProps } from "@typings";
+import { CategoriaProps, GenericProps } from "@typings";
 import { useState } from "react";
 import { FaCalendarCheck } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
 import ModalCategoria from "src/components/ModalCategoria";
 
 export function Dashboard(){
-    const [monthSelected, setMonthSelected] = useState<{label: string, value: string | number} | null>(null)
+    const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null)
     const [modalCategoria, setModalCategoria] = useState<boolean>(false);
-    const [tempCategorias, setTempCategorias] = useState<CategoriaProps[]>();
+    const [tempCategorias, setTempCategorias] = useState<CategoriaProps[] | null>(null);
 
     const months = [
         {label: "Janeiro", value: "jan"},
@@ -104,6 +104,10 @@ export function Dashboard(){
             valor: 20000
         }
     ]
+
+    function handleSaveCategorias(){
+        console.log('categorias', tempCategorias)
+    }
     
     return (
         <main>
@@ -112,6 +116,7 @@ export function Dashboard(){
                     label="Selecione um mês" 
                     options={months} value={monthSelected} 
                     setValue={setMonthSelected} 
+                    className="w-max"
                     icon={<FaCalendarCheck className="text-brand-white" />}
                     transparent={false}
                 /> 
@@ -132,8 +137,10 @@ export function Dashboard(){
             {/* MODAL PARA ADICIONAR CATEGORIA */}
             {modalCategoria && 
             <ModalCategoria 
+                setModalCategoria={setModalCategoria}
                 categorias={tempCategorias} 
                 setCategorias={setTempCategorias} 
+                saveCategorias={handleSaveCategorias}
             />}
         </main>
     )
