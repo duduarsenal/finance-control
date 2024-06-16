@@ -9,9 +9,9 @@ export function Select({ label, options, icon, value, setValue, className, trans
     const [select, setSelect] = useState(false);
 
     return (
-        <div className="relative h-8 select-none">
+        <div className="relative h-8 select-none w-full">
             <div
-                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-200 min-w-[250px] outline-brand-white-gray outline-1 outline px-2 rounded-sm", className)}
+                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-200 w-full outline-brand-white-gray outline-1 outline px-2 rounded-sm transition-all", className)}
                 onClick={() => setSelect(!select)}
             >
                 {icon && icon}

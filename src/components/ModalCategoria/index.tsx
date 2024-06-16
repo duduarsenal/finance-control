@@ -67,21 +67,21 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[9999] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-4 bg-brand-black p-6">
+            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr">
                 <div className="grid w-full grid-cols-7 grid-rows-2 gap-2">
                     <div className="col-span-5">
                         <Input
                             placeholder="Nome da categoria"
                             setState={setTempCategoria}
                             value={tempCategoria}
-                            className="bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray"
+                            className="bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray transition-all"
                         />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 w-full">
                         <Select
                             options={emojis}
                             transparent={false}
-                            className="bg-brand-black min-w-max"
+                            className="min-w-max"
                             label="Emoji"
                             value={emoji}
                             setValue={setEmoji}
@@ -91,7 +91,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                         <Select
                             options={cores}
                             transparent={false}
-                            className="bg-brand-black min-w-max"
+                            className="min-w-max"
                             label="Selecine uma Cor"
                             value={cor}
                             setValue={setCor}
@@ -107,16 +107,17 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                         />
                     </div>
                 </div>
-                <div className="w-full min-h-[300px] overflow-y-auto bg-brand-black outline outline-2 outline-brand-white-gray rounded-sm">
+                <div className="w-full h-[300px] overflow-y-auto bg-brand-black rounded-sm  outline outline-2 outline-brand-gray">
                     {categorias?.map((categoria, index) => (
-                        <div key={index} className="flex justify-between px-4 py-1 text-[18px] items-center border-b-2 border-b-brand-white-gray text-brand-black font-medium">
+                        <div key={index} className={cn("flex justify-between px-4 py-1 text-[18px] items-center border-b-2 border-b-brand-gray text-brand-black font-medium", {"border-b-0": categorias[index + 1] === (null || undefined)})}>
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
                                 {categoria.label}
                             </p>
                             <IoClose
                                 onClick={() => handleRemoveCategoria(categoria.value)}
-                                className="h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-50 transition-all text-brand-red"
+                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-50 text-brand-red", 
+                                { "-mr-[12px]": categorias?.length && categorias.length > 8 })}
                             />
                         </div>
                     ))}

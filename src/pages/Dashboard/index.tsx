@@ -112,14 +112,15 @@ export function Dashboard(){
     return (
         <main>
             <div className="flex justify-between w-full py-8 h-max">
-                <Select 
-                    label="Selecione um mês" 
-                    options={months} value={monthSelected} 
-                    setValue={setMonthSelected} 
-                    className="w-max"
-                    icon={<FaCalendarCheck className="text-brand-white" />}
-                    transparent={false}
-                /> 
+                <div className="w-56">
+                    <Select 
+                        label="Selecione um mês" 
+                        options={months} value={monthSelected} 
+                        setValue={setMonthSelected} 
+                        icon={<FaCalendarCheck className="text-brand-white" />}
+                        transparent={false}
+                    /> 
+                </div>
                 <Button 
                     handleButton={() => setModalCategoria(true)} 
                     value="Adicionar Categoria"
