@@ -66,7 +66,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
     }
 
     return (
-        <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[9999] flex items-center justify-center">
+        <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
             <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr">
                 <div className="grid w-full grid-cols-7 grid-rows-2 gap-2">
                     <div className="col-span-5">
@@ -74,10 +74,10 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                             placeholder="Nome da categoria"
                             setState={setTempCategoria}
                             value={tempCategoria}
-                            className="bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray transition-all"
+                            className="transition-all bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray"
                         />
                     </div>
-                    <div className="col-span-2 w-full">
+                    <div className="w-full col-span-2">
                         <Select
                             options={emojis}
                             transparent={false}
@@ -116,7 +116,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                             </p>
                             <IoClose
                                 onClick={() => handleRemoveCategoria(categoria.value)}
-                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-50 text-brand-red", 
+                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-20 text-brand-red", 
                                 { "-mr-[12px]": categorias?.length && categorias.length > 8 })}
                             />
                         </div>

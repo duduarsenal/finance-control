@@ -29,4 +29,20 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #ffffff90;
   }
-  
+
+  .MuiPickersDay-root{
+    border-radius: 4px !important;
+    background-color: transparent !important;
+  }
+
+  .Mui-selected{
+    background-color: #5F5F5F !important;
+  }
+
+  .MuiPickersDay-root:hover:not(.Mui-selected){
+    background-color: #5F5F5F20 !important;
+  }
+
+  .css-23p0if-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected){
+    border: none !important;
+  }
