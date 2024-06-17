@@ -56,6 +56,7 @@ export interface SelectProps{
     className?: string
     transparent?: boolean
     colors?: boolean
+    theme?: string
 }
 
 export interface DashboardProps{
@@ -88,4 +89,21 @@ export interface CategoriaProps{
 export interface GenericProps{
     label: string
     value: string | number
+}
+
+export interface ModalAddCampoProps{
+    type: string
+    setModalAddCampo: (value: boolean) => void
+}
+
+export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
+    className?: string
+    value: string
+    setValue: (value: string) => void
+}
+
+export interface DateFieldProps{
+    date: string | null
+    setDate: (value: string) => void 
+    style?: React.CSSProperties
 }
