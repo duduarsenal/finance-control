@@ -1,8 +1,9 @@
 import { Button, DashboardTable, Select } from "@components";
-import { CategoriaProps, GenericProps } from "@typings";
+import { CategoriaProps, GenericProps, NotifyProps } from "@typings";
 import { useState } from "react";
 import { FaCalendarCheck } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
+import { useOutletContext } from "react-router-dom";
 import ModalCategoria from "src/components/ModalCategoria";
 
 export function Dashboard(){
@@ -105,7 +106,18 @@ export function Dashboard(){
         }
     ]
 
+    
+    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyProps) => void }>()
+
     function handleSaveCategorias(){
+        
+        setModalCategoria(false)
+        setOpenNotify(true)
+        setNotify({
+                type: 'sucess', 
+                message: "Categorias atualizas com sucesso."
+        })
+        
         console.log('categorias', tempCategorias)
     }
     

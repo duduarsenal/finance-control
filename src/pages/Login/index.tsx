@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Input, LogoMark } from "@components";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useSessionData } from "@hooks";
@@ -9,7 +9,8 @@ export function Login() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const { userData } = useSessionData();
-    const [setIsPageHeader, setIsLoading]: [React.Dispatch<SetStateAction<string>>, React.Dispatch<SetStateAction<boolean>>] = useOutletContext();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const {setIsPageHeader, setIsLoading} = useOutletContext<any>();
 
     useEffect(() => {
         if (userData?.usertoken) {

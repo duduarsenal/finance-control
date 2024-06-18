@@ -44,6 +44,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
     ]
 
     function handleAddCategoria() {
+
         if (!tempCategoria || !cor || !emoji) return;
 
         const canAdd = categorias?.filter((c) => c.value === tempCategoria.toLocaleLowerCase())
@@ -127,14 +128,14 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                         <Button
                             handleButton={() => setModalCategoria(false)}
                             value="Cancelar"
-                            className="w-full my-0 font-medium bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />
                     </div>
                     <div className="col-span-1">
                         <Button
                             handleButton={saveCategorias}
                             value="Salvar"
-                            className="w-full my-0 font-medium bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />
                     </div>
                 </div>

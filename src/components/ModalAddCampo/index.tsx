@@ -1,16 +1,35 @@
-import { ModalAddCampoProps } from "@typings";
+import { ModalAddCampoProps, NotifyProps } from "@typings";
 import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
 
-    const [dtCampo, setDtCampo] = useState<string>("")
-    const [categoriaSelected, setCategoriaSelected] = useState<{label: string, value: string | number} | null>(null)
+    const [data, setData] = useState<string>("")
+    const [categoria, setCategoria] = useState<{label: string, value: string | number} | null>(null)
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
 
+    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyProps) => void }>()
+
     function handleSaveCampo() {
-        return console.log('salvar campo de ' + type)
+        const obj = {
+            type,
+            data,
+            categoria,
+            parcelas,
+            descricao
+        }
+        
+        setModalAddCampo(false)
+
+        setOpenNotify(true)
+        setNotify({
+                type: 'sucess', 
+                message: `${type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`
+        })
+        
+        return console.log(obj)
     }
 
     return (
@@ -21,8 +40,8 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                     <div className="col-span-2 pb-6 h-max">
                         <p>Data</p>
                         <DateField
-                            date={dtCampo}
-                            setDate={setDtCampo}
+                            date={data}
+                            setDate={setData}
                             style={{
                                 backgroundColor: "white", 
                                 color: "#000000"
@@ -37,8 +56,8 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                             className='my-0'
                             theme="light"
                             label='Selecione uma categoria'
-                            value={categoriaSelected}
-                            setValue={setCategoriaSelected}
+                            value={categoria}
+                            setValue={setCategoria}
                             options={[{ label: "Categoria 1", value: "categ1" }]}
                             transparent={false}
                         />
@@ -72,14 +91,20 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                         <Button
                             handleButton={() => setModalAddCampo(false)}
                             value="Cancelar"
-                            className="w-full my-0 font-medium bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />
                     </div>
                     <div className="col-span-1">
                         <Button
-                            handleButton={handleSaveCampo}
+                            handleButton={() => {
+                                if(!data || !categoria || !parcelas){
+                                    return console.log('preencha todos os campos')
+                                }
+                                
+                                handleSaveCampo()
+                            }}
                             value="Salvar"
-                            className="w-full my-0 font-medium bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />
                     </div>
                 </div>

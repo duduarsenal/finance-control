@@ -12,7 +12,7 @@ export default {
         'brand-gray': '#808080',
         'brand-black': '#0F0F0F',
         'brand-red': '#FF2C2C',
-        'brand-green': '#00FF00',
+        'brand-green': '#5bb450',
         'colors-red': '#C62D42',
         'colors-yellow': '#FFEE00',
         'colors-green': '#3B8132',
@@ -20,7 +20,22 @@ export default {
         'colors-purple': '#8A00C2',
         'colors-pink': '#FE5D9F',
         'colors-white': '#EFEFEF',
-        'colors-ciano': '#00FFFF'
+        'colors-ciano': '#00FFFF',
+        'notify-red': '#FFAAAA',
+        'notify-yellow': '#FFFAB5',
+        'notify-green': '#C9FFC2',
+        'notify-dark-red': '#660000',
+        'notify-dark-yellow': '#bf9000',
+        'notify-dark-green': '#38761d',
+      },
+      keyframes: {
+        notification: {
+          '0%': { width: '100%' },
+          '100%': { width: '0px' },
+        }
+      },
+      animation: {
+        'notification': 'notification 3s linear'
       }
     },
   },

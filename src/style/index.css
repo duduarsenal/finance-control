@@ -9,6 +9,10 @@
     /* color: #ffffff; */
 }
 
+body{
+  overflow: hidden;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 12px;

@@ -62,11 +62,12 @@ export function Select({ label, options, icon, value, setValue, className, trans
                             setValue({ label, value })
                             setSelect(false)
                         }}
-                        className={cn("py-1 px-2 border-b-[1px] border-b-[#1f1f1f] hover:brightness-75 cursor-pointer flex items-center gap-2 w-full", 
+                        className={cn("py-1 px-2 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 w-full", 
                             { "py-2": colors,
                                 "border-b-0": options[index + 1] === (null || undefined),
                                 "hover:text-brand-gray": theme === "light"
                             })}
+                        key={index}
                     >
                         {colors && <span className={cn("w-6 h-6 rounded-sm",
                             { "bg-colors-red": value === 'red' },

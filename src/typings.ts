@@ -107,3 +107,10 @@ export interface DateFieldProps{
     setDate: (value: string) => void 
     style?: React.CSSProperties
 }
+
+export interface NotifyProps{
+    open?: boolean
+    setOpenNotify?: (b: boolean) => void
+    type: string
+    message: string
+}
