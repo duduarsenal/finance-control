@@ -1,4 +1,4 @@
-import { ModalAddCampoProps } from "@typings";
+import { CategoriaProps, ModalAddCampoProps } from "@typings";
 import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categorias }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
-    const [categoria, setCategoria] = useState<{label: string, value: string | number} | null>(null)
+    const [categoria, setCategoria] = useState<any>()
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
     const [valor, setValor] = useState<string>("")
@@ -18,7 +18,7 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categor
             type,
             data,
             descricao,
-            categoria: categoria?.value.toString() || "",
+            categoria: categoria as CategoriaProps,
             parcelas: Number(parcelas),
             valor: Number(valor)
         }
@@ -53,7 +53,7 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categor
                             className="my-0 bg-colors-white"
                             theme="light"
                             label="Selecione uma categoria"
-                            value={categoria}
+                            value={categoria as CategoriaProps}
                             setValue={setCategoria}
                             optionsCategorias={categorias}
                             transparent={false}

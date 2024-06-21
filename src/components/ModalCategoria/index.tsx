@@ -1,5 +1,5 @@
 import { Button, Input, Select } from "@components";
-import { GenericProps, ModalCategoriaProps } from "@typings";
+import { CategoriaProps, GenericProps, ModalCategoriaProps } from "@typings";
 import { cn, Icons, cores, emojis } from "@utils";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -57,7 +57,7 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                             transparent={false}
                             className="min-w-max"
                             label="Emoji"
-                            value={emoji}
+                            value={emoji as CategoriaProps}
                             setValue={setEmoji}
                         />
                     </div>
@@ -67,7 +67,7 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                             transparent={false}
                             className="min-w-max"
                             label="Selecine uma Cor"
-                            value={cor}
+                            value={cor as CategoriaProps}
                             setValue={setCor}
                             colors={true}
                         />

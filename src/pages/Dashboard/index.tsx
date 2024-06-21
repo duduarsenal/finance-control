@@ -8,7 +8,7 @@ export function Dashboard(){
     const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null)
     const [modalCategoria, setModalCategoria] = useState<boolean>(false);
     const [tempCategorias, setTempCategorias] = useState<CategoriaProps[] | null>(null);
-    const [content, ] = useState<ContentTableProps[] | null>(null)
+    const [content, setContent] = useState<ContentTableProps[]>([])
 
     const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
@@ -20,7 +20,7 @@ export function Dashboard(){
     }
 
     function handleSaveCampo(value: ContentTableProps){
-        console.log(value)
+        setContent((prev) => [...prev, value])
     }
     
     return (
@@ -30,7 +30,7 @@ export function Dashboard(){
                     <Select 
                         label="Selecione um mês" 
                         options={months} 
-                        value={monthSelected} 
+                        value={monthSelected as CategoriaProps} 
                         setValue={setMonthSelected} 
                         icon={<Icons.FaCalendarCheck className="text-brand-white" />}
                         transparent={false}

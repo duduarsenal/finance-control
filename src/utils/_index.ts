@@ -1,4 +1,4 @@
 export { cn } from './cn'
-export { currencyFormatPT } from './format'
+export { currencyFormatPT, dateFormatPT } from './format'
 export { months, emojis, cores } from './mock'
 export * as Icons from './icons'

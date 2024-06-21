@@ -37,7 +37,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
 }
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     icon?: JSX.Element
-    handleButton: (e: React.MouseEvent) => void;
+    handleButton: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export interface LoadingProps {
@@ -51,7 +51,7 @@ export interface SelectProps{
     label: string
     options?: GenericProps[]
     optionsCategorias?: CategoriaProps[]
-    value: GenericProps | CategoriaProps | null
+    value: CategoriaProps | null
     setValue: React.Dispatch<React.SetStateAction<GenericProps | CategoriaProps | null>>
     className?: string
     transparent?: boolean
@@ -71,7 +71,7 @@ export interface ContentTableProps{
     type: string
     data: string
     descricao: string
-    categoria: string
+    categoria: CategoriaProps
     parcelas: number
     valor: number
 }

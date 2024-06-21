@@ -9,7 +9,7 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
     return (
         <div className="relative w-full h-8 select-none">
             <div
-                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-200 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
+                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-125 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
                 onClick={() => setSelect(!select)}
             >
                 {icon && icon}
@@ -31,13 +31,27 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
                                 {value.label}
                             </span>
                             : label ? label : "Selecine uma opção"
-                        : value?.value ? value.label : label ? label : "Selecione uma opção"}
+                        : value?.value ? optionsCategorias 
+                        ? <span className={cn("w-max px-2 flex gap-2 rounded-sm outline-1 outline-brand-black outline", 
+                                { "bg-colors-red": value.cor?.value === 'red' },
+                                { "bg-colors-yellow": value.cor?.value === 'yellow' },
+                                { "bg-colors-green": value.cor?.value === 'green' },
+                                { "bg-colors-blue": value.cor?.value === 'blue' },
+                                { "bg-colors-purple": value.cor?.value === 'purple' },
+                                { "bg-colors-pink": value.cor?.value === 'pink' },
+                                { "bg-colors-white": value.cor?.value === 'white' },
+                                { "bg-colors-ciano": value.cor?.value === 'ciano' }
+                            )}>
+                            <span>{value?.emoji?.label}</span>
+                            <span className="text-brand-black">{value.label}</span>
+                        </span>
+                        : value.label : label ? label : "Selecione uma opção"}
                 </p>
                 <div className="flex items-center h-full gap-2">
                     {value &&
                         <Icons.IoClose
                             onClick={() => setValue(null)}
-                            className="h-full text-[18px] cursor-pointer hover:scale-[1.1] z-30 transition-all text-brand-red"
+                            className="h-full text-[18px] cursor-pointer hover:scale-[1.1] z-20 transition-all text-brand-red"
                         />
                     }
                     <Icons.IoIosArrowUp className={cn("text-[20px] transition-all duration-300",
@@ -88,10 +102,10 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
                     {optionsCategorias && optionsCategorias.map(({ label, value, cor, emoji }, index) => (
                         <span
                             onClick={() => {
-                                setValue({ label, value })
+                                setValue({ label, value, cor, emoji })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 text-brand-black truncate",
+                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer flex items-center gap-2 basis-1/2 text-brand-black font-semibold truncate",
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,

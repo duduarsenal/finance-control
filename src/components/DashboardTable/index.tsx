@@ -1,6 +1,6 @@
 import { Button, DateField, ModalAddCampo, Select } from '@components';
 import { CategoriaProps, DashboardProps, GenericProps } from '@typings';
-import { Icons, cn, currencyFormatPT } from '@utils';
+import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
 
 export function DashboardTable({ type, content, handleSaveCampo, categorias}: DashboardProps) {
@@ -26,8 +26,10 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
                         <p className='px-6 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>Data</p>
                         <p className='col-span-2 px-6 text-left rounded-md bg-brand-white-gray w-max text-brand-black'>Descricao</p>
                         <p className='px-4 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>Categoria</p>
-                        <p className='px-4 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>Parcela</p>
-                        <p className='px-4 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>{type === "gastos" ? "Gastos" : "Ganhos"}</p>
+                        <p className='px-4 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>Parcelas</p>
+                        <p className='px-4 m-auto rounded-md bg-brand-white-gray w-max text-brand-black'>
+                            {type === "gastos" ? "Gasto" : "Ganho"}
+                        </p>
                     </div>
 
                     {/* Content */}
@@ -39,11 +41,23 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
                                         { "border-b-0": content[index + 1] == (null || undefined) })}
                                     key={index}
                                 >
-                                    <p>{row.data}</p>
-                                    <p className='col-span-2 text-left truncate'>{row.descricao}</p>
-                                    <p>{row.categoria}</p>
-                                    <p>{row.parcelas}</p>
-                                    <p className='tracking-tighter '>{currencyFormatPT(row.valor)}</p>
+                                    <p>{dateFormatPT(row.data) || '-'}</p>
+                                    <p className='col-span-2 text-left truncate'>{row.descricao || '-'}</p>
+                                    <p className={cn( "px-4 flex gap-2 rounded-md w-max m-auto",
+                                        { "bg-colors-red": row.categoria.cor?.value === 'red' },
+                                        { "bg-colors-yellow": row.categoria.cor?.value === 'yellow' },
+                                        { "bg-colors-green": row.categoria.cor?.value === 'green' },
+                                        { "bg-colors-blue": row.categoria.cor?.value === 'blue' },
+                                        { "bg-colors-purple": row.categoria.cor?.value === 'purple' },
+                                        { "bg-colors-pink": row.categoria.cor?.value === 'pink' },
+                                        { "bg-colors-white": row.categoria.cor?.value === 'white' },
+                                        { "bg-colors-ciano": row.categoria.cor?.value === 'ciano' }
+                                    )}>
+                                        <span>{row.categoria.emoji?.label}</span>
+                                        <span>{row.categoria.label}</span>
+                                    </p>
+                                    <p>{row.parcelas || '-'}</p>
+                                    <p className='tracking-tighter '>{currencyFormatPT(row.valor) || '-'}</p>
                                 </div>
                             )
                         })}
@@ -60,7 +74,7 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
                         <Select
                             className='my-0 outline-brand-gray'
                             label='Selecione uma categoria'
-                            value={categoriaSelected}
+                            value={categoriaSelected as CategoriaProps}
                             setValue={setCategoriaSelected}
                             optionsCategorias={categorias}
                             transparent={false}
