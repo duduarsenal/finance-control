@@ -1,4 +1,4 @@
-import { ModalAddCampoProps, NotifyProps } from "@typings";
+import { ModalAddCampoProps, NotifyDataProps } from "@typings";
 import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -10,7 +10,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
 
-    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyProps) => void }>()
+    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
 
     function handleSaveCampo() {
         const obj = {
@@ -29,7 +29,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                 message: `${type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`
         })
         
-        return console.log(obj)
+        return console.log(`salvar campo de ${type}`, obj)
     }
 
     return (
@@ -43,7 +43,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                             date={data}
                             setDate={setData}
                             style={{
-                                backgroundColor: "white", 
+                                backgroundColor: "#EFEFEF", 
                                 color: "#000000"
                             }}
                         />
@@ -53,9 +53,9 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                     <div className='col-span-3 pb-6 h-max'>
                         <p>Categoria</p>
                         <Select
-                            className='my-0'
+                            className="my-0 bg-colors-white"
                             theme="light"
-                            label='Selecione uma categoria'
+                            label="Selecione uma categoria"
                             value={categoria}
                             setValue={setCategoria}
                             options={[{ label: "Categoria 1", value: "categ1" }]}
@@ -70,7 +70,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                             setState={setParcelas}
                             value={parcelas}
                             placeholder="0"
-                            className="text-[16px]"
+                            className="text-[16px] bg-colors-white"
                             type="number"
                             maxLength={2}
                         />
@@ -83,6 +83,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                         setValue={setDescricao}
                         value={descricao}
                         placeholder="Escreva uma breve descrição sobre o campo"
+                        className="bg-colors-white"
                     />
                 </div>
 

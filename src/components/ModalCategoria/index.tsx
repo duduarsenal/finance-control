@@ -1,9 +1,10 @@
-import { GenericProps, ModalCategoriaProps } from "@typings";
+import { GenericProps, ModalCategoriaProps, NotifyDataProps } from "@typings";
 import { Button, Input, Select } from "@components";
 import { useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { cn } from "src/utils/cn";
+import { useOutletContext } from "react-router-dom";
 
 export default function ModalCategoria({ setModalCategoria, categorias, setCategorias, saveCategorias }: ModalCategoriaProps) {
 
@@ -66,6 +67,16 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
         setCategorias(newList)
     }
 
+    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
+
+    function cancelCategorias(){
+        setOpenNotify(true)
+        setNotify({
+                type: 'danger', 
+                message: "Categoria removida com sucesso."
+        })
+    }
+
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
             <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr">
@@ -126,7 +137,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                 <div className="grid w-full grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Button
-                            handleButton={() => setModalCategoria(false)}
+                            handleButton={() => {setModalCategoria(false); cancelCategorias()}}
                             value="Cancelar"
                             className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />

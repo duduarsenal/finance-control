@@ -109,8 +109,12 @@ export interface DateFieldProps{
 }
 
 export interface NotifyProps{
-    open?: boolean
-    setOpenNotify?: (b: boolean) => void
+    open: boolean
+    setOpenNotify: (b: boolean) => void
+    type: string
+    message: string
+}
+export interface NotifyDataProps{
     type: string
     message: string
 }

@@ -1,5 +1,5 @@
 import { Button, DashboardTable, Select } from "@components";
-import { CategoriaProps, GenericProps, NotifyProps } from "@typings";
+import { CategoriaProps, GenericProps, NotifyDataProps } from "@typings";
 import { useState } from "react";
 import { FaCalendarCheck } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
@@ -107,7 +107,7 @@ export function Dashboard(){
     ]
 
     
-    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyProps) => void }>()
+    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
 
     function handleSaveCategorias(){
         

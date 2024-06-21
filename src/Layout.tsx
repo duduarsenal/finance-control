@@ -1,5 +1,5 @@
 import { Footer, Header, Loading, Notify } from "@components";
-import { IsErrorProps, NotifyProps } from "@typings";
+import { IsErrorProps, NotifyDataProps } from "@typings";
 import { Outlet } from "react-router-dom";
 import { cn } from "./utils/cn";
 import { useState } from "react";
@@ -9,7 +9,7 @@ export default function Layout({error}: IsErrorProps) {
   const [isPageHeader, setIsPageHeader] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
-  const [notify, setNotify] = useState<NotifyProps>({type: '', message: ''})
+  const [notify, setNotify] = useState<NotifyDataProps>({type: '', message: ''})
   const [openNotify, setOpenNotify] = useState<boolean>(false)
   
   return (
