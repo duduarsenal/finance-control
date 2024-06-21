@@ -16,7 +16,7 @@ export function Dashboard(){
         
         setModalCategoria(false)
         addNotification("sucess", "Categorias atualizas com sucesso.")
-        console.log('categorias', tempCategorias)
+        console.log(tempCategorias)
     }
 
     function handleSaveCampo(value: ContentTableProps){
@@ -49,6 +49,7 @@ export function Dashboard(){
                 type="gastos" 
                 content={content?.filter((value) => value.type == "gastos") || []} 
                 handleSaveCampo={handleSaveCampo}
+                categorias={tempCategorias || []}
             />
 
             {/* DASHBOARD/TABLE DE GANHOS */}
@@ -56,13 +57,14 @@ export function Dashboard(){
                 type="ganhos" 
                 content={content?.filter((value) => value.type == "ganhos") || []}
                 handleSaveCampo={handleSaveCampo}
+                categorias={tempCategorias || []}
             />
 
             {/* MODAL PARA ADICIONAR CATEGORIA */}
             {modalCategoria && 
             <ModalCategoria 
                 setModalCategoria={setModalCategoria}
-                categorias={tempCategorias} 
+                categorias={tempCategorias || []} 
                 setCategorias={setTempCategorias} 
                 saveCategorias={handleSaveCategorias}
             />}

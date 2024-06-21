@@ -1,19 +1,18 @@
 import { Button, DateField, ModalAddCampo, Select } from '@components';
-import { DashboardProps } from '@typings';
+import { CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, cn, currencyFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
 
-export function DashboardTable({ type, content, handleSaveCampo }: DashboardProps) {
+export function DashboardTable({ type, content, handleSaveCampo, categorias}: DashboardProps) {
 
-    const [categoriaSelected, setCategoriaSelected] = useState<{ label: string, value: string | number } | null>(null)
+    const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
     const [totalContent, setTotalContent] = useState<number>(0)
     const [modalAddCampo, setModalAddCampo] = useState<boolean>(false)
 
     useEffect(() => {
         let total = 0;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        content.forEach((row: any) => total += row.valor)
+        content.forEach((row) => total += row.valor)
         setTotalContent(total)
     }, [content])
 
@@ -63,7 +62,7 @@ export function DashboardTable({ type, content, handleSaveCampo }: DashboardProp
                             label='Selecione uma categoria'
                             value={categoriaSelected}
                             setValue={setCategoriaSelected}
-                            options={[{ label: "Categoria 1", value: "categ1" }]}
+                            optionsCategorias={categorias}
                             transparent={false}
                         />
                     </div>
@@ -95,6 +94,7 @@ export function DashboardTable({ type, content, handleSaveCampo }: DashboardProp
                     handleSaveCampo={handleSaveCampo}
                     setModalAddCampo={setModalAddCampo}
                     type={type}
+                    categorias={categorias}
                 />}
 
         </section>

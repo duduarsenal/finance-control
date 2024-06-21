@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function useSessionData() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userData, setUserData] = useState<UserProps>({
     username: "",
     usertoken: "",
@@ -27,8 +26,7 @@ export function useSessionData() {
     }
 
     handleSession();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [navigate, userData?.usertoken])
 
   useEffect(() => {
     if (userData?.usertoken) {

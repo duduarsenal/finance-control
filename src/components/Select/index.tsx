@@ -2,7 +2,7 @@ import { SelectProps } from "@typings";
 import { useState } from "react";
 import { cn, Icons } from "@utils";
 
-export function Select({ label, options, icon, value, setValue, className, transparent = true, colors = false, theme }: SelectProps) {
+export function Select({ label, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme}: SelectProps) {
 
     const [select, setSelect] = useState(false);
 
@@ -56,7 +56,7 @@ export function Select({ label, options, icon, value, setValue, className, trans
                 }
             )}>
                 <div className="flex flex-wrap w-full">
-                    {options && options.map(({ label, value }, index) => (
+                    {options?.length && options.map(({ label, value }, index) => (
                         <span
                             onClick={() => {
                                 setValue({ label, value })
@@ -83,6 +83,32 @@ export function Select({ label, options, icon, value, setValue, className, trans
                                 { "bg-colors-ciano": value === 'ciano' }
                             )} />}
                             {label}
+                        </span>
+                    ))}
+                    {optionsCategorias && optionsCategorias.map(({ label, value, cor, emoji }, index) => (
+                        <span
+                            onClick={() => {
+                                setValue({ label, value })
+                                setSelect(false)
+                            }}
+                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 text-brand-black truncate",
+                                {
+                                    "border-b-0": optionsCategorias[index + 1] === (null || undefined),
+                                    "basis-full": optionsCategorias.length <= 4,
+                                    "basis-1/3": optionsCategorias.length > 12,
+                                    "bg-colors-red": cor?.value === 'red',
+                                    "bg-colors-yellow": cor?.value === 'yellow',
+                                    "bg-colors-green": cor?.value === 'green',
+                                    "bg-colors-blue": cor?.value === 'blue',
+                                    "bg-colors-purple": cor?.value === 'purple',
+                                    "bg-colors-pink": cor?.value === 'pink',
+                                    "bg-colors-white": cor?.value === 'white',
+                                    "bg-colors-ciano": cor?.value === 'ciano'
+                                })}
+                            key={index}
+                        >
+                            <span>{emoji?.label}</span>
+                            <span className="truncate">{label}</span>
                         </span>
                     ))}
                 </div>

@@ -1,6 +1,6 @@
 import { InputProps } from "@typings";
 import { useId, useState } from "react";
-import { cn, Icons } from "@utils";
+import { cn, currencyFormatPT, Icons } from "@utils";
 
 export function Input({ className, type = "text", label, value, icon, setState, autoComplete = "off", ...props }: InputProps) {
 
@@ -17,8 +17,16 @@ export function Input({ className, type = "text", label, value, icon, setState, 
             <input
                 {...props}
                 id={id}
-                value={value}
-                onChange={(e) => setState(e.target.value)}
+                value={
+                    type === "currency" ?
+                    "R$ " + currencyFormatPT(value?.toString(), 0).replace(/[R$ ]/g, "").trim() :
+                    value
+                }
+                onChange={(e) => {
+                    type === "currency" ? 
+                    setState(e.target.value.replace(/[^0-9]+/g, "").slice(0, 7)) :
+                    setState(e.target.value)
+                }}
                 type={thisType}
                 className={cn("h-8 rounded-sm text-[20px] text-black outline-none px-1", className,
                     { "pr-9": type === "password", 

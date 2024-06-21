@@ -3,7 +3,7 @@ import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categorias }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     const [categoria, setCategoria] = useState<{label: string, value: string | number} | null>(null)
@@ -55,7 +55,7 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo }: Modal
                             label="Selecione uma categoria"
                             value={categoria}
                             setValue={setCategoria}
-                            options={[{ label: "Categoria 1", value: "categ1" }]}
+                            optionsCategorias={categorias}
                             transparent={false}
                         />
                     </div>
@@ -65,7 +65,7 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo }: Modal
                         <p>Parcelas</p>
                         <Input 
                             setState={setParcelas}
-                            value={parcelas}
+                            value={parcelas.slice(0, 2)}
                             placeholder="0"
                             className="text-[16px] bg-colors-white"
                             type="number"

@@ -9,15 +9,13 @@ export function Login() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const { userData } = useSessionData();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const {setIsPageHeader, setIsLoading} = useOutletContext<any>();
+    const {setIsPageHeader, setIsLoading} = useOutletContext<{setIsPageHeader: (value: string | null) => void, setIsLoading: (value: boolean) => void}>();
 
     useEffect(() => {
         if (userData?.usertoken) {
             navigate("/")
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userData])
+    }, [navigate, userData])
 
     useEffect(() => {
         setIsLoading(true)
@@ -26,7 +24,7 @@ export function Login() {
         setTimeout(() => {
             setIsLoading(false)
         }, 500)
-    }, [])
+    }, [setIsLoading, setIsPageHeader])
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

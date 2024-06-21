@@ -37,8 +37,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
 }
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     icon?: JSX.Element
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handleButton: (e?: any) => void;
+    handleButton: (e: React.MouseEvent) => void;
 }
 
 export interface LoadingProps {
@@ -50,19 +49,22 @@ export interface LoadingProps {
 export interface SelectProps{
     icon?: JSX.Element
     label: string
-    options: {label: string, value: string | number}[]
-    value: {label: string, value: string | number} | null
-    setValue: React.Dispatch<React.SetStateAction<{label: string, value: string | number} | null>>
+    options?: GenericProps[]
+    optionsCategorias?: CategoriaProps[]
+    value: GenericProps | CategoriaProps | null
+    setValue: React.Dispatch<React.SetStateAction<GenericProps | CategoriaProps | null>>
     className?: string
     transparent?: boolean
     colors?: boolean
     theme?: string
+    categorias?: boolean
 }
 
 export interface DashboardProps{
     handleSaveCampo: (values: ContentTableProps) => void
     type: string
     content: ContentTableProps[]
+    categorias: CategoriaProps[]
 }
 
 export interface ContentTableProps{
@@ -97,6 +99,7 @@ export interface ModalAddCampoProps{
     type: string
     setModalAddCampo: (value: boolean) => void
     handleSaveCampo: (value: ContentTableProps) => void
+    categorias: CategoriaProps[]
 }
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
@@ -129,4 +132,8 @@ export interface NotifyDataProps{
 export interface NotifyManagerProps{
     notifications: NotifyDataProps[]
     removeNotification: (id: string) => void
+}
+
+export interface HeaderProps{
+    className: string
 }
