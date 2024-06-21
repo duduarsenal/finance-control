@@ -1,43 +1,40 @@
-import { ModalAddCampoProps, NotifyDataProps } from "@typings";
+import { ModalAddCampoProps } from "@typings";
 import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     const [categoria, setCategoria] = useState<{label: string, value: string | number} | null>(null)
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
+    const [valor, setValor] = useState<string>("")
 
-    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
+    const {addNotification} = useOutletContext<{addNotification:  (type: string, message: string) => void}>()
 
-    function handleSaveCampo() {
+    function handleSave() {
         const obj = {
             type,
             data,
-            categoria,
-            parcelas,
-            descricao
+            descricao,
+            categoria: categoria?.value.toString() || "",
+            parcelas: Number(parcelas),
+            valor: Number(valor)
         }
         
         setModalAddCampo(false)
-
-        setOpenNotify(true)
-        setNotify({
-                type: 'sucess', 
-                message: `${type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`
-        })
+        addNotification("sucess", `${type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`)
         
-        return console.log(`salvar campo de ${type}`, obj)
+        handleSaveCampo(obj)
     }
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
             <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly">
-                <div className="grid w-full grid-cols-6 gap-2 h-max">
+                <div className="grid w-full grid-cols-4 gap-2 h-max">
                     {/* DATE FIELD */}
-                    <div className="col-span-2 pb-6 h-max">
+                    <div className="col-span-2 h-max">
                         <p>Data</p>
                         <DateField
                             date={data}
@@ -50,7 +47,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                     </div>
     
                     {/* SELECT CATEGORIA */}
-                    <div className='col-span-3 pb-6 h-max'>
+                    <div className='col-span-2 h-max'>
                         <p>Categoria</p>
                         <Select
                             className="my-0 bg-colors-white"
@@ -64,7 +61,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                     </div>
     
                     {/* PARCELAS */}
-                    <div className="col-span-1 pb-6 h-max">
+                    <div className="col-span-2 pb-6 h-max">
                         <p>Parcelas</p>
                         <Input 
                             setState={setParcelas}
@@ -73,6 +70,16 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                             className="text-[16px] bg-colors-white"
                             type="number"
                             maxLength={2}
+                        />
+                    </div>
+                    <div className="col-span-2 pb-6 h-max">
+                        <p>Valor</p>
+                        <Input 
+                            setState={setValor}
+                            value={valor}
+                            placeholder="R$0,00"
+                            className="text-[16px] bg-colors-white"
+                            type="currency"
                         />
                     </div>
                 </div>
@@ -102,7 +109,7 @@ export function ModalAddCampo({ type, setModalAddCampo }: ModalAddCampoProps) {
                                     return console.log('preencha todos os campos')
                                 }
                                 
-                                handleSaveCampo()
+                                handleSave()
                             }}
                             value="Salvar"
                             className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"

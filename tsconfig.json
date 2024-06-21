@@ -13,7 +13,7 @@
       "@context": ["./src/contexts"],
       "@typings": ["./src/typings.ts"],
       "@style": ["./src/style/index.css"],
-      "@hooks": ["./src/hooks"],
+      "@hooks": ["./src/hooks/index.ts"],
       "@utils": ["./src/utils/_index.ts"]
     },
 

@@ -1,124 +1,26 @@
-import { Button, DashboardTable, Select } from "@components";
-import { CategoriaProps, GenericProps, NotifyDataProps } from "@typings";
+import { Button, DashboardTable, Select, ModalCategoria } from "@components";
+import { CategoriaProps, ContentTableProps, GenericProps } from "@typings";
+import { Icons, months } from "@utils";
 import { useState } from "react";
-import { FaCalendarCheck } from "react-icons/fa";
-import { FiPlusCircle } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
-import ModalCategoria from "src/components/ModalCategoria";
 
 export function Dashboard(){
     const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null)
     const [modalCategoria, setModalCategoria] = useState<boolean>(false);
     const [tempCategorias, setTempCategorias] = useState<CategoriaProps[] | null>(null);
+    const [content, ] = useState<ContentTableProps[] | null>(null)
 
-    const months = [
-        {label: "Janeiro", value: "jan"},
-        {label: "Fevereiro", value: "fev"},
-        {label: "Março", value: "mar"},
-        {label: "Abril", value: "abr"},
-        {label: "Maio", value: "mai"},
-        {label: "Junho", value: "jun"},
-        {label: "Julho", value: "jul"},
-        {label: "Agosto", value: "ago"},
-        {label: "Setembro", value: "set"},
-        {label: "Outubro", value: "out"},
-        {label: "Novembro", value: "nov"},
-        {label: "Dezembro", value: "dez"}
-    ]
-
-    const content = [
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        },
-        {
-            data: '16/05/2024',
-            descricao: 'Lorem lorem lorem lorem lorem lorem',
-            categoria: 'Comida',
-            parcelas: 5,
-            valor: 20000
-        }
-    ]
-
-    
-    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
+    const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
     function handleSaveCategorias(){
         
         setModalCategoria(false)
-        setOpenNotify(true)
-        setNotify({
-                type: 'sucess', 
-                message: "Categorias atualizas com sucesso."
-        })
-        
+        addNotification("sucess", "Categorias atualizas com sucesso.")
         console.log('categorias', tempCategorias)
+    }
+
+    function handleSaveCampo(value: ContentTableProps){
+        console.log(value)
     }
     
     return (
@@ -127,9 +29,10 @@ export function Dashboard(){
                 <div className="w-56">
                     <Select 
                         label="Selecione um mês" 
-                        options={months} value={monthSelected} 
+                        options={months} 
+                        value={monthSelected} 
                         setValue={setMonthSelected} 
-                        icon={<FaCalendarCheck className="text-brand-white" />}
+                        icon={<Icons.FaCalendarCheck className="text-brand-white" />}
                         transparent={false}
                     /> 
                 </div>
@@ -137,15 +40,23 @@ export function Dashboard(){
                     handleButton={() => setModalCategoria(true)} 
                     value="Adicionar Categoria"
                     className="px-4 my-0 w-max"
-                    icon={<FiPlusCircle className="text-[24px] text-brand-green" />}
+                    icon={<Icons.FiPlusCircle className="text-[24px] text-brand-green" />}
                 />
             </div>
 
             {/* DASHBOARD/TABLE DE GASTOS */}
-            <DashboardTable type="gastos" content={content} />
+            <DashboardTable 
+                type="gastos" 
+                content={content?.filter((value) => value.type == "gastos") || []} 
+                handleSaveCampo={handleSaveCampo}
+            />
 
             {/* DASHBOARD/TABLE DE GANHOS */}
-            <DashboardTable type="ganhos" content={content.slice(1, 5)} />
+            <DashboardTable 
+                type="ganhos" 
+                content={content?.filter((value) => value.type == "ganhos") || []}
+                handleSaveCampo={handleSaveCampo}
+            />
 
             {/* MODAL PARA ADICIONAR CATEGORIA */}
             {modalCategoria && 

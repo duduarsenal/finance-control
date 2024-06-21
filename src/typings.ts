@@ -60,11 +60,13 @@ export interface SelectProps{
 }
 
 export interface DashboardProps{
+    handleSaveCampo: (values: ContentTableProps) => void
     type: string
     content: ContentTableProps[]
 }
 
-interface ContentTableProps{
+export interface ContentTableProps{
+    type: string
     data: string
     descricao: string
     categoria: string
@@ -94,6 +96,7 @@ export interface GenericProps{
 export interface ModalAddCampoProps{
     type: string
     setModalAddCampo: (value: boolean) => void
+    handleSaveCampo: (value: ContentTableProps) => void
 }
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
@@ -110,11 +113,20 @@ export interface DateFieldProps{
 
 export interface NotifyProps{
     open: boolean
-    setOpenNotify: (b: boolean) => void
+    id: string
+    className?: string
+    type: string
+    message: string
+    removeNotify: (id: string) => void
+}
+export interface NotifyDataProps{
+    open: boolean
+    id: string
     type: string
     message: string
 }
-export interface NotifyDataProps{
-    type: string
-    message: string
+
+export interface NotifyManagerProps{
+    notifications: NotifyDataProps[]
+    removeNotification: (id: string) => void
 }

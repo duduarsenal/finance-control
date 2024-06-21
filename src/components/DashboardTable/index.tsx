@@ -1,11 +1,9 @@
-import { Button, Select, DateField } from '@components'
+import { Button, DateField, ModalAddCampo, Select } from '@components';
 import { DashboardProps } from '@typings';
+import { Icons, cn, currencyFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
-import { FiPlusCircle } from 'react-icons/fi'
-import { cn, currencyFormatPT } from '@utils';
-import { ModalAddCampo } from '../ModalAddCampo';
 
-export function DashboardTable({ type, content }: DashboardProps) {
+export function DashboardTable({ type, content, handleSaveCampo }: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<{ label: string, value: string | number } | null>(null)
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
@@ -80,7 +78,7 @@ export function DashboardTable({ type, content }: DashboardProps) {
                     <Button
                         className="w-max text-[18px] px-4 my-0 col-span-1"
                         value={type === "gastos" ? "Gastos" : "Ganhos"}
-                        icon={<FiPlusCircle className={cn("text-[20px]",
+                        icon={<Icons.FiPlusCircle className={cn("text-[20px]",
                             {
                                 "text-brand-red": type === "gastos",
                                 "text-brand-green": type != "gastos"
@@ -94,6 +92,7 @@ export function DashboardTable({ type, content }: DashboardProps) {
 
             {modalAddCampo &&
                 <ModalAddCampo
+                    handleSaveCampo={handleSaveCampo}
                     setModalAddCampo={setModalAddCampo}
                     type={type}
                 />}

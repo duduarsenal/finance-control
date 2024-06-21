@@ -1,5 +1,5 @@
 import { TextAreaProps } from "@typings"
-import { cn } from "src/utils/cn"
+import { cn } from "@utils"
 
 export function TextArea({className, value, setValue, ...props}: TextAreaProps){
     return (

@@ -1,6 +1,5 @@
 import { LoadingProps } from "@typings";
-import { cn } from "src/utils/cn";
-import { RiLoader4Fill } from "react-icons/ri";
+import { cn, Icons } from "@utils";
 
 export function Loading({isTrue = false, className, message}: LoadingProps){
     return (
@@ -9,7 +8,7 @@ export function Loading({isTrue = false, className, message}: LoadingProps){
             {"invisible": !isTrue}
         )}
         >
-            <RiLoader4Fill className={`text-[150px] animate-spin `} />
+            <Icons.RiLoader4Fill className={`text-[150px] animate-spin `} />
             <p className="font-semibold text-[24px]">{message ?? "Carregando informações"}</p>
         </div>
     )

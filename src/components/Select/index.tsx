@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { IoIosArrowUp } from "react-icons/io";
-import { cn } from "src/utils/cn";
-import { IoClose } from "react-icons/io5";
 import { SelectProps } from "@typings";
+import { useState } from "react";
+import { cn, Icons } from "@utils";
 
 export function Select({ label, options, icon, value, setValue, className, transparent = true, colors = false, theme }: SelectProps) {
 
@@ -37,12 +35,12 @@ export function Select({ label, options, icon, value, setValue, className, trans
                 </p>
                 <div className="flex items-center h-full gap-2">
                     {value &&
-                        <IoClose
+                        <Icons.IoClose
                             onClick={() => setValue(null)}
                             className="h-full text-[18px] cursor-pointer hover:scale-[1.1] z-30 transition-all text-brand-red"
                         />
                     }
-                    <IoIosArrowUp className={cn("text-[20px] transition-all duration-300",
+                    <Icons.IoIosArrowUp className={cn("text-[20px] transition-all duration-300",
                         {
                             "rotate-180": !select,
                             "text-brand-black": theme === "light"

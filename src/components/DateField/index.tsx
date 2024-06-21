@@ -1,9 +1,11 @@
+import { Button } from "@components";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateFieldProps } from "@typings";
+
+// Date Lib
 import dayjs from "dayjs";
-import { Button } from "../Button";
-import 'dayjs/locale/pt-br'
+import 'dayjs/locale/pt-br';
 
 export function DateField({date, setDate, style}: DateFieldProps){
     return (

@@ -1,5 +1,5 @@
 import { ButtonProps } from "@typings";
-import { cn } from "../../utils/cn";
+import { cn } from "@utils";
 
 export function Button({ className, handleButton, icon, value }: ButtonProps){
 

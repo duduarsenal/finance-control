@@ -1,48 +1,14 @@
-import { GenericProps, ModalCategoriaProps, NotifyDataProps } from "@typings";
 import { Button, Input, Select } from "@components";
+import { GenericProps, ModalCategoriaProps } from "@typings";
+import { cn, Icons, cores, emojis } from "@utils";
 import { useState } from "react";
-import { FiPlusCircle } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
-import { cn } from "src/utils/cn";
 import { useOutletContext } from "react-router-dom";
 
-export default function ModalCategoria({ setModalCategoria, categorias, setCategorias, saveCategorias }: ModalCategoriaProps) {
+export function ModalCategoria({ setModalCategoria, categorias, setCategorias, saveCategorias }: ModalCategoriaProps) {
 
     const [tempCategoria, setTempCategoria] = useState<string>("")
     const [emoji, setEmoji] = useState<GenericProps | null>(null)
-    const emojis = [
-        { label: "🥪", value: "lanche" },
-        { label: "🎮", value: "videogame" },
-        { label: "🎯", value: "entretenimento" },
-        { label: "💳", value: "cartao" },
-        { label: "💻", value: "computador" },
-        { label: "🧁", value: "doces" },
-        { label: "🌎", value: "globo" },
-        { label: "🍎", value: "maca"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-        { label: "⚽", value: "bola"},
-    ]
-
     const [cor, setCor] = useState<GenericProps | null>(null)
-    const cores = [
-        { label: "Vermelho", value: "red" },
-        { label: "Amarelo", value: "yellow" },
-        { label: "Verde", value: "green" },
-        { label: "Azul", value: "blue" },
-        { label: "Roxo", value: "purple" },
-        { label: "Rosa", value: "pink" },
-        { label: "Branco", value: "white" },
-        { label: "Ciano", value: "ciano" },
-        
-    ]
 
     function handleAddCategoria() {
 
@@ -67,14 +33,10 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
         setCategorias(newList)
     }
 
-    const {setOpenNotify, setNotify} = useOutletContext<{ setOpenNotify: (b: boolean) => void, setNotify: (values: NotifyDataProps) => void }>()
+    const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
     function cancelCategorias(){
-        setOpenNotify(true)
-        setNotify({
-                type: 'danger', 
-                message: "Categoria removida com sucesso."
-        })
+        addNotification("danger", "Categoria removida com sucesso.")
     }
 
     return (
@@ -115,7 +77,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                             handleButton={handleAddCategoria}
                             className={cn("w-full my-0 bg-brand-black", { "cursor-not-allowed hover:bg-brand-black select-none": !tempCategoria || !cor || !emoji })}
                             value="Adicionar"
-                            icon={<FiPlusCircle className="text-[24px] text-brand-green" />}
+                            icon={<Icons.FiPlusCircle className="text-[24px] text-brand-green" />}
                         />
                     </div>
                 </div>
@@ -126,7 +88,7 @@ export default function ModalCategoria({ setModalCategoria, categorias, setCateg
                                 <span>{categoria?.emoji?.label}</span>
                                 {categoria.label}
                             </p>
-                            <IoClose
+                            <Icons.IoClose
                                 onClick={() => handleRemoveCategoria(categoria.value)}
                                 className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-20 text-brand-red", 
                                 { "-mr-[12px]": categorias?.length && categorias.length > 8 })}
