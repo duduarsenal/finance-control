@@ -16,6 +16,7 @@
     "@mui/x-date-pickers": "^7.7.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
+    "js-base64": "^3.7.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",

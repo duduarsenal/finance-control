@@ -61,13 +61,13 @@ export interface SelectProps{
 }
 
 export interface DashboardProps{
-    handleSaveCampo: (values: ContentTableProps) => void
+    saveCampo: (value: CamposProps) => void
     type: string
-    content: ContentTableProps[]
+    campos: CamposProps[]
     categorias: CategoriaProps[]
 }
 
-export interface ContentTableProps{
+export interface CamposProps{
     type: string
     data: string
     descricao: string
@@ -78,9 +78,8 @@ export interface ContentTableProps{
 
 export interface ModalCategoriaProps{
     setModalCategoria: React.Dispatch<React.SetStateAction<boolean>>
-    categorias: CategoriaProps[] | null
-    setCategorias: React.Dispatch<React.SetStateAction<CategoriaProps[] | null>>
-    saveCategorias: () => void
+    categorias: CategoriaProps[]
+    saveCategorias: (values: CategoriaProps[]) => void
 }
 
 export interface CategoriaProps{
@@ -98,7 +97,7 @@ export interface GenericProps{
 export interface ModalAddCampoProps{
     type: string
     setModalAddCampo: (value: boolean) => void
-    handleSaveCampo: (value: ContentTableProps) => void
+    saveCampo: (value: CamposProps) => void
     categorias: CategoriaProps[]
 }
 
@@ -135,5 +134,5 @@ export interface NotifyManagerProps{
 }
 
 export interface HeaderProps{
-    className: string
+    className?: string
 }

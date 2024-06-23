@@ -11,17 +11,16 @@ export function useSessionData() {
 
   useEffect(() => {
     async function handleSession() {
-      const x = false
-      if (!userData?.usertoken && x) return navigate("/login");
-      // const data = await authToken();
+      if (!userData?.usertoken) return navigate("/login");
 
-      // if (!data && 1 * 1 == 2) {
-      //   //criar função de logout()
-      //   navigate("/login");
-      //   return;
-      // }
+      const data = await authToken(userData);
+      if (!data) {
+        //criar função de logout()
+        navigate("/login");
+        return;
+      }
 
-      setUserData({ username: "", usertoken: "" });
+      setUserData(data);
       return;
     }
 
@@ -48,8 +47,13 @@ export async function verifyLogin({
   return null;
 }
 
-export async function authToken(): Promise<null> {
-  return null;
+export async function authToken(userData: UserProps): Promise<UserProps | null> {
+
+  if(userData.username && userData.usertoken){
+    return userData
+  }
+
+  return null
 }
 
 export function usePathname() {

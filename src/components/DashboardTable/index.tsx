@@ -3,7 +3,7 @@ import { CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
 
-export function DashboardTable({ type, content, handleSaveCampo, categorias}: DashboardProps) {
+export function DashboardTable({ type, campos, saveCampo, categorias}: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
@@ -12,9 +12,9 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
 
     useEffect(() => {
         let total = 0;
-        content.forEach((row) => total += row.valor)
+        campos.forEach((row) => total += row.valor)
         setTotalContent(total)
-    }, [content])
+    }, [campos])
 
     return (
         <section className="flex flex-col items-end pb-8">
@@ -33,31 +33,35 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
                     </div>
 
                     {/* Content */}
-                    <div className={cn('h-full py-1 font-normal min-h-[150px] max-h-[350px] text-center text-brand-white-gray', { "overflow-y-scroll -mr-[12px]": content.length > 8 })}>
-                        {content.map((row, index) => {
+                    <div className={cn('h-full py-1 font-normal min-h-[150px] max-h-[350px] text-center text-brand-white-gray', { "overflow-y-scroll -mr-[12px]": campos.length > 8 })}>
+                        {[...campos, ...Array(5 - campos.length)
+                        .fill({data: null, descricao: null, categoria: null, parcelas: null, valor: null})]
+                        .slice(0, campos.length < 6 ? 5 : campos.length + 1)
+                        .map((row, index) => {
                             return (
                                 <div
                                     className={cn('grid h-full grid-cols-6 py-2 border-b-[1px] border-b-brand-gray',
-                                        { "border-b-0": content[index + 1] == (null || undefined) })}
+                                        { "border-b-0": campos[index + 1] == (null || undefined) }
+                                    )}
                                     key={index}
                                 >
-                                    <p>{dateFormatPT(row.data) || '-'}</p>
-                                    <p className='col-span-2 text-left truncate'>{row.descricao || '-'}</p>
+                                    <p>{dateFormatPT(row?.data) || '-'}</p>
+                                    <p className='col-span-2 text-left truncate'>{row?.descricao || '-'}</p>
                                     <p className={cn( "px-4 flex gap-2 rounded-md w-max m-auto",
-                                        { "bg-colors-red": row.categoria.cor?.value === 'red' },
-                                        { "bg-colors-yellow": row.categoria.cor?.value === 'yellow' },
-                                        { "bg-colors-green": row.categoria.cor?.value === 'green' },
-                                        { "bg-colors-blue": row.categoria.cor?.value === 'blue' },
-                                        { "bg-colors-purple": row.categoria.cor?.value === 'purple' },
-                                        { "bg-colors-pink": row.categoria.cor?.value === 'pink' },
-                                        { "bg-colors-white": row.categoria.cor?.value === 'white' },
-                                        { "bg-colors-ciano": row.categoria.cor?.value === 'ciano' }
+                                        { "bg-colors-red": row?.categoria?.cor?.value === 'red' },
+                                        { "bg-colors-yellow": row?.categoria?.cor?.value === 'yellow' },
+                                        { "bg-colors-green": row?.categoria?.cor?.value === 'green' },
+                                        { "bg-colors-blue": row?.categoria?.cor?.value === 'blue' },
+                                        { "bg-colors-purple": row?.categoria?.cor?.value === 'purple' },
+                                        { "bg-colors-pink": row?.categoria?.cor?.value === 'pink' },
+                                        { "bg-colors-white": row?.categoria?.cor?.value === 'white' },
+                                        { "bg-colors-ciano": row?.categoria?.cor?.value === 'ciano' }
                                     )}>
-                                        <span>{row.categoria.emoji?.label}</span>
-                                        <span>{row.categoria.label}</span>
+                                        <span>{row?.categoria?.emoji?.label}</span>
+                                        <span>{row?.categoria?.label || '-'}</span>
                                     </p>
-                                    <p>{row.parcelas || '-'}</p>
-                                    <p className='tracking-tighter '>{currencyFormatPT(row.valor) || '-'}</p>
+                                    <p>{row?.parcelas || '-'}</p>
+                                    <p className='tracking-tighter '>{currencyFormatPT(row?.valor) || '-'}</p>
                                 </div>
                             )
                         })}
@@ -105,7 +109,7 @@ export function DashboardTable({ type, content, handleSaveCampo, categorias}: Da
 
             {modalAddCampo &&
                 <ModalAddCampo
-                    handleSaveCampo={handleSaveCampo}
+                    saveCampo={saveCampo}
                     setModalAddCampo={setModalAddCampo}
                     type={type}
                     categorias={categorias}

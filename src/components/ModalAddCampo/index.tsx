@@ -3,7 +3,7 @@ import { Button, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categorias }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     const [categoria, setCategoria] = useState<any>()
@@ -13,20 +13,29 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categor
 
     const {addNotification} = useOutletContext<{addNotification:  (type: string, message: string) => void}>()
 
-    function handleSave() {
-        const obj = {
+    function handleSaveCampo() {
+        if(!data || !descricao || !categoria || !valor){
+            return addNotification("warning", "Preencha todos os campos")
+        }
+
+        const novoCampo = {
             type,
             data,
             descricao,
             categoria: categoria as CategoriaProps,
-            parcelas: Number(parcelas),
+            parcelas: Number(parcelas) ?? 1,
             valor: Number(valor)
         }
         
-        setModalAddCampo(false)
-        addNotification("sucess", `${type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`)
+        saveCampo(novoCampo)
         
-        handleSaveCampo(obj)
+        // RESET FIELDS
+        setData("")
+        setCategoria(null)
+        setParcelas("")
+        setDescricao("")
+        setValor("")
+        setModalAddCampo(false)
     }
 
     return (
@@ -104,13 +113,7 @@ export function ModalAddCampo({ type, setModalAddCampo, handleSaveCampo, categor
                     </div>
                     <div className="col-span-1">
                         <Button
-                            handleButton={() => {
-                                if(!data || !categoria || !parcelas){
-                                    return console.log('preencha todos os campos')
-                                }
-                                
-                                handleSave()
-                            }}
+                            handleButton={handleSaveCampo}
                             value="Salvar"
                             className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />

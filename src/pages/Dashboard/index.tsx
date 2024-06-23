@@ -1,27 +1,50 @@
-import { Button, DashboardTable, Select, ModalCategoria } from "@components";
-import { CategoriaProps, ContentTableProps, GenericProps } from "@typings";
+import { getCampos, getCategorias, saveCampos, saveCategorias } from '@api';
+import { Button, DashboardTable, ModalCategoria, Select } from "@components";
+import { CamposProps, CategoriaProps, GenericProps } from "@typings";
 import { Icons, months } from "@utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export function Dashboard(){
     const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null)
-    const [modalCategoria, setModalCategoria] = useState<boolean>(false);
-    const [tempCategorias, setTempCategorias] = useState<CategoriaProps[] | null>(null);
-    const [content, setContent] = useState<ContentTableProps[]>([])
+    const [modalCategoria, setModalCategoria] = useState<boolean>(false)
 
-    const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
+    const [categorias, setCategorias] = useState<CategoriaProps[]>([])
+    const [campos, setCampos] = useState<CamposProps[]>([])
 
-    function handleSaveCategorias(){
+    const {addNotification, setIsPageHeader} = useOutletContext<{addNotification: (type: string, message: string) => void, setIsPageHeader: (value: string | null) => void}>()
+
+    async function saveCategoria(values: CategoriaProps[]){
         
+        // SALVE LISTA DE CATEGORIAS NO LOCALSTORAGE
+        await saveCategorias(values)
+        // SALVA NOVA LISTA DE CATEGORIAS NO STATE
+        setCategorias(await getCategorias())
+
         setModalCategoria(false)
         addNotification("sucess", "Categorias atualizas com sucesso.")
-        console.log(tempCategorias)
     }
 
-    function handleSaveCampo(value: ContentTableProps){
-        setContent((prev) => [...prev, value])
+    async function saveCampo(value: CamposProps){
+
+        // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
+        await saveCampos([...await getCampos(), value])
+        // SALVA NOVA LISTA DE CAMPOS NO STATE
+        setCampos(await getCampos())
+
+        addNotification("sucess", `${value.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`)
     }
+
+    async function handleStates(){
+        setCategorias(await getCategorias())
+        setCampos(await getCampos())
+    }
+
+    // Busca os dados no LOCALSTORAGE AO CARREGAR A PAGE
+    useEffect(() => {
+        handleStates()
+        setIsPageHeader(window.location.pathname)
+    }, [])
     
     return (
         <main>
@@ -47,26 +70,29 @@ export function Dashboard(){
             {/* DASHBOARD/TABLE DE GASTOS */}
             <DashboardTable 
                 type="gastos" 
-                content={content?.filter((value) => value.type == "gastos") || []} 
-                handleSaveCampo={handleSaveCampo}
-                categorias={tempCategorias || []}
+                campos={campos?.filter((campo) => campo.type === "gastos") || []} 
+                saveCampo={saveCampo}
+                categorias={campos?.map((campo) => { 
+                    if(campo.type === "gastos") return campo.categoria})
+                    .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
             />
 
             {/* DASHBOARD/TABLE DE GANHOS */}
             <DashboardTable 
                 type="ganhos" 
-                content={content?.filter((value) => value.type == "ganhos") || []}
-                handleSaveCampo={handleSaveCampo}
-                categorias={tempCategorias || []}
+                campos={campos?.filter((campo) => campo.type === "ganhos") || []}
+                saveCampo={saveCampo}
+                categorias={campos?.map((campo) => { 
+                    if(campo.type === "ganhos") return campo.categoria})
+                    .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
             />
 
             {/* MODAL PARA ADICIONAR CATEGORIA */}
             {modalCategoria && 
             <ModalCategoria 
                 setModalCategoria={setModalCategoria}
-                categorias={tempCategorias || []} 
-                setCategorias={setTempCategorias} 
-                saveCategorias={handleSaveCategorias}
+                categorias={categorias || []} 
+                saveCategorias={saveCategoria}
             />}
         </main>
     )

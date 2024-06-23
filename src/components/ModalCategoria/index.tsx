@@ -4,39 +4,49 @@ import { cn, Icons, cores, emojis } from "@utils";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
-export function ModalCategoria({ setModalCategoria, categorias, setCategorias, saveCategorias }: ModalCategoriaProps) {
+export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }: ModalCategoriaProps) {
 
-    const [tempCategoria, setTempCategoria] = useState<string>("")
+    const [categoria, setCategoria] = useState<string>("")
     const [emoji, setEmoji] = useState<GenericProps | null>(null)
     const [cor, setCor] = useState<GenericProps | null>(null)
 
+    const [tempCategorias, setTempCategorias] = useState<CategoriaProps[]>(categorias)
+
+    const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
+
     function handleAddCategoria() {
 
-        if (!tempCategoria || !cor || !emoji) return;
+        if (!categoria || !cor || !emoji){
+            return addNotification("warning", "Preencha todos os campos")
+        }
 
-        const canAdd = categorias?.filter((c) => c.value === tempCategoria.toLocaleLowerCase())
-        if (canAdd?.length) return console.log("repetido")
+        const canAdd = categorias?.filter((c) => c.value === categoria.toLocaleLowerCase())
+        if (canAdd?.length){
+            return addNotification("warning", "Categoria já existente")
+        }
 
-        const newCateg = { label: tempCategoria, value: tempCategoria.toLowerCase(), cor: cor, emoji: emoji }
-        const newList = categorias?.length ? [...categorias, newCateg] : [newCateg]
+        const newCateg = { 
+            label: categoria, 
+            value: categoria.toLowerCase(), 
+            cor: cor, 
+            emoji: emoji 
+        }
+        // SALVA A CATEGORIA TEMPORARIAMENTE
+        setTempCategorias((prev) => [...prev, newCateg])
 
-
-        setCategorias(newList)
-        // console.log(newList)
-        setTempCategoria("")
+        // RESET FIELDS
+        setCategoria("")
         setCor(null)
         setEmoji(null)
     }
 
-    function handleRemoveCategoria(delCateg: string) {
-        const newList = categorias?.filter((categ) => categ.value != delCateg) || []
-        setCategorias(newList)
+    function handleRemoveCategoria(delCategoria: string) {
+        const newList = tempCategorias?.filter((categoria) => categoria.value != delCategoria) || []
+        setTempCategorias(newList)
     }
 
-    const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
-
-    function cancelCategorias(){
-        addNotification("danger", "Categoria removida com sucesso.")
+    function handleSaveCategorias(){
+        saveCategorias(tempCategorias)
     }
 
     return (
@@ -46,8 +56,8 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                     <div className="col-span-5">
                         <Input
                             placeholder="Nome da categoria"
-                            setState={setTempCategoria}
-                            value={tempCategoria}
+                            setState={setCategoria}
+                            value={categoria}
                             className="transition-all bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray"
                         />
                     </div>
@@ -75,14 +85,14 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                     <div className="col-span-3">
                         <Button
                             handleButton={handleAddCategoria}
-                            className={cn("w-full my-0 bg-brand-black", { "cursor-not-allowed hover:bg-brand-black select-none": !tempCategoria || !cor || !emoji })}
+                            className={cn("w-full my-0 bg-brand-black", { "cursor-not-allowed hover:bg-brand-black select-none": !categoria || !cor || !emoji })}
                             value="Adicionar"
                             icon={<Icons.FiPlusCircle className="text-[24px] text-brand-green" />}
                         />
                     </div>
                 </div>
                 <div className="w-full h-[300px] overflow-y-auto bg-brand-black rounded-sm  outline outline-2 outline-brand-gray">
-                    {categorias?.map((categoria, index) => (
+                    {tempCategorias?.map((categoria, index) => (
                         <div key={index} className={cn("flex justify-between px-4 py-1 text-[18px] items-center border-b-2 border-b-brand-gray text-brand-black font-medium", {"border-b-0": categorias[index + 1] === (null || undefined)})}>
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
@@ -90,7 +100,7 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                             </p>
                             <Icons.IoClose
                                 onClick={() => handleRemoveCategoria(categoria.value)}
-                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-20 text-brand-red", 
+                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-[4] text-brand-red", 
                                 { "-mr-[12px]": categorias?.length && categorias.length > 8 })}
                             />
                         </div>
@@ -99,14 +109,14 @@ export function ModalCategoria({ setModalCategoria, categorias, setCategorias, s
                 <div className="grid w-full grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Button
-                            handleButton={() => {setModalCategoria(false); cancelCategorias()}}
+                            handleButton={() => setModalCategoria(false)}
                             value="Cancelar"
                             className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />
                     </div>
                     <div className="col-span-1">
                         <Button
-                            handleButton={saveCategorias}
+                            handleButton={handleSaveCategorias}
                             value="Salvar"
                             className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />

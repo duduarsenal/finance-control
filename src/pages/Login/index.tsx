@@ -1,3 +1,4 @@
+import { validadeLogin } from "@api";
 import { Button, Input, LogoMark } from "@components";
 import { useSessionData } from "@hooks";
 import { useEffect, useState } from "react";
@@ -8,8 +9,8 @@ export function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const { userData } = useSessionData();
-    const {setIsPageHeader, setIsLoading} = useOutletContext<{setIsPageHeader: (value: string | null) => void, setIsLoading: (value: boolean) => void}>();
+    const { userData, setUserData } = useSessionData();
+    const {addNotification,setIsPageHeader, setIsLoading} = useOutletContext<{addNotification:  (type: string, message: string) => void, setIsPageHeader: (value: string | null) => void, setIsLoading: (value: boolean) => void}>();
 
     useEffect(() => {
         if (userData?.usertoken) {
@@ -26,8 +27,16 @@ export function Login() {
         }, 500)
     }, [setIsLoading, setIsPageHeader])
 
-    function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if(await validadeLogin(username, password)){
+            // Criar estrutura de token/login
+            setUserData({username: "Admin", usertoken: "Admin"})
+            navigate("/")
+        } else {
+            addNotification("danger", "Usuario ou senha inválidos.")
+        }
     }
 
     return (

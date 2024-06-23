@@ -12,7 +12,7 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
     }, [open, id, removeNotify])
 
     return (
-        <div className={cn("fixed bottom-10 right-0 w-[300px] h-[55px] bg-brand-white mx-6 rounded-md flex items-center justify-between p-2 after:absolute after:bg-brand-white-gray transition-all overflow-hidden shadow-md", className,
+        <div className={cn("fixed bottom-10 right-0 w-[300px] h-[55px] bg-brand-white mx-6 rounded-md flex items-center justify-between p-2 after:absolute after:bg-brand-white-gray transition-all overflow-hidden shadow-md z-40", className,
             {
                 "bg-notify-red after:bg-notify-dark-red": type === "danger",
                 "bg-notify-green after:bg-notify-dark-green": type === "sucess",
@@ -62,6 +62,14 @@ export function NotifyManager({ notifications, removeNotification }: NotifyManag
                 return 'mb-[260px]'
             case 5:
                 return 'mb-[325px]'
+            case 6:
+                return 'mb-[390px]'
+            case 7:
+                return 'mb-[455px]'
+            case 8:
+                return 'mb-[520px]'
+            case 9:
+                return 'mb-[585px]'
             default:
                 return 'mb-0'
         }
