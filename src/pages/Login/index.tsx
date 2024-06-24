@@ -1,7 +1,7 @@
 import { validadeLogin } from "@api";
 import { Button, Input, LogoMark } from "@components";
 import { useSessionData } from "@hooks";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 export function Login() {
@@ -66,7 +66,7 @@ export function Login() {
                 />
                 <Button
                     value="Entrar"
-                    handleButton={(e) => handleLogin(e)}
+                    handleButton={(e) => handleLogin(e as unknown as FormEvent<HTMLFormElement>)}
                 />
             </form>
         </div>
