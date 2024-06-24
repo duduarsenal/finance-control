@@ -50,3 +50,7 @@ body{
   .css-23p0if-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected){
     border: none !important;
   }
+
+  .loading{
+    background-image: url('src/assets/bg-gradient.png')
+  }
