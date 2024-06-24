@@ -55,7 +55,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                         <Input
                             placeholder="Nome da categoria"
                             setState={setCategoria}
-                            value={categoria}
+                            value={categoria.slice(0, 20)}
                             className="transition-all bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray"
                         />
                     </div>

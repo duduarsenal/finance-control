@@ -14,7 +14,7 @@ export default {
         'brand-red': '#FF2C2C',
         'brand-green': '#5bb450',
         'colors-red': '#D1001F',
-        'colors-yellow': '#FFEE00',
+        'colors-yellow': '#FFDF00',
         'colors-green': '#3B8132',
         'colors-blue': '#0077B6',
         'colors-purple': '#8A00C2',

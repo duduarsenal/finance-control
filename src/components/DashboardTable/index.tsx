@@ -51,7 +51,7 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
                                 >
                                     <p>{dateFormatPT(row?.data) || '-'}</p>
                                     <p className='col-span-2 text-left truncate'>{row?.descricao || '-'}</p>
-                                    <p className={cn( "px-4 flex gap-2 rounded-md w-max m-auto",
+                                    <p className={cn( "px-4 flex gap-2 rounded-md w-max max-w-full m-auto",
                                         { "bg-colors-red": row?.categoria?.cor?.value === 'red' },
                                         { "bg-colors-yellow": row?.categoria?.cor?.value === 'yellow' },
                                         { "bg-colors-green": row?.categoria?.cor?.value === 'green' },
@@ -62,9 +62,9 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
                                         { "bg-colors-ciano": row?.categoria?.cor?.value === 'ciano' }
                                     )}>
                                         <span>{row?.categoria?.emoji?.label}</span>
-                                        <span>{row?.categoria?.label || '-'}</span>
+                                        <span className='font-bold truncate text-brand-black'>{row?.categoria?.label || '-'}</span>
                                     </p>
-                                    <p>{row?.parcelas || '-'}</p>
+                                    <p>{row?.parcelas ? row?.parcelas : row.data != null ? '1' : '-'}</p>
                                     <p className='tracking-tighter '>{currencyFormatPT(row?.valor) || '-'}</p>
                                 </div>
                             )

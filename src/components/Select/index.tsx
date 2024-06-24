@@ -1,23 +1,52 @@
 import { SelectProps } from "@typings";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn, Icons } from "@utils";
 
 export function Select({ label, optionDefault, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme, required = false}: SelectProps) {
 
     const [select, setSelect] = useState(false);
 
+    const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+
+        function handleclickOut(e: MouseEvent){
+            if(ref.current && !ref.current.contains(e?.target as Node)){
+                setSelect(false)
+            }
+        }
+
+        function handleEscape(e: KeyboardEvent){
+            if(e.key === "Escape"){
+                setSelect(false)
+            }
+        }
+
+        document.addEventListener('click', handleclickOut, true)
+        document.addEventListener('keydown', handleEscape, true)
+
+        return () => {
+            document.removeEventListener('click', handleclickOut, true)
+            document.removeEventListener('keydown', handleEscape, true)
+        }
+    }, [])
+
     return (
-        <div className="relative w-full h-8 select-none">
+        <div className="relative w-full h-8 select-none" ref={ref}>
             {label && 
             <span className={cn({ "after:absolute after:text-[24px] after:px-1 after:-mt-1 after:content-['*'] after:text-colors-red after:font-semibold": !value && required })}>
                 {label}
             </span>}
             <div
-                className={cn("flex items-center h-full justify-between gap-4 hover:brightness-125 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
+                className={cn("flex items-center h-full justify-between gap-2 hover:brightness-125 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
                 onClick={() => setSelect(!select)}
             >
                 {icon && icon}
-                <p className={cn("text-gray-300", { "text-brand-black": theme === "light" })}>
+                <p className={cn("text-gray-300", 
+                    { 
+                        "text-brand-black": theme === "light",
+                        "max-w-[calc(100%-55px)]": value
+                    })}>
 
                     {colors
                         ? value?.value ?
@@ -36,7 +65,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                             </span>
                             : optionDefault ? optionDefault : "Selecine uma opção"
                         : value?.value ? optionsCategorias 
-                        ? <span className={cn("w-max px-2 flex gap-2 rounded-sm outline-1 outline-brand-black outline", 
+                        ? <span className={cn("px-2 flex gap-2 rounded-sm outline-1 outline-brand-black outline", 
                                 { "bg-colors-red": value.cor?.value === 'red' },
                                 { "bg-colors-yellow": value.cor?.value === 'yellow' },
                                 { "bg-colors-green": value.cor?.value === 'green' },
@@ -47,7 +76,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                                 { "bg-colors-ciano": value.cor?.value === 'ciano' }
                             )}>
                             <span>{value?.emoji?.label}</span>
-                            <span className="text-brand-black">{value.label}</span>
+                            <span className="truncate text-brand-black text-bold">{value.label}</span>
                         </span>
                         : value.label : optionDefault ? optionDefault : "Selecione uma opção"}
                 </p>
@@ -65,7 +94,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                         })} />
                 </div>
             </div>
-            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[250px] justify-start items-start",
+            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline w-full min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[250px] justify-start items-start",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
@@ -119,11 +148,16 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                                 setValue({ label, value, cor, emoji })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer flex items-center gap-2 basis-1/2 text-brand-black font-semibold truncate",
+                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer basis-1/2 text-brand-black w-full", 
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,
                                     "basis-1/3": optionsCategorias.length > 12,
+                                }
+                            )}
+                            key={index}
+                        >
+                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full", {
                                     "bg-colors-red": cor?.value === 'red',
                                     "bg-colors-yellow": cor?.value === 'yellow',
                                     "bg-colors-green": cor?.value === 'green',
@@ -132,11 +166,10 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                                     "bg-colors-pink": cor?.value === 'pink',
                                     "bg-colors-white": cor?.value === 'white',
                                     "bg-colors-ciano": cor?.value === 'ciano'
-                                })}
-                            key={index}
-                        >
-                            <span>{emoji?.label}</span>
-                            <span className="truncate">{label}</span>
+                                })}>
+                                <span>{emoji?.label}</span>
+                                <span className="truncate ">{label}</span>
+                            </span>
                         </span>
                     ))}
                 </div>
