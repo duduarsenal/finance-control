@@ -6,8 +6,8 @@ export interface UserProps{
 }
 
 export interface AuthContextType {
-    userData?: UserProps;
-    setUserData?: React.Dispatch<React.SetStateAction<UserProps>>;
+    userData: UserProps | null;
+    setUserData?: React.Dispatch<React.SetStateAction<UserProps | null>>;
 }
 
 export interface AuthProviderProps {
@@ -37,7 +37,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
 }
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
     icon?: JSX.Element
-    handleButton: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface LoadingProps {
