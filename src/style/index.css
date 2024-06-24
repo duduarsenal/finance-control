@@ -52,5 +52,5 @@ body{
   }
 
   .loading{
-    background-image: url('src/assets/bg-gradient.png')
+    background-image: url('/src/assets/bg-gradient.png')
   }
