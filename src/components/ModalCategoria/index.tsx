@@ -16,9 +16,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
 
     function handleAddCategoria() {
 
-        if (!categoria || !cor || !emoji){
-            return addNotification("warning", "Preencha todos os campos")
-        }
+        if (!categoria || !cor || !emoji) return
 
         const canAdd = categorias?.filter((c) => c.value === categoria.toLocaleLowerCase())
         if (canAdd?.length){
@@ -66,7 +64,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                             options={emojis}
                             transparent={false}
                             className="min-w-max"
-                            label="Emoji"
+                            optionDefault="Emoji"
                             value={emoji as CategoriaProps}
                             setValue={setEmoji}
                         />
@@ -76,7 +74,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                             options={cores}
                             transparent={false}
                             className="min-w-max"
-                            label="Selecine uma Cor"
+                            optionDefault="Selecine uma Cor"
                             value={cor as CategoriaProps}
                             setValue={setCor}
                             colors={true}

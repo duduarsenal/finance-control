@@ -2,12 +2,16 @@ import { SelectProps } from "@typings";
 import { useState } from "react";
 import { cn, Icons } from "@utils";
 
-export function Select({ label, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme}: SelectProps) {
+export function Select({ label, optionDefault, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme, required = false}: SelectProps) {
 
     const [select, setSelect] = useState(false);
 
     return (
         <div className="relative w-full h-8 select-none">
+            {label && 
+            <span className={cn({ "after:absolute after:text-[24px] after:px-1 after:-mt-1 after:content-['*'] after:text-colors-red after:font-semibold": !value && required })}>
+                {label}
+            </span>}
             <div
                 className={cn("flex items-center h-full justify-between gap-4 hover:brightness-125 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
                 onClick={() => setSelect(!select)}
@@ -30,7 +34,7 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
                                 )} />
                                 {value.label}
                             </span>
-                            : label ? label : "Selecine uma opção"
+                            : optionDefault ? optionDefault : "Selecine uma opção"
                         : value?.value ? optionsCategorias 
                         ? <span className={cn("w-max px-2 flex gap-2 rounded-sm outline-1 outline-brand-black outline", 
                                 { "bg-colors-red": value.cor?.value === 'red' },
@@ -45,7 +49,7 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
                             <span>{value?.emoji?.label}</span>
                             <span className="text-brand-black">{value.label}</span>
                         </span>
-                        : value.label : label ? label : "Selecione uma opção"}
+                        : value.label : optionDefault ? optionDefault : "Selecione uma opção"}
                 </p>
                 <div className="flex items-center h-full gap-2">
                     {value &&
@@ -61,14 +65,24 @@ export function Select({ label, options, optionsCategorias, icon, value, setValu
                         })} />
                 </div>
             </div>
-            <div className={cn("absolute top-[calc(100%+1px)] outline-white outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[200px] justify-start items-start",
+            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-white-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[200px] justify-start items-start",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
                     "bg-brand-black": !transparent,
-                    "bg-brand-white-gray text-brand-black outline-brand-gray outline outline-1": theme === "light"
+                    "bg-brand-white-gray text-brand-black outline-brand-gray outline outline-1": theme === "light",
+                    "top-15": label
                 }
             )}>
+                {/* CASO NÃO HAJA NENHUMA OPTION PARA EXIBIR, OPÇÃO DEFAULT ABAIXO */}
+                {(!options?.length && !optionsCategorias?.length) && 
+                    <span className={cn("w-full h-8 px-2 py-1 font-light text-brand-gray", 
+                        {"bg-brand-white-gray outline-brand-gray outline outline-1": theme === "light",}
+                    )}>
+                        Nenhum item encontrado...
+                    </span>
+                }
+                
                 <div className="flex flex-wrap w-full">
                     {options?.length && options.map(({ label, value }, index) => (
                         <span

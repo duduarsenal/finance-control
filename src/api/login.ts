@@ -11,4 +11,9 @@ async function validadeLogin(user: string, password: string){
     return false
 }
 
-export { validadeLogin }
+async function logout(): Promise<void>{
+    localStorage.removeItem("user")
+    localStorage.removeItem("token")
+}
+
+export { validadeLogin, logout }

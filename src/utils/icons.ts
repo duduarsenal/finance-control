@@ -13,3 +13,4 @@ export { IoClose } from "react-icons/io5"
 export { AiOutlineCloseCircle } from "react-icons/ai"
 export { FaRegCircleQuestion } from "react-icons/fa6"
 export { IoIosArrowUp } from "react-icons/io"
+export { MdOutlineLogout } from "react-icons/md";

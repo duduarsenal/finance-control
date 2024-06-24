@@ -12,7 +12,7 @@ export function Dashboard(){
     const [categorias, setCategorias] = useState<CategoriaProps[]>([])
     const [campos, setCampos] = useState<CamposProps[]>([])
 
-    const {addNotification, setIsPageHeader} = useOutletContext<{addNotification: (type: string, message: string) => void, setIsPageHeader: (value: string | null) => void}>()
+    const {addNotification, setIsPageHeader, setIsLoading} = useOutletContext<{addNotification: (type: string, message: string) => void, setIsPageHeader: (value: string | null) => void, setIsLoading: (value: boolean) => void}>()
 
     async function saveCategoria(values: CategoriaProps[]){
         
@@ -38,12 +38,15 @@ export function Dashboard(){
     async function handleStates(){
         setCategorias(await getCategorias())
         setCampos(await getCampos())
+
+        setIsLoading(false)
     }
 
     // Busca os dados no LOCALSTORAGE AO CARREGAR A PAGE
     useEffect(() => {
         handleStates()
         setIsPageHeader(window.location.pathname)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     return (
@@ -51,7 +54,7 @@ export function Dashboard(){
             <div className="flex justify-between w-full py-8 h-max">
                 <div className="w-56">
                     <Select 
-                        label="Selecione um mês" 
+                        optionDefault="Selecione um mês" 
                         options={months} 
                         value={monthSelected as CategoriaProps} 
                         setValue={setMonthSelected} 
@@ -72,9 +75,7 @@ export function Dashboard(){
                 type="gastos" 
                 campos={campos?.filter((campo) => campo.type === "gastos") || []} 
                 saveCampo={saveCampo}
-                categorias={campos?.map((campo) => { 
-                    if(campo.type === "gastos") return campo.categoria})
-                    .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
+                categorias={categorias}
             />
 
             {/* DASHBOARD/TABLE DE GANHOS */}
@@ -82,9 +83,7 @@ export function Dashboard(){
                 type="ganhos" 
                 campos={campos?.filter((campo) => campo.type === "ganhos") || []}
                 saveCampo={saveCampo}
-                categorias={campos?.map((campo) => { 
-                    if(campo.type === "ganhos") return campo.categoria})
-                    .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
+                categorias={categorias}
             />
 
             {/* MODAL PARA ADICIONAR CATEGORIA */}

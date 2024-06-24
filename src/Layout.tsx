@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 export default function Layout({error}: IsErrorProps) {
 
   const [isPageHeader, setIsPageHeader] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const {notifications, addNotification, removeNotification} = useNotify();
 
   return (

@@ -48,7 +48,8 @@ export interface LoadingProps {
 
 export interface SelectProps{
     icon?: JSX.Element
-    label: string
+    label?: string
+    optionDefault: string
     options?: GenericProps[]
     optionsCategorias?: CategoriaProps[]
     value: CategoriaProps | null
@@ -58,6 +59,7 @@ export interface SelectProps{
     colors?: boolean
     theme?: string
     categorias?: boolean
+    required?: boolean
 }
 
 export interface DashboardProps{
@@ -102,15 +104,18 @@ export interface ModalAddCampoProps{
 }
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
+    label?: string
     className?: string
     value: string
     setValue: (value: string) => void
 }
 
 export interface DateFieldProps{
+    label?: string
     date: string | null
     setDate: (value: string) => void 
     style?: React.CSSProperties
+    required?: boolean
 }
 
 export interface NotifyProps{

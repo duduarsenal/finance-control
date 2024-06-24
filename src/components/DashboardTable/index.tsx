@@ -16,6 +16,10 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
         setTotalContent(total)
     }, [campos])
 
+    useEffect(() => {
+        console.log(categorias)
+    }, [categorias])
+
     return (
         <section className="flex flex-col items-end pb-8">
             <div className="flex flex-col justify-between w-full gap-4 px-4 py-2 pr-6 rounded-md h-max bg-brand-black">
@@ -70,30 +74,32 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
                 {/* FIM TABLE */}
 
                 {/* INICIO BOTOES TABLE */}
-                <div className='grid w-full grid-cols-10 gap-6 px-2 py-3'>
+                <div className='grid w-full grid-cols-12 gap-6 px-2 py-3'>
                     <div className='col-span-2'>
                         <DateField date={dtFiltro} setDate={setDtFiltro} />
                     </div>
                     <div className='col-span-3'>
                         <Select
                             className='my-0 outline-brand-gray'
-                            label='Selecione uma categoria'
+                            optionDefault='Selecione uma categoria'
                             value={categoriaSelected as CategoriaProps}
                             setValue={setCategoriaSelected}
-                            optionsCategorias={categorias}
+                            optionsCategorias={campos?.map((campo) => { 
+                                if(campo.type === type) return campo.categoria})
+                                .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
                             transparent={false}
                         />
                     </div>
-                    <p className='col-span-2 col-start-7 text-[18px] flex items-center m-auto'>
-                        Total
+                    <p className='col-span-3 col-start-8 text-[18px] flex items-center m-auto'>
+                        Total:
                         <span
                             className={cn("font-semibold px-2 tracking-tighter text-brand-red", {"text-brand-green": type != "gastos"})}
                         >
-                            {currencyFormatPT(totalContent)}
+                            {currencyFormatPT(totalContent) || '-'}
                         </span>
                     </p>
                     <Button
-                        className="w-max text-[18px] px-4 my-0 col-span-1"
+                        className="w-max text-[18px] px-4 my-0 col-span-2 m-auto"
                         value={type === "gastos" ? "Gastos" : "Ganhos"}
                         icon={<Icons.FiPlusCircle className={cn("text-[20px]",
                             {

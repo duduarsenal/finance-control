@@ -6,6 +6,7 @@ import { useOutletContext } from "react-router-dom";
 export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [categoria, setCategoria] = useState<any>()
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
@@ -44,35 +45,38 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                 <div className="grid w-full grid-cols-4 gap-2 h-max">
                     {/* DATE FIELD */}
                     <div className="col-span-2 h-max">
-                        <p>Data</p>
                         <DateField
                             date={data}
+                            label="Data"
                             setDate={setData}
+                            required={true}
                             style={{
                                 backgroundColor: "#EFEFEF", 
-                                color: "#000000"
+                                color: "#000000",
+                                width: "100%"
                             }}
                         />
                     </div>
     
                     {/* SELECT CATEGORIA */}
                     <div className='col-span-2 h-max'>
-                        <p>Categoria</p>
                         <Select
                             className="my-0 bg-colors-white"
                             theme="light"
-                            label="Selecione uma categoria"
+                            optionDefault="Selecione uma categoria"
+                            label="Categoria"
                             value={categoria as CategoriaProps}
                             setValue={setCategoria}
                             optionsCategorias={categorias}
                             transparent={false}
+                            required={true}
                         />
                     </div>
     
                     {/* PARCELAS */}
                     <div className="col-span-2 pb-6 h-max">
-                        <p>Parcelas</p>
                         <Input 
+                            label="Parcelas"
                             setState={setParcelas}
                             value={parcelas.slice(0, 2)}
                             placeholder="0"
@@ -82,8 +86,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                         />
                     </div>
                     <div className="col-span-2 pb-6 h-max">
-                        <p>Valor</p>
                         <Input 
+                            label="Valor"
                             setState={setValor}
                             value={valor}
                             placeholder="R$0,00"
@@ -94,10 +98,11 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                 </div>
                 
                 <div className="w-full h-max">
-                    <p>Descrição</p>
                     <TextArea 
+                        label="Descrição"
                         setValue={setDescricao}
                         value={descricao}
+                        required={true}
                         placeholder="Escreva uma breve descrição sobre o campo"
                         className="bg-colors-white"
                     />

@@ -30,9 +30,18 @@ export function Login() {
     async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
+        if(!username || !password){
+            return addNotification("danger", "Preencha todos os campos")
+        }
+
         if(await validadeLogin(username, password)){
+            const data = {
+                username: "Admin",
+                usertoken: "Admin"
+            }
             // Criar estrutura de token/login
-            setUserData({username: "Admin", usertoken: "Admin"})
+            setUserData(data)
+            localStorage.setItem("user", JSON.stringify(data))
             navigate("/")
         } else {
             addNotification("danger", "Usuario ou senha inválidos.")
