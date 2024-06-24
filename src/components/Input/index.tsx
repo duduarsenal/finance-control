@@ -13,24 +13,29 @@ export function Input({ className, type = "text", label, value, icon, setState, 
             htmlFor={id}
         >
             <span className="absolute top-2/4 translate-y-[10%] brightness-0 px-1 text-[22px]">{icon}</span>
-            <span className={cn({ "after:absolute after:px-1 after:-mt-1 after:text-[24px] after:content-['*'] after:text-colors-red after:font-semibold after:transition-all": label && !value })}>{label}</span>
+            {label && 
+                <span className={cn({"after:absolute after:px-1 after:-mt-1 after:text-[24px] after:content-['*'] after:text-colors-red after:font-semibold after:transition-all": label && !value && props.required })}>
+                    {label}
+                </span>
+            }
             <input
                 {...props}
                 id={id}
                 value={
                     type === "currency" ?
-                    "R$ " + currencyFormatPT(value?.toString(), 0).replace(/[R$ ]/g, "").trim() :
-                    value
+                        "R$ " + currencyFormatPT(value?.toString(), 0).replace(/[R$ ]/g, "").trim() :
+                        value
                 }
                 onChange={(e) => {
-                    type === "currency" ? 
-                    setState(e.target.value.replace(/[^0-9]+/g, "").slice(0, 7)) :
-                    setState(e.target.value)
+                    type === "currency" ?
+                        setState(e.target.value.replace(/[^0-9]+/g, "").slice(0, 7)) :
+                        setState(e.target.value)
                 }}
                 type={thisType}
                 className={cn("h-8 rounded-sm text-[18px] text-black outline-none px-1", className,
-                    { "pr-9": type === "password", 
-                        "pl-9": icon 
+                    {
+                        "pr-9": type === "password",
+                        "pl-9": icon
                     })}
                 autoComplete={autoComplete}
             />

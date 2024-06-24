@@ -53,12 +53,14 @@ export function Login() {
             <form className="flex flex-col gap-4 min-h-80 w-96">
                 <LogoMark />
                 <Input
+                    required={true}
                     label="Username"
                     type="text"
                     value={username}
                     setState={setUsername}
                 />
                 <Input
+                    required={true}
                     label="Senha"
                     type="password"
                     value={password}

@@ -76,17 +76,18 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                     {/* PARCELAS */}
                     <div className="col-span-2 pb-6 h-max">
                         <Input 
+                            required={false}
                             label="Parcelas"
                             setState={setParcelas}
                             value={parcelas.slice(0, 2)}
                             placeholder="0"
                             className="text-[16px] bg-colors-white"
                             type="number"
-                            maxLength={2}
                         />
                     </div>
                     <div className="col-span-2 pb-6 h-max">
                         <Input 
+                            required={true}
                             label="Valor"
                             setState={setValor}
                             value={valor}

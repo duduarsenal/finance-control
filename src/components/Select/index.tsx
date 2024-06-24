@@ -65,7 +65,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                         })} />
                 </div>
             </div>
-            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-white-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[200px] justify-start items-start",
+            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[200px] justify-start items-start",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
