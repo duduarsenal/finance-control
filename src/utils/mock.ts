@@ -14,24 +14,24 @@ export const months = [
 ]
 
 export const emojis = [
-    { label: "🥪", value: "lanche" },
+    { label: "🍕", value: "pizza" },
+    { label: "🧁", value: "doce" },
     { label: "🎮", value: "videogame" },
     { label: "🎯", value: "entretenimento" },
     { label: "💳", value: "cartao" },
     { label: "💻", value: "computador" },
-    { label: "🧁", value: "doces" },
     { label: "🌎", value: "globo" },
     { label: "🍎", value: "maca"},
     { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
-    { label: "⚽", value: "bola"},
+    { label: "👕", value: "camisa"},
+    { label: "👗", value: "vestido"},
+    { label: "✈️", value: "aviao"},
+    { label: "🎉", value: "festa"},
+    { label: "🔨", value: "martelo"},
+    { label: "✏️", value: "lapis"},
+    { label: "🔞", value: "mais18"},
+    { label: "👩‍💻", value: "codigo"},
+    { label: "❤️", value: "coracao"},
 ]
 
 export const cores = [

@@ -65,7 +65,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                         })} />
                 </div>
             </div>
-            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[200px] justify-start items-start",
+            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[250px] justify-start items-start",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
@@ -96,7 +96,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                                     "border-b-0": options[index + 1] === (null || undefined),
                                     "hover:text-brand-gray": theme === "light",
                                     "basis-full": options.length <= 4,
-                                    "basis-1/3": options.length > 12
+                                    "basis-1/3 hover:bg-[#80808050] hover:brightness-100 text-[20px] justify-center transition-all rounded-md": options.length > 12
                                 })}
                             key={index}
                         >
