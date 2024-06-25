@@ -35,7 +35,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
             .filter((obj, index, self) => index === self
             .findIndex((t) => t.value === obj.value))
             
-            setOptionsHeight((uniqueOptions.length > 6 ? 6 : uniqueOptions.length)*33)
+            setOptionsHeight(((uniqueOptions.length > 6 ? 6 : uniqueOptions.length) ?? 1) * 33)
         }
     }, [optionsCategorias, select]);
 
