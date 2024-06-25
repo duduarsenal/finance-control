@@ -29,7 +29,7 @@ export function Input({ className, type = "text", label, value, icon, setState, 
                 onChange={(e) => {
                     type === "currency" ?
                         setState(e.target.value.replace(/[^0-9]+/g, "").slice(0, 7)) :
-                        setState(e.target.value)
+                        setState(e.target.value.slice(0, (props.maxLength || e.target.value.length)))
                 }}
                 type={thisType}
                 className={cn("h-8 rounded-sm text-[18px] text-black outline-none px-1", className,

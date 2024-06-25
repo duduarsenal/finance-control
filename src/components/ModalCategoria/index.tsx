@@ -91,7 +91,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                 </div>
                 <div className="w-full h-[300px] overflow-y-auto bg-brand-black rounded-sm  outline outline-[1px] outline-brand-gray">
                     {tempCategorias?.map((categoria, index) => (
-                        <div key={index} className={cn("flex justify-between px-4 py-2 text-[16px] items-center border-b-[1px] border-b-brand-gray text-brand-black font-bold", {"border-b-0": categorias[index + 1] === (null || undefined)})}>
+                        <div key={index} className={cn("flex justify-between px-4 py-2 text-[16px] items-center border-b-[1px] border-b-brand-gray text-brand-black font-bold", {"border-b-0": tempCategorias[index + 1] === (null || undefined)})}>
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
                                 {categoria.label}

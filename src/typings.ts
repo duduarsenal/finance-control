@@ -141,3 +141,11 @@ export interface NotifyManagerProps{
 export interface HeaderProps{
     className?: string
 }
+
+export interface ConfirmActionProps{
+    label: string
+    option1: string
+    option2: string
+    action1: () => void
+    action2: () => void
+}

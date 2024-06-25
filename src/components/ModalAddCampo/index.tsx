@@ -1,5 +1,5 @@
 import { CategoriaProps, ModalAddCampoProps } from "@typings";
-import { Button, DateField, Input, Select, TextArea } from "@components";
+import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -11,6 +11,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
     const [valor, setValor] = useState<string>("")
+
+    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(true)
 
     const {addNotification} = useOutletContext<{addNotification:  (type: string, message: string) => void}>()
 
@@ -30,6 +32,16 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
         
         saveCampo(novoCampo)
         
+        // RESET FIELDS
+        setData("")
+        setCategoria(null)
+        setParcelas("")
+        setDescricao("")
+        setValor("")
+        setModalAddCampo(false)
+    }
+
+    function handleDescartarAction(){
         // RESET FIELDS
         setData("")
         setCategoria(null)
@@ -79,10 +91,11 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                             required={false}
                             label="Parcelas"
                             setState={setParcelas}
-                            value={parcelas.slice(0, 2)}
+                            value={parcelas}
                             placeholder="0"
                             className="text-[16px] bg-colors-white"
                             type="number"
+                            maxLength={2}
                         />
                     </div>
                     <div className="col-span-2 pb-6 h-max">
