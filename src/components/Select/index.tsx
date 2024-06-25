@@ -6,7 +6,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
 
     const [select, setSelect] = useState(false);
     const ref = useRef<HTMLDivElement>(null)
-    const [optionsHeight, setOptionsHeight] = useState<number>(0);
+    const [optionsHeight, setOptionsHeight] = useState<number>(33);
 
     useEffect(() => {
 
@@ -35,7 +35,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
             .filter((obj, index, self) => index === self
             .findIndex((t) => t.value === obj.value))
             
-            setOptionsHeight(((uniqueOptions.length > 6 ? 6 : uniqueOptions.length) ?? 1) * 33)
+            setOptionsHeight(((uniqueOptions?.length > 6 ? 6 : uniqueOptions?.length) ?? 1) * 33)
         }
     }, [optionsCategorias, select]);
 
@@ -119,7 +119,9 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                 {/* CASO NÃO HAJA NENHUMA OPTION PARA EXIBIR, OPÇÃO DEFAULT ABAIXO */}
                 {(!options?.length && !optionsCategorias?.length) && 
                     <span className={cn("w-full h-8 px-2 py-1 font-light text-brand-gray", 
-                        {"bg-brand-white-gray outline-brand-gray outline outline-1": theme === "light",}
+                        {
+                            "bg-brand-white-gray outline-brand-gray outline outline-1": theme === "light"
+                        }
                     )}>
                         Nenhum item encontrado...
                     </span>
