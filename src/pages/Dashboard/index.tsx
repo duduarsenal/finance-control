@@ -50,7 +50,7 @@ export function Dashboard(){
     }, [])
     
     return (
-        <main>
+        <main className='px-2 overflow-y-hidden h-max'>
             <div className="flex justify-between w-full py-8 h-max">
                 <div className="w-56">
                     <Select 

@@ -13,12 +13,12 @@ export default function Layout({error}: IsErrorProps) {
   const {notifications, addNotification, removeNotification} = useNotify();
 
   return (
-    <div className={cn("flex flex-col items-center justify-between h-screen overflow-y-auto overflow-x-hidden", 
+    <div className={cn("flex flex-col items-center justify-between h-dvh overflow-y-auto overflow-x-hidden", 
     { "justify-center": isPageHeader === "/login" })}>
       {isPageHeader != "/login" && <Header /> }
       <Loading isTrue={isLoading} />
       <NotifyManager notifications={notifications} removeNotification={removeNotification} />
-      <div className={cn("px-28 text-brand-white", { "pt-0": isPageHeader == "/login"})}>
+      <div className={cn("px-24 text-brand-white", { "pt-0": isPageHeader == "/login"})}>
         <img src={bgGradient}
           alt="Background gradient" 
           className="fixed top-0 left-0 w-screen h-screen bg-black object-fit -z-10" 

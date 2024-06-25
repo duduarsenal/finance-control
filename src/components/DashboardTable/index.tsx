@@ -37,8 +37,8 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
                     </div>
 
                     {/* Content */}
-                    <div className={cn('h-full py-1 font-normal min-h-[150px] max-h-[245px] text-center text-brand-white-gray', 
-                    { "overflow-y-scroll -mr-[12px]": campos.length > 7 })}>
+                    <div className={cn('h-full py-1 font-normal min-h-[150px] max-h-[300px] text-center text-brand-white-gray overflow-y-auto', 
+                    { "-mr-[12px]": campos.length > 7 })}>
                         {[...campos, ...Array(5 - campos.length < 5 ? campos.length : 5)
                         .fill({data: null, descricao: null, categoria: null, parcelas: null, valor: null})]
                         .slice(0, campos.length < 5 ? 5 : campos.length)
