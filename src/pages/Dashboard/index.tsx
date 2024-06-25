@@ -37,7 +37,12 @@ export function Dashboard(){
 
     async function handleStates(){
         setCategorias(await getCategorias())
-        setCampos(await getCampos())
+        setCampos(
+            (monthSelected 
+            ? (await getCampos()).filter((campo) => campo.month == monthSelected?.value) 
+            : await getCampos())
+            .sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
+        )
 
         setIsLoading(false)
     }
@@ -48,6 +53,11 @@ export function Dashboard(){
         setIsPageHeader(window.location.pathname)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        handleStates()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [monthSelected])
     
     return (
         <main className='px-2 overflow-y-hidden h-max'>
@@ -56,7 +66,7 @@ export function Dashboard(){
                     <Select 
                         optionDefault="Selecione um mês" 
                         options={months} 
-                        value={monthSelected as CategoriaProps} 
+                        value={monthSelected as CategoriaProps}
                         setValue={setMonthSelected} 
                         icon={<Icons.FaCalendarCheck className="text-brand-white" />}
                         transparent={false}

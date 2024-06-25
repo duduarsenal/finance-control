@@ -1,5 +1,5 @@
 import { Button, DateField, ModalAddCampo, Select } from '@components';
-import { CategoriaProps, DashboardProps, GenericProps } from '@typings';
+import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
 
@@ -9,16 +9,27 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
     const [totalContent, setTotalContent] = useState<number>(0)
     const [modalAddCampo, setModalAddCampo] = useState<boolean>(false)
+    const [tempCampos, setTempCampos] = useState<CamposProps[]>(campos)
 
     useEffect(() => {
         let total = 0;
-        campos.forEach((row) => total += row.valor)
+        tempCampos.forEach((row) => total += row.valor)
         setTotalContent(total)
-    }, [campos])
+    }, [tempCampos, campos])
 
     useEffect(() => {
-        console.log(categorias)
-    }, [categorias])
+        const filtragemCategoria = categoriaSelected ? campos
+            .filter((campo) => campo.categoria.value === categoriaSelected?.value)
+            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        : campos.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+
+        const filtragemData = dtFiltro ? filtragemCategoria
+            .filter((campo) => campo.data === dtFiltro)
+            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        : filtragemCategoria.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+
+        setTempCampos(filtragemData)
+    }, [campos, categoriaSelected, dtFiltro])
 
     return (
         <section className="flex flex-col items-end pb-8">
@@ -38,15 +49,15 @@ export function DashboardTable({ type, campos, saveCampo, categorias}: Dashboard
 
                     {/* Content */}
                     <div className={cn('h-full py-1 font-normal min-h-[150px] max-h-[290px] text-center text-brand-white-gray overflow-y-auto', 
-                    { "-mr-[12px]": campos.length > 7 })}>
-                        {[...campos, ...Array(5 - campos.length < 5 ? campos.length : 5)
+                    { "-mr-[12px]": tempCampos.length > 7 })}>
+                        {[...tempCampos, ...Array(tempCampos?.length > 5 ? 0 : (5 - tempCampos?.length) < 5 ? (5 - tempCampos?.length) : 5)
                         .fill({data: null, descricao: null, categoria: null, parcelas: null, valor: null})]
-                        .slice(0, campos.length < 5 ? 5 : campos.length)
+                        .slice(0, tempCampos.length < 5 ? 5 : tempCampos.length)
                         .map((row, index) => {
                             return (
                                 <div
                                     className={cn('grid h-full grid-cols-6 py-2 border-b-[1px] border-b-brand-gray',
-                                        { "border-b-0": campos[index + 1] == (null || undefined) }
+                                        { "border-b-0": tempCampos[index + 1] == (null || undefined) }
                                     )}
                                     key={index}
                                 >

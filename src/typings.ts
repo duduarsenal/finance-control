@@ -61,6 +61,7 @@ export interface SelectProps{
     categorias?: boolean
     required?: boolean
     direction?: string
+    clearable?: boolean
 }
 
 export interface DashboardProps{
@@ -73,10 +74,12 @@ export interface DashboardProps{
 export interface CamposProps{
     type: string
     data: string
+    month: number
     descricao: string
     categoria: CategoriaProps
     parcelas: number
     valor: number
+    dtadd: string
 }
 
 export interface ModalCategoriaProps{

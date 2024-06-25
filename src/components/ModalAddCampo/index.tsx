@@ -28,13 +28,15 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
             type,
             data,
             descricao,
+            month: Number(data.split('-')[1]),
             categoria: categoria as CategoriaProps,
             parcelas: Number(parcelas) ?? 1,
-            valor: Number(valor)
+            valor: Number(valor),
+            dtadd: new Date().toISOString()
         }
 
         saveCampo(novoCampo)
-
+        
         // RESET FIELDS
         setData("")
         setCategoria(null)

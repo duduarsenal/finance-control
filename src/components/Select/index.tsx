@@ -2,7 +2,22 @@ import { SelectProps } from "@typings";
 import { useEffect, useRef, useState } from "react";
 import { cn, Icons } from "@utils";
 
-export function Select({ label, optionDefault, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme, required = false, direction = "down"}: SelectProps) {
+export function Select({ 
+    label, 
+    optionDefault, 
+    options, 
+    optionsCategorias, 
+    icon, 
+    value, 
+    setValue, 
+    className, 
+    transparent = true, 
+    colors = false, 
+    theme, 
+    required = false, 
+    direction = "down",
+    clearable = true
+}: SelectProps) {
 
     const [select, setSelect] = useState(false);
     const ref = useRef<HTMLDivElement>(null)
@@ -89,7 +104,7 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                         : value.label : optionDefault ? optionDefault : "Selecione uma opção"}
                 </p>
                 <div className="flex items-center h-full gap-2">
-                    {value &&
+                    {value && clearable &&
                         <Icons.IoClose
                             onClick={() => setValue(null)}
                             className="h-full text-[18px] cursor-pointer hover:scale-[1.1] z-20 transition-all text-brand-red"
