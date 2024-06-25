@@ -2,11 +2,11 @@ import { SelectProps } from "@typings";
 import { useEffect, useRef, useState } from "react";
 import { cn, Icons } from "@utils";
 
-export function Select({ label, optionDefault, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme, required = false}: SelectProps) {
+export function Select({ label, optionDefault, options, optionsCategorias, icon, value, setValue, className, transparent = true, colors = false, theme, required = false, direction = "down"}: SelectProps) {
 
     const [select, setSelect] = useState(false);
-
     const ref = useRef<HTMLDivElement>(null)
+    const [optionsHeight, setOptionsHeight] = useState<number>(0);
 
     useEffect(() => {
 
@@ -15,7 +15,6 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                 setSelect(false)
             }
         }
-
         function handleEscape(e: KeyboardEvent){
             if(e.key === "Escape"){
                 setSelect(false)
@@ -24,12 +23,21 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
 
         document.addEventListener('click', handleclickOut, true)
         document.addEventListener('keydown', handleEscape, true)
-
         return () => {
             document.removeEventListener('click', handleclickOut, true)
             document.removeEventListener('keydown', handleEscape, true)
         }
     }, [])
+
+    useEffect(() => {
+        if (optionsCategorias?.length) {
+            const uniqueOptions = optionsCategorias
+            .filter((obj, index, self) => index === self
+            .findIndex((t) => t.value === obj.value))
+            
+            setOptionsHeight((uniqueOptions.length > 6 ? 6 : uniqueOptions.length)*33)
+        }
+    }, [optionsCategorias, select]);
 
     return (
         <div className="relative w-full h-8 select-none" ref={ref}>
@@ -89,20 +97,25 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                     }
                     <Icons.IoIosArrowUp className={cn("text-[20px] transition-all duration-300",
                         {
-                            "rotate-180": !select,
-                            "text-brand-black": theme === "light"
+                            "-rotate-180": !select,
+                            "text-brand-black": theme === "light",
                         })} />
                 </div>
             </div>
-            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline w-full min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[5] max-h-[250px] justify-start items-start overflow-y-auto",
+            <div className={cn("absolute top-[calc(100%+1px)] outline-brand-gray outline-1 outline w-full min-w-full left-0 transition-all rounded-sm mt-0 flex flex-col flex-wrap z-[9999] max-h-[230px] justify-start items-start",
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
                     "bg-brand-black": !transparent,
                     "bg-brand-white-gray text-brand-black outline-brand-gray outline outline-1": theme === "light",
-                    "top-15": label
+                    "top-15": label,
+                    "overflow-y-auto max-h-[198px]": optionsCategorias?.length
                 }
-            )}>
+                )}
+                style={{
+                    top: `${direction === "up" ? `-${optionsHeight}px` : 'auto'}`
+                }}
+            >
                 {/* CASO NÃO HAJA NENHUMA OPTION PARA EXIBIR, OPÇÃO DEFAULT ABAIXO */}
                 {(!options?.length && !optionsCategorias?.length) && 
                     <span className={cn("w-full h-8 px-2 py-1 font-light text-brand-gray", 
@@ -142,7 +155,10 @@ export function Select({ label, optionDefault, options, optionsCategorias, icon,
                             {label}
                         </span>
                     ))}
-                    {optionsCategorias && optionsCategorias.map(({ label, value, cor, emoji }, index) => (
+                    {optionsCategorias && [...(direction === "up" ? optionsCategorias.reverse() : optionsCategorias)]
+                    .filter((obj, index, self) => index === self
+                    .findIndex((t) => t.value === obj.value))
+                    .map(({ label, value, cor, emoji }, index) => (
                         <span
                             onClick={() => {
                                 setValue({ label, value, cor, emoji })

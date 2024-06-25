@@ -8,7 +8,14 @@ import { cn } from "@utils";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
 
-export function DateField({label, date, setDate, style, required = false}: DateFieldProps){
+export function DateField({
+    label,
+    date, 
+    setDate, 
+    style, 
+    required = false, 
+    setOpenDate = () => { return }
+}: DateFieldProps){
     return (
         <label>
             <span className={cn({ "after:absolute after:text-[24px] after:px-1 after:-mt-1 after:content-['*'] after:text-colors-red after:font-semibold": !date && required })}>{label}</span>
@@ -17,6 +24,8 @@ export function DateField({label, date, setDate, style, required = false}: DateF
                 adapterLocale="pt-br"
             >
                 <DatePicker
+                    onOpen={() => setOpenDate(true)}
+                    onClose={() => setOpenDate(false)}
                     sx={{
                         outline: "1px solid #808080",
                         borderRadius: "4px",

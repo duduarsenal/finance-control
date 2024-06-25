@@ -1,6 +1,6 @@
 import { CategoriaProps, ModalAddCampoProps } from "@typings";
 import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }: ModalAddCampoProps) {
@@ -12,12 +12,15 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
     const [descricao, setDescricao] = useState<string>("")
     const [valor, setValor] = useState<string>("")
 
-    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(true)
+    const [openDate, setOpenDate] = useState<boolean>(false)
 
-    const {addNotification} = useOutletContext<{addNotification:  (type: string, message: string) => void}>()
+    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
+    const ref = useRef<HTMLDivElement>(null)
+
+    const { addNotification } = useOutletContext<{ addNotification: (type: string, message: string) => void }>()
 
     function handleSaveCampo() {
-        if(!data || !descricao || !categoria || !valor){
+        if (!data || !descricao || !categoria || !valor) {
             return addNotification("warning", "Preencha todos os campos")
         }
 
@@ -29,9 +32,9 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
             parcelas: Number(parcelas) ?? 1,
             valor: Number(valor)
         }
-        
+
         saveCampo(novoCampo)
-        
+
         // RESET FIELDS
         setData("")
         setCategoria(null)
@@ -41,7 +44,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
         setModalAddCampo(false)
     }
 
-    function handleDescartarAction(){
+    function handleDescartarAction() {
         // RESET FIELDS
         setData("")
         setCategoria(null)
@@ -50,10 +53,46 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
         setValor("")
         setModalAddCampo(false)
     }
+
+    useEffect(() => {
+
+        function handleEscapeOut(e: KeyboardEvent) {
+            if (e.key === "Escape") {
+                if (data || descricao || categoria || valor) {
+                    setModalConfirmAction(true)
+                    return;
+                } else if(!modalConfirmAction){
+                    setModalAddCampo(false)
+                    return;
+                }
+
+            }
+        }
+
+        function handleclickOut(e: MouseEvent){
+            if(ref.current && !ref.current.contains(e?.target as Node) && !openDate){
+                if (data || descricao || categoria || valor) {
+                    setModalConfirmAction(true)
+                    return;
+                } else if(!modalConfirmAction){
+                    setModalAddCampo(false)
+                    return;
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleEscapeOut, true)
+        document.addEventListener('click', handleclickOut, true)
+
+        return () => {
+            document.removeEventListener('keydown', handleEscapeOut, true)
+            document.removeEventListener('click', handleclickOut, true)
+        }
+    }, [categoria, data, descricao, modalConfirmAction, openDate, setModalAddCampo, valor])
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly">
+            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly" ref={ref}>
                 <div className="grid w-full grid-cols-4 gap-2 h-max">
                     {/* DATE FIELD */}
                     <div className="col-span-2 h-max">
@@ -61,15 +100,16 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                             date={data}
                             label="Data"
                             setDate={setData}
+                            setOpenDate={setOpenDate}
                             required={true}
                             style={{
-                                backgroundColor: "#EFEFEF", 
+                                backgroundColor: "#EFEFEF",
                                 color: "#000000",
                                 width: "100%"
                             }}
                         />
                     </div>
-    
+
                     {/* SELECT CATEGORIA */}
                     <div className='col-span-2 h-max'>
                         <Select
@@ -84,10 +124,10 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                             required={true}
                         />
                     </div>
-    
+
                     {/* PARCELAS */}
                     <div className="col-span-2 pb-6 h-max">
-                        <Input 
+                        <Input
                             required={false}
                             label="Parcelas"
                             setState={setParcelas}
@@ -99,7 +139,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                         />
                     </div>
                     <div className="col-span-2 pb-6 h-max">
-                        <Input 
+                        <Input
                             required={true}
                             label="Valor"
                             setState={setValor}
@@ -110,9 +150,9 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                         />
                     </div>
                 </div>
-                
+
                 <div className="w-full h-max">
-                    <TextArea 
+                    <TextArea
                         label="Descrição"
                         setValue={setDescricao}
                         value={descricao}
@@ -139,6 +179,15 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                     </div>
                 </div>
             </div>
+            {modalConfirmAction &&
+                <ConfirmAction
+                    label="Desejar descartar as alterações não salvas?"
+                    option1="Descartar"
+                    action1={handleDescartarAction}
+                    option2="Cancelar"
+                    action2={() => setModalConfirmAction(false)}
+                />
+            }
         </div>
     )
 }

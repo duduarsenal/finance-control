@@ -1,7 +1,7 @@
-import { Button, Input, Select } from "@components";
+import { Button, ConfirmAction, Input, Select } from "@components";
 import { CategoriaProps, GenericProps, ModalCategoriaProps } from "@typings";
 import { cn, Icons, cores, emojis } from "@utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }: ModalCategoriaProps) {
@@ -11,6 +11,11 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     const [cor, setCor] = useState<GenericProps | null>(null)
 
     const [tempCategorias, setTempCategorias] = useState<CategoriaProps[]>(categorias)
+
+    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
+    const [messageConfirmAction, setMessageConfirmAction] = useState<string>("")
+    const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
+    const ref = useRef<HTMLDivElement>(null)
 
     const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
@@ -44,12 +49,71 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     }
 
     function handleSaveCategorias(){
+        if(categoria || cor || emoji){
+            handleConfirmAction(true, "Categoria não salva, deseja descartar alterações?")
+            return
+        }
         saveCategorias(tempCategorias)
     }
 
+    function handleConfirmAction(state: boolean, message: string){
+        setMessageConfirmAction(message)
+        setActionConfirmAction({action: saveCategoriasConfirmAction})
+        setModalConfirmAction(state)
+    }
+
+    function handleDescartarAction() {
+        // RESET FIELDS
+        setCategoria("")
+        setCor(null)
+        setEmoji(null)
+        setModalCategoria(false)
+    }
+
+    function saveCategoriasConfirmAction(){
+        saveCategorias(tempCategorias)
+        handleDescartarAction()
+    }
+
+    useEffect(() => {
+
+        function handleEscapeOut(e: KeyboardEvent) {
+            if (e.key === "Escape") {
+                if (categoria || cor || emoji) {
+                    setModalConfirmAction(true)
+                    return;
+                } else if(!modalConfirmAction){
+                    setModalCategoria(false)
+                    return;
+                }
+
+            }
+        }
+
+        function handleclickOut(e: MouseEvent){
+            if(ref.current && !ref.current.contains(e?.target as Node)){
+                if (categoria || cor || emoji) {
+                    setModalConfirmAction(true)
+                    return;
+                } else if(!modalConfirmAction){
+                    setModalCategoria(false)
+                    return;
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleEscapeOut, true)
+        document.addEventListener('click', handleclickOut, true)
+
+        return () => {
+            document.removeEventListener('keydown', handleEscapeOut, true)
+            document.removeEventListener('click', handleclickOut, true)
+        }
+    }, [categoria, cor, emoji, modalConfirmAction, setModalCategoria])
+
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr">
+            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr" ref={ref}>
                 <div className="grid w-full grid-cols-7 grid-rows-2 gap-2">
                     <div className="col-span-5">
                         <Input
@@ -121,6 +185,15 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                     </div>
                 </div>
             </div>
+            {modalConfirmAction &&
+                <ConfirmAction
+                    label={messageConfirmAction || "Desejar descartar as alterações não salvas?"}
+                    option1="Descartar"
+                    action1={actionConfirmAction?.action ?? handleDescartarAction}
+                    option2="Cancelar"
+                    action2={() => setModalConfirmAction(false)}
+                />
+            }
         </div>
     )
 }

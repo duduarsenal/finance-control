@@ -60,6 +60,7 @@ export interface SelectProps{
     theme?: string
     categorias?: boolean
     required?: boolean
+    direction?: string
 }
 
 export interface DashboardProps{
@@ -116,6 +117,7 @@ export interface DateFieldProps{
     setDate: (value: string) => void 
     style?: React.CSSProperties
     required?: boolean
+    setOpenDate?: (b: boolean) => void
 }
 
 export interface NotifyProps{
