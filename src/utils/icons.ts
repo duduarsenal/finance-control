@@ -2,7 +2,9 @@ export {
     FaEye, 
     FaEyeSlash, 
     FaCalendarCheck, 
-    FaRegCheckCircle 
+    FaRegCheckCircle,
+    FaEdit,
+    FaTrashAlt
 } from "react-icons/fa"
 export { 
     RiLoader4Fill,

@@ -8,7 +8,9 @@ export default {
     extend: {
       colors: {
         'brand-white': '#FFF',
+        'brand-dark-white': '#CCCCCC',
         'brand-white-gray': '#E1E1E1',
+        'brand-dark-gray': '#80808020',
         'brand-gray': '#808080',
         'brand-black': '#0F0F0F',
         'brand-red': '#FF2C2C',

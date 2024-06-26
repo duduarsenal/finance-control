@@ -149,7 +149,7 @@ export function Select({
                                 setValue({ label, value })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-2 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2",
+                            className={cn("py-1 px-2 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999]",
                                 {
                                     "py-2": colors,
                                     "border-b-0": options[index + 1] === (null || undefined),
@@ -181,7 +181,7 @@ export function Select({
                                 setValue({ label, value, cor, emoji })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full", 
+                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full z-[99999]", 
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,
@@ -191,7 +191,7 @@ export function Select({
                             )}
                             key={index}
                         >
-                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full", {
+                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full z-[99999]", {
                                     "bg-colors-red": cor?.value === 'red',
                                     "bg-colors-yellow": cor?.value === 'yellow',
                                     "bg-colors-green": cor?.value === 'green',

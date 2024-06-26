@@ -1,9 +1,10 @@
-import { CategoriaProps, ModalAddCampoProps } from "@typings";
+import { CamposProps, CategoriaProps, ModalAddCampoProps } from "@typings";
 import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCampo, categorias, editCampo }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,26 +18,44 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
     const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
     const ref = useRef<HTMLDivElement>(null)
 
-    const { addNotification } = useOutletContext<{ addNotification: (type: string, message: string) => void }>()
+    const { addNotification } = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
     function handleSaveCampo() {
         if (!data || !descricao || !categoria || !valor) {
             return addNotification("warning", "Preencha todos os campos")
         }
 
-        const novoCampo = {
-            type,
-            data,
-            descricao,
-            month: Number(data.split('-')[1]),
-            categoria: categoria as CategoriaProps,
-            parcelas: Number(parcelas) ?? 1,
-            valor: Number(valor),
-            dtadd: new Date().toISOString()
+        let novoCampo: CamposProps;
+        if (editCampo) {
+            novoCampo = {
+                id: editCampo.id,
+                type: editCampo.type,
+                data,
+                descricao,
+                month: Number(data.split('-')[1]),
+                categoria: categoria as CategoriaProps,
+                parcelas: Number(parcelas) ?? 1,
+                valor: Number(valor),
+                dtadd: editCampo.dtadd
+            }
+
+            handleEditCampo(novoCampo)
+        } else {
+            novoCampo = {
+                id: uuidv4(),
+                type,
+                data,
+                descricao,
+                month: Number(data.split('-')[1]),
+                categoria: categoria as CategoriaProps,
+                parcelas: Number(parcelas) ?? 1,
+                valor: Number(valor),
+                dtadd: new Date().toISOString()
+            }
+            saveCampo(novoCampo)
         }
 
-        saveCampo(novoCampo)
-        
+
         // RESET FIELDS
         setData("")
         setCategoria(null)
@@ -63,7 +82,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
                 if (data || descricao || categoria || valor) {
                     setModalConfirmAction(true)
                     return;
-                } else if(!modalConfirmAction){
+                } else if (!modalConfirmAction) {
                     setModalAddCampo(false)
                     return;
                 }
@@ -71,12 +90,12 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
             }
         }
 
-        function handleclickOut(e: MouseEvent){
-            if(ref.current && !ref.current.contains(e?.target as Node) && !openDate){
+        function handleclickOut(e: MouseEvent) {
+            if (ref.current && !ref.current.contains(e?.target as Node) && !openDate) {
                 if (data || descricao || categoria || valor) {
                     setModalConfirmAction(true)
                     return;
-                } else if(!modalConfirmAction){
+                } else if (!modalConfirmAction) {
                     setModalAddCampo(false)
                     return;
                 }
@@ -91,6 +110,16 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, categorias }:
             document.removeEventListener('click', handleclickOut, true)
         }
     }, [categoria, data, descricao, modalConfirmAction, openDate, setModalAddCampo, valor])
+
+    useEffect(() => {
+        if (editCampo) {
+            setData(editCampo.data)
+            setCategoria(editCampo.categoria)
+            setParcelas(editCampo.parcelas.toString() ?? "")
+            setValor(editCampo.valor.toString())
+            setDescricao(editCampo.descricao)
+        }
+    }, [editCampo])
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">

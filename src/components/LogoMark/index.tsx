@@ -7,9 +7,9 @@ export function LogoMark() {
                 <img
                     src={dfLogo}
                     alt="Logo tipo Finance Control"
-                    className="h-full max-w-32"
+                    className="h-full max-w-32 brightness-90"
                 />
-                <h2 className="mx-auto text-[30px] font-[500]">Finance Control</h2>
+                <h2 className="mx-auto text-[30px] font-[500] text-brand-white-gray">Finance Control</h2>
             </div>
         </>
     )

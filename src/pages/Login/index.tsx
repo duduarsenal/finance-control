@@ -1,6 +1,7 @@
 import { validadeLogin } from "@api";
 import { Button, Input, LogoMark } from "@components";
 import { useSessionData } from "@hooks";
+import { OutletContextProps } from "@typings";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
@@ -10,7 +11,7 @@ export function Login() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const { userData, setUserData } = useSessionData();
-    const {addNotification,setIsPageHeader, setIsLoading} = useOutletContext<{addNotification:  (type: string, message: string) => void, setIsPageHeader: (value: string | null) => void, setIsLoading: (value: boolean) => void}>();
+    const {addNotification,setIsPageHeader, setIsLoading} = useOutletContext<OutletContextProps>();
 
     useEffect(() => {
         if (userData?.usertoken) {

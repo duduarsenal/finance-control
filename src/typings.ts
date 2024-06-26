@@ -65,13 +65,16 @@ export interface SelectProps{
 }
 
 export interface DashboardProps{
-    saveCampo: (value: CamposProps) => void
+    saveCampo: (campo: CamposProps) => void
+    handleEditCampo: (campo: CamposProps) => void
+    removeCampo: (id: CamposProps) => Promise<void>
     type: string
     campos: CamposProps[]
     categorias: CategoriaProps[]
 }
 
 export interface CamposProps{
+    id: string
     type: string
     data: string
     month: number
@@ -103,8 +106,10 @@ export interface GenericProps{
 export interface ModalAddCampoProps{
     type: string
     setModalAddCampo: (value: boolean) => void
-    saveCampo: (value: CamposProps) => void
+    saveCampo: (campo: CamposProps) => void
+    handleEditCampo: (campo: CamposProps) => void
     categorias: CategoriaProps[]
+    editCampo: CamposProps
 }
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
@@ -153,4 +158,10 @@ export interface ConfirmActionProps{
     option2: string
     action1: () => void
     action2: () => void
+}
+
+export interface OutletContextProps{
+    addNotification: (type: string, message: string) => void
+    setIsPageHeader: (value: string | null) => void
+    setIsLoading: (value: boolean) => void
 }

@@ -9,9 +9,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     const [categoria, setCategoria] = useState<string>("")
     const [emoji, setEmoji] = useState<GenericProps | null>(null)
     const [cor, setCor] = useState<GenericProps | null>(null)
-
     const [tempCategorias, setTempCategorias] = useState<CategoriaProps[]>(categorias)
-
     const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
     const [messageConfirmAction, setMessageConfirmAction] = useState<string>("")
     const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
@@ -110,17 +108,18 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
             document.removeEventListener('click', handleclickOut, true)
         }
     }, [categoria, cor, emoji, modalConfirmAction, setModalCategoria])
-
+    
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr" ref={ref}>
+            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr outline-[1px] outline outline-brand-dark-gray rounded-md" ref={ref}>
                 <div className="grid w-full grid-cols-7 grid-rows-2 gap-2">
                     <div className="col-span-5">
                         <Input
+                            autoFocus={true}
                             placeholder="Nome da categoria"
                             setState={setCategoria}
                             value={categoria.slice(0, 20)}
-                            className="transition-all bg-brand-white-gray placeholder:text-brand-black focus:placeholder:text-brand-gray"
+                            className="transition-all bg-brand-black placeholder:text-brand-gray focus:placeholder:text-brand-gray outline-brand-gray outline-[1px] outline outline-offset-0 text-brand-white-gray text-[17px] focus:outline-brand-white-gray"
                         />
                     </div>
                     <div className="w-full col-span-2">
@@ -147,23 +146,26 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                     <div className="col-span-3">
                         <Button
                             handleButton={handleAddCategoria}
-                            className={cn("w-full my-0 bg-brand-black", { "cursor-not-allowed hover:bg-brand-black select-none": !categoria || !cor || !emoji })}
-                            value="Adicionar"
+                            className={cn("w-full my-0 bg-brand-black text-brand-white-gray outline-brand-gray", { "cursor-not-allowed hover:bg-brand-black select-none": !categoria || !cor || !emoji })}
+                            value="Adicionar Categoria"
                             icon={<Icons.FiPlusCircle className="text-[24px] text-brand-green" />}
                         />
                     </div>
                 </div>
-                <div className="w-full h-[300px] overflow-y-auto bg-brand-black rounded-sm  outline outline-[1px] outline-brand-gray">
+                <div className="w-full h-[280px] overflow-y-auto bg-brand-black rounded-sm  outline outline-[1px] outline-brand-dark-gray">
                     {tempCategorias?.map((categoria, index) => (
-                        <div key={index} className={cn("flex justify-between px-4 py-2 text-[16px] items-center border-b-[1px] border-b-brand-gray text-brand-black font-bold", {"border-b-0": tempCategorias[index + 1] === (null || undefined)})}>
+                        <div 
+                            key={index} 
+                            className="flex justify-between px-4 py-2 text-[16px] items-center text-brand-black font-bold even:bg-brand-dark-gray"
+                        >
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
                                 {categoria.label}
                             </p>
-                            <Icons.IoClose
+                            <Icons.FaTrashAlt
                                 onClick={() => handleRemoveCategoria(categoria.value)}
-                                className={cn("h-full w-6 text-[20px] cursor-pointer hover:scale-[1.1] z-[4] text-brand-red", 
-                                { "-mr-[12px]": categorias?.length && categorias.length > 8 })}
+                                className={cn("h-full text-[20px] cursor-pointer hover:scale-[1.1] z-[4] text-brand-white-gray mr-2", 
+                                { "-mr-[3.5px]": tempCategorias.length > 7 })}
                             />
                         </div>
                     ))}

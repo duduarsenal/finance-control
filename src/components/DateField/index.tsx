@@ -35,12 +35,12 @@ export function DateField({
                             color: "#FFFFFF"
                         },
                         "& .MuiOutlinedInput-root": {
-                            color: `${style?.color ? style.color : "#FFFFFF"}`,
+                            color: `${style?.color ? style.color : "#E1E1E1"}`,
                             height: "32px",
                             fontSize: "14px"
                         },
                         "& .MuiSvgIcon-root": {
-                            color: `${style?.color ? style.color : "#FFFFFF"}`,
+                            color: `${style?.color ? style.color : "#E1E1E1"}`,
                             height: "20px"
                         },
                         "& .Mui-error .MuiOutlinedInput-notchedOutline": {
