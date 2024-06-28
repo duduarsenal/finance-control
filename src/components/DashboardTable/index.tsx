@@ -17,7 +17,7 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
         tempCampos.forEach((row) => total += row.valor)
         setTotalContent(total)
         setTotal(total)
-    }, [tempCampos, campos])
+    }, [tempCampos, campos, setTotal])
 
     useEffect(() => {
         const filtragemCategoria = categoriaSelected ? campos

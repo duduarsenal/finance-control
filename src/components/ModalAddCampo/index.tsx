@@ -172,7 +172,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                             label="Valor"
                             setState={setValor}
                             value={valor}
-                            placeholder="R$0,00"
+                            placeholder="R$ 0,00"
                             className="text-[16px] bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
                             type="currency"
                         />

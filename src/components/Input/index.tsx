@@ -22,14 +22,14 @@ export function Input({ className, type = "text", label, value, icon, setState, 
                 {...props}
                 id={id}
                 value={
-                    type === "currency" ?
-                        "R$ " + currencyFormatPT(value?.toString(), 0).replace(/[R$ ]/g, "").trim() :
-                        value
+                    type === "currency" 
+                        ? currencyFormatPT(value?.toString())
+                        : value
                 }
                 onChange={(e) => {
-                    type === "currency" ?
-                        setState(e.target.value.replace(/[^0-9]+/g, "").slice(0, 7)) :
-                        setState(e.target.value.slice(0, (props.maxLength || e.target.value.length)))
+                    type === "currency" 
+                        ? setState(e.target.value.replace(/[^\d]/g, "").trim().slice(0, 9)) 
+                        : setState(e.target.value.trim() ? e.target.value.slice(0, (props.maxLength || e.target.value.length)) : e.target.value.trim())
                 }}
                 type={thisType}
                 className={cn("h-8 rounded-sm text-[18px] text-black outline-none px-1", className,

@@ -47,7 +47,8 @@ export function DateField({
                             border: "none"
                         }
                     }}
-                    maxDate={dayjs(new Date().setMonth(new Date().getMonth() + 1))}
+                    maxDate={dayjs(new Date().setMonth(new Date().getMonth() + 3))}
+                    minDate={dayjs(new Date().setMonth(new Date().getMonth() - 3))}
                     value={dayjs(date)}
                     onChange={(e) => setDate(e?.toISOString().split("T")[0] ?? "")}
                     slots={{

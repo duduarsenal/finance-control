@@ -12,7 +12,7 @@ export function TextArea({label, className, value, setValue, ...props}: TextArea
             <textarea
                 className={cn("w-full rounded-sm text-brand-black outline-none border-none p-1 min-h-32 h-full", className)}
                 {...props}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setValue(e.target.value.trim() ? e.target.value : e.target.value.trim())}
                 value={value}
             >
             </textarea>

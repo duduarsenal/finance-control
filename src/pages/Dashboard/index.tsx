@@ -93,7 +93,7 @@ export function Dashboard(){
     return (
         <main className='px-2 overflow-y-hidden h-max'>
             <div className="flex justify-between w-full py-8 h-max">
-                <div className='flex gap-6 items-center'>
+                <div className='flex items-center gap-6'>
                     <div className="w-56">
                         <Select 
                             optionDefault="Selecione um mês" 
@@ -104,7 +104,7 @@ export function Dashboard(){
                             transparent={false}
                         />
                     </div>
-                    <h4 className='text-brand-white-gray text-[18px]' title={monthSelected ? "" : "Saldo dos ultimos 30 dias"}>
+                    <h4 className="text-brand-white-gray text-[18px]">
                         Saldo: {" "}
                         <span className={cn("text-brand-white-gray", 
                             { 
@@ -113,7 +113,7 @@ export function Dashboard(){
                             }
                             )}
                         >
-                            {currencyFormatPT(saldoTotal) || " R$ 0,00"}
+                            {currencyFormatPT(saldoTotal.toString()) || " R$ 0,00"}
                         </span>
                     </h4>
                 </div>
