@@ -149,7 +149,7 @@ export function Select({
                                 setValue({ label, value })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-2 border-b-[1px] border-b-brand-black hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999]",
+                            className={cn("py-1 px-2 hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999]",
                                 {
                                     "py-2": colors,
                                     "border-b-0": options[index + 1] === (null || undefined),
@@ -181,12 +181,11 @@ export function Select({
                                 setValue({ label, value, cor, emoji })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-1 border-b-[1px] border-b-brand-black hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full z-[99999]", 
+                            className={cn("py-1 px-1 odd:bg-brand-dark-gray hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full z-[99999]", 
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,
-                                    "basis-1/3": optionsCategorias.length > 12,
-                                    "border-b-brand-gray": !theme
+                                    "basis-1/3": optionsCategorias.length > 12
                                 }
                             )}
                             key={index}

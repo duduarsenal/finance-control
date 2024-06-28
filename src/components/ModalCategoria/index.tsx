@@ -156,7 +156,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                     {tempCategorias?.map((categoria, index) => (
                         <div 
                             key={index} 
-                            className="flex justify-between px-4 py-2 text-[16px] items-center text-brand-black font-bold even:bg-brand-dark-gray"
+                            className="flex justify-between px-4 py-2 text-[16px] items-center text-brand-black font-bold odd:bg-brand-dark-gray"
                         >
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
