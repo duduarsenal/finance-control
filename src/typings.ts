@@ -71,6 +71,7 @@ export interface DashboardProps{
     type: string
     campos: CamposProps[]
     categorias: CategoriaProps[]
+    setTotal: (n: number) => void
 }
 
 export interface CamposProps{

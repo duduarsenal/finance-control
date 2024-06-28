@@ -35,13 +35,13 @@ export const emojis = [
 ]
 
 export const cores = [
-    { label: "Vermelho", value: "red" },
     { label: "Amarelo", value: "yellow" },
-    { label: "Verde", value: "green" },
-    { label: "Azul", value: "blue" },
     { label: "Roxo", value: "purple" },
+    { label: "Laranja", value: "orange" },
+    { label: "Azul", value: "blue" },
+    { label: "Vermelho", value: "red" },
+    { label: "Verde Agua", value: "bluemarin" },
     { label: "Rosa", value: "pink" },
-    { label: "Branco", value: "white" },
-    { label: "Ciano", value: "ciano" },
+    { label: "Verde", value: "green" },
     
 ]

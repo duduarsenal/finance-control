@@ -123,8 +123,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly" ref={ref}>
-                <div className="grid w-full grid-cols-4 gap-2 h-max">
+            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly outline outline-[1px] outline-brand-dark-gray rounded-md" ref={ref}>
+                <div className="grid w-full grid-cols-4 gap-3 gap-y-4 h-max">
                     {/* DATE FIELD */}
                     <div className="col-span-2 h-max">
                         <DateField
@@ -134,8 +134,6 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                             setOpenDate={setOpenDate}
                             required={true}
                             style={{
-                                backgroundColor: "#EFEFEF",
-                                color: "#000000",
                                 width: "100%"
                             }}
                         />
@@ -144,8 +142,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                     {/* SELECT CATEGORIA */}
                     <div className='col-span-2 h-max'>
                         <Select
-                            className="my-0 bg-colors-white"
-                            theme="light"
+                            className="my-0"
                             optionDefault="Selecione uma categoria"
                             label="Categoria"
                             value={categoria as CategoriaProps}
@@ -164,7 +161,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                             setState={setParcelas}
                             value={parcelas}
                             placeholder="0"
-                            className="text-[16px] bg-colors-white"
+                            className="text-[16px] bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
                             type="number"
                             maxLength={2}
                         />
@@ -176,7 +173,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                             setState={setValor}
                             value={valor}
                             placeholder="R$0,00"
-                            className="text-[16px] bg-colors-white"
+                            className="text-[16px] bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
                             type="currency"
                         />
                     </div>
@@ -189,7 +186,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                         value={descricao}
                         required={true}
                         placeholder="Escreva uma breve descrição sobre o campo"
-                        className="bg-colors-white"
+                        className="bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
                     />
                 </div>
 

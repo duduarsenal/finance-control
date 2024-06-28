@@ -75,28 +75,28 @@ export function Select({
                         ? value?.value ?
                             <span className="flex gap-2">
                                 <span className={cn("w-6 h-6 rounded-sm",
-                                    { "bg-colors-red": value.value === 'red' },
                                     { "bg-colors-yellow": value.value === 'yellow' },
-                                    { "bg-colors-green": value.value === 'green' },
-                                    { "bg-colors-blue": value.value === 'blue' },
-                                    { "bg-colors-purple": value.value === 'purple' },
+                                    { "bg-colors-orange": value.value === 'orange' },
+                                    { "bg-colors-red": value.value === 'red' },
                                     { "bg-colors-pink": value.value === 'pink' },
-                                    { "bg-colors-white": value.value === 'white' },
-                                    { "bg-colors-ciano": value.value === 'ciano' }
+                                    { "bg-colors-purple": value.value === 'purple' },
+                                    { "bg-colors-blue": value.value === 'blue' },
+                                    { "bg-colors-bluemarin": value.value === 'bluemarin' },
+                                    { "bg-colors-green": value.value === 'green' }
                                 )} />
                                 {value.label}
                             </span>
                             : optionDefault ? optionDefault : "Selecine uma opção"
                         : value?.value ? optionsCategorias 
                         ? <span className={cn("px-2 flex gap-2 rounded-sm outline-1 outline-brand-black outline", 
-                                { "bg-colors-red": value.cor?.value === 'red' },
                                 { "bg-colors-yellow": value.cor?.value === 'yellow' },
-                                { "bg-colors-green": value.cor?.value === 'green' },
-                                { "bg-colors-blue": value.cor?.value === 'blue' },
-                                { "bg-colors-purple": value.cor?.value === 'purple' },
+                                { "bg-colors-orange": value.cor?.value === 'orange' },
+                                { "bg-colors-red": value.cor?.value === 'red' },
                                 { "bg-colors-pink": value.cor?.value === 'pink' },
-                                { "bg-colors-white": value.cor?.value === 'white' },
-                                { "bg-colors-ciano": value.cor?.value === 'ciano' }
+                                { "bg-colors-purple": value.cor?.value === 'purple' },
+                                { "bg-colors-blue": value.cor?.value === 'blue' },
+                                { "bg-colors-bluemarin": value.cor?.value === 'bluemarin' },
+                                { "bg-colors-green": value.cor?.value === 'green' }
                             )}>
                             <span>{value?.emoji?.label}</span>
                             <span className="truncate text-brand-black text-bold">{value.label}</span>
@@ -160,14 +160,14 @@ export function Select({
                             key={index}
                         >
                             {colors && <span className={cn("w-6 h-6 rounded-sm",
-                                { "bg-colors-red": value === 'red' },
                                 { "bg-colors-yellow": value === 'yellow' },
-                                { "bg-colors-green": value === 'green' },
-                                { "bg-colors-blue": value === 'blue' },
-                                { "bg-colors-purple": value === 'purple' },
+                                { "bg-colors-orange": value === 'orange' },
+                                { "bg-colors-red": value === 'red' },
                                 { "bg-colors-pink": value === 'pink' },
-                                { "bg-colors-white": value === 'white' },
-                                { "bg-colors-ciano": value === 'ciano' }
+                                { "bg-colors-purple": value === 'purple' },
+                                { "bg-colors-blue": value === 'blue' },
+                                { "bg-colors-bluemarin": value === 'bluemarin' },
+                                { "bg-colors-green": value === 'green' },
                             )} />}
                             {label}
                         </span>
@@ -191,15 +191,15 @@ export function Select({
                             )}
                             key={index}
                         >
-                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full z-[99999]", {
+                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full", {
                                     "bg-colors-red": cor?.value === 'red',
                                     "bg-colors-yellow": cor?.value === 'yellow',
-                                    "bg-colors-green": cor?.value === 'green',
-                                    "bg-colors-blue": cor?.value === 'blue',
-                                    "bg-colors-purple": cor?.value === 'purple',
+                                    "bg-colors-orange": cor?.value === 'orange',
                                     "bg-colors-pink": cor?.value === 'pink',
-                                    "bg-colors-white": cor?.value === 'white',
-                                    "bg-colors-ciano": cor?.value === 'ciano'
+                                    "bg-colors-purple": cor?.value === 'purple',
+                                    "bg-colors-blue": cor?.value === 'blue',
+                                    "bg-colors-bluemarin": cor?.value === 'bluemarin',
+                                    "bg-colors-green": cor?.value === 'green',
                                 })}>
                                 <span>{emoji?.label}</span>
                                 <span className="truncate ">{label}</span>

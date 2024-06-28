@@ -1,7 +1,7 @@
 import { getCampos, getCategorias, saveCampos, saveCategorias } from '@api';
 import { Button, DashboardTable, ModalCategoria, Select } from "@components";
 import { CamposProps, CategoriaProps, GenericProps, OutletContextProps } from "@typings";
-import { Icons, months } from "@utils";
+import { Icons, cn, currencyFormatPT, months } from "@utils";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -11,6 +11,11 @@ export function Dashboard(){
 
     const [categorias, setCategorias] = useState<CategoriaProps[]>([])
     const [campos, setCampos] = useState<CamposProps[]>([])
+
+    const [totalGastos, setTotalGastos] = useState<number>(0)
+    const [totalGanhos, setTotalGanhos] = useState<number>(0)
+
+    const [saldoTotal, setSaldoTotal] = useState<number>(0)
 
     const {addNotification, setIsPageHeader, setIsLoading} = useOutletContext<OutletContextProps>()
 
@@ -80,19 +85,37 @@ export function Dashboard(){
         handleStates()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [monthSelected])
+
+    useEffect(() => {
+        setSaldoTotal(totalGanhos - totalGastos)
+    }, [totalGanhos, totalGastos]) 
     
     return (
         <main className='px-2 overflow-y-hidden h-max'>
             <div className="flex justify-between w-full py-8 h-max">
-                <div className="w-56">
-                    <Select 
-                        optionDefault="Selecione um mês" 
-                        options={months} 
-                        value={monthSelected as CategoriaProps}
-                        setValue={setMonthSelected} 
-                        icon={<Icons.FaCalendarCheck className="text-brand-white" />}
-                        transparent={false}
-                    /> 
+                <div className='flex gap-6 items-center'>
+                    <div className="w-56">
+                        <Select 
+                            optionDefault="Selecione um mês" 
+                            options={months} 
+                            value={monthSelected as CategoriaProps}
+                            setValue={setMonthSelected} 
+                            icon={<Icons.FaCalendarCheck className="text-brand-white" />}
+                            transparent={false}
+                        />
+                    </div>
+                    <h4 className='text-brand-white-gray text-[18px]' title={monthSelected ? "" : "Saldo dos ultimos 30 dias"}>
+                        Saldo: {" "}
+                        <span className={cn("text-brand-white-gray", 
+                            { 
+                                "text-brand-red": saldoTotal < 0,
+                                "text-brand-green": saldoTotal > 0
+                            }
+                            )}
+                        >
+                            {currencyFormatPT(saldoTotal) || " R$ 0,00"}
+                        </span>
+                    </h4>
                 </div>
                 <Button 
                     handleButton={() => setModalCategoria(true)} 
@@ -110,6 +133,7 @@ export function Dashboard(){
                 handleEditCampo={editCampo}
                 removeCampo={removeCampo}
                 categorias={categorias}
+                setTotal={setTotalGastos}
             />
 
             {/* DASHBOARD/TABLE DE GANHOS */}
@@ -120,6 +144,7 @@ export function Dashboard(){
                 handleEditCampo={editCampo}
                 removeCampo={removeCampo}
                 categorias={categorias}
+                setTotal={setTotalGanhos}
             />
 
             {/* MODAL PARA ADICIONAR CATEGORIA */}

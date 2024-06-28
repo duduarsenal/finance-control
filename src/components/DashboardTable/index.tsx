@@ -3,7 +3,7 @@ import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typi
 import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
 import { useEffect, useState } from 'react';
 
-export function DashboardTable({ type, campos, saveCampo, handleEditCampo, removeCampo, categorias }: DashboardProps) {
+export function DashboardTable({ type, campos, saveCampo, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
@@ -16,6 +16,7 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
         let total = 0;
         tempCampos.forEach((row) => total += row.valor)
         setTotalContent(total)
+        setTotal(total)
     }, [tempCampos, campos])
 
     useEffect(() => {
@@ -43,7 +44,14 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
     
 
     return (
-        <section className="flex flex-col items-end pb-8">
+        <section className="flex flex-col pb-8">
+            <h4 className="my-2 px-4 rounded-md text-[20px] text-brand-white-gray font-medium bg-brand-dark-gray w-max"
+            >
+                {"Registros de "} 
+                <span className={cn("text-brand-red font-bold", { "text-brand-green": type === "ganhos" })}>
+                    {type.split("")[0].toUpperCase() + type.slice(1,)}
+                </span>
+            </h4>
             <div className="flex flex-col justify-between w-full rounded-md h-max bg-brand-black">
                 {/* INICIO TABLE */}
                 <div>
@@ -71,21 +79,17 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
                                     key={index}
                                 >
                                     <p className='col-span-2 truncate'>{dateFormatPT(row?.data) || '-'}</p>
-                                    <p 
-                                        className='col-span-4 pl-6 pr-2 text-left truncate'
-                                        title={row.descricao}
-                                    >
-                                        {row?.descricao || '-'}
-                                    </p>
-                                    <p className={cn("col-span-2 px-4 flex gap-2 rounded-md w-max max-w-full m-auto",
+                                    <p className='col-span-4 pl-6 pr-2 text-left truncate'>{row?.descricao || '-'}</p>
+                                    <p className={cn( "col-span-2 px-4 flex gap-2 rounded-md w-max max-w-full m-auto",
                                         { "bg-colors-red": row?.categoria?.cor?.value === 'red' },
                                         { "bg-colors-yellow": row?.categoria?.cor?.value === 'yellow' },
-                                        { "bg-colors-green": row?.categoria?.cor?.value === 'green' },
-                                        { "bg-colors-blue": row?.categoria?.cor?.value === 'blue' },
-                                        { "bg-colors-purple": row?.categoria?.cor?.value === 'purple' },
+                                        { "bg-colors-orange": row?.categoria?.cor?.value === 'orange' },
+                                        { "bg-colors-red": row?.categoria?.cor?.value === 'red' },
                                         { "bg-colors-pink": row?.categoria?.cor?.value === 'pink' },
-                                        { "bg-colors-white": row?.categoria?.cor?.value === 'white' },
-                                        { "bg-colors-ciano": row?.categoria?.cor?.value === 'ciano' }
+                                        { "bg-colors-purple": row?.categoria?.cor?.value === 'purple' },
+                                        { "bg-colors-blue": row?.categoria?.cor?.value === 'blue' },
+                                        { "bg-colors-bluemarin": row?.categoria?.cor?.value === 'bluemarin' },
+                                        { "bg-colors-green": row?.categoria?.cor?.value === 'green' },
                                     )}>
                                         <span>{row?.categoria?.emoji?.label}</span>
                                         <span className='font-bold truncate text-brand-black'>{row?.categoria?.label || '-'}</span>
