@@ -5,6 +5,7 @@ import { cn } from "@utils";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import bgGradient from 'src/assets/bg-gradient.png'
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Layout({error}: IsErrorProps) {
 
@@ -26,6 +27,7 @@ export default function Layout({error}: IsErrorProps) {
         {error ? error : <Outlet context={{setIsPageHeader, setIsLoading, addNotification}} />}
       </div>
       {isPageHeader != "/login" && <Footer /> }
+      <Analytics/>
     </div>
   )
 }
