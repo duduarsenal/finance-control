@@ -9,7 +9,7 @@ export function Loading({isTrue = false, className, message}: LoadingProps){
         )}
         >
             <Icons.RiLoader4Fill className={`text-[150px] animate-spin `} />
-            <p className="font-semibold text-[24px]">{message ?? "Carregando informações"}</p>
+            <p className="font-semibold text-[24px]">{message ?? "Carregando..."}</p>
         </div>
     )
 }

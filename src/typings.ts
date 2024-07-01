@@ -166,3 +166,24 @@ export interface OutletContextProps{
     setIsPageHeader: (value: string | null) => void
     setIsLoading: (value: boolean) => void
 }
+
+export interface GraphicsBarProps{
+    className?: string
+    colTypes: string[]
+    ganhos: number[]
+    gastos: number[]
+}
+
+export interface GraphicsPieProps{
+    className?: string
+    data: {label: string, value: number, color: string}[]
+}
+
+export interface SwitchProps{
+    type: string
+    className?: string
+    option1: string | { label: string, className: string }
+    option2: string | { label: string, className: string }
+    action1: () => void
+    action2: () => void
+} 

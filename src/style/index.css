@@ -50,6 +50,10 @@
   .loading{
     background-image: url('/src/assets/bg-gradient.png')
   }
+  
+  .loading-not{
+    background-image: none;
+  }
 
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
@@ -61,4 +65,14 @@
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;
+  }
+
+  .texte{
+    color: black !important;
+    font-weight: 800 !important;
+    padding: 8px;
+  }
+
+  .tooltip-donut{
+    color: black !important;
   }
