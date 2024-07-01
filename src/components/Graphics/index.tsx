@@ -1,6 +1,7 @@
 import { GraphicsBarProps, GraphicsPieProps } from "@typings";
 import { cn, currencyFormatPT } from "@utils";
 import { ApexOptions } from "apexcharts";
+import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
 export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBarProps) {
@@ -86,11 +87,22 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
     },
   };
 
+  const [width, setWidth] = useState<number>(700)
+
+  useEffect(() => {
+    const resizeFunc = () => {
+      setWidth(document.body.clientWidth > 1024 ? 700 : 600)
+    }
+
+    window.addEventListener('resize', resizeFunc)
+    return () => window.removeEventListener('resize', resizeFunc)
+  }, [])
+
   return (
     <div className={cn("flex items-center justify-center w-full h-full", className)}>
-      <Chart options={options} series={options.series} width={700} type="bar" />
+      <Chart options={options} series={options.series} width={width} type="bar" />
     </div>
-  );
+  )
 }
 
 export function GraphicsPie({className, data}: GraphicsPieProps) {

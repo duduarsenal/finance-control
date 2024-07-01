@@ -1,0 +1,244 @@
+{
+  "categorias": [
+    {
+      "label": "Nubank",
+      "value": "nubank",
+      "cor": {
+        "label": "Roxo",
+        "value": "purple"
+      },
+      "emoji": {
+        "label": "💳",
+        "value": "cartao"
+      }
+    },
+    {
+      "label": "Programação",
+      "value": "programacao",
+      "cor": {
+        "label": "Verde",
+        "value": "green"
+      },
+      "emoji": {
+        "label": "💻",
+        "value": "computador"
+      }
+    },
+    {
+      "label": "Alimentação",
+      "value": "alimentacao",
+      "cor": {
+        "label": "Amarelo",
+        "value": "yellow"
+      },
+      "emoji": {
+        "label": "🍔",
+        "value": "comida"
+      }
+    },
+    {
+      "label": "Festa",
+      "value": "festa",
+      "cor": {
+        "label": "Rosa",
+        "value": "pink"
+      },
+      "emoji": {
+        "label": "🎉",
+        "value": "festa"
+      }
+    },
+    {
+      "label": "Transporte",
+      "value": "transporte",
+      "cor": {
+        "label": "Azul",
+        "value": "blue"
+      },
+      "emoji": {
+        "label": "🚌",
+        "value": "onibus"
+      }
+    },
+    {
+      "label": "Saúde",
+      "value": "saude",
+      "cor": {
+        "label": "Vermelho",
+        "value": "red"
+      },
+      "emoji": {
+        "label": "🏥",
+        "value": "hospital"
+      }
+    },
+    {
+      "label": "Educação",
+      "value": "educacao",
+      "cor": {
+        "label": "Laranja",
+        "value": "orange"
+      },
+      "emoji": {
+        "label": "📚",
+        "value": "livros"
+      }
+    },
+    {
+      "label": "Lazer",
+      "value": "lazer",
+      "cor": {
+        "label": "Verde Agua",
+        "value": "bluemarin"
+      },
+      "emoji": {
+        "label": "🎮",
+        "value": "videogame"
+      }
+    },
+    {
+      "label": "Compras",
+      "value": "compras",
+      "cor": {
+        "label": "Laranja",
+        "value": "orange"
+      },
+      "emoji": {
+        "label": "🛒",
+        "value": "carrinho"
+      }
+    },
+    {
+      "label": "Investimentos",
+      "value": "investimentos",
+      "cor": {
+        "label": "Verde",
+        "value": "green"
+      },
+      "emoji": {
+        "label": "📈",
+        "value": "grafico"
+      }
+    },
+    {
+      "label": "Cinema",
+      "value": "cinema",
+      "cor": {
+        "label": "Roxo",
+        "value": "purple"
+      },
+      "emoji": {
+        "label": "🎬",
+        "value": "cinema"
+      }
+    },
+    {
+      "label": "Livros",
+      "value": "livros",
+      "cor": {
+        "label": "Laranja",
+        "value": "orange"
+      },
+      "emoji": {
+        "label": "📚",
+        "value": "livros"
+      }
+    },
+    {
+      "label": "Música",
+      "value": "musica",
+      "cor": {
+        "label": "Verde Agua",
+        "value": "bluemarin"
+      },
+      "emoji": {
+        "label": "🎵",
+        "value": "musica"
+      }
+    },
+    {
+      "label": "Animais de Estimação",
+      "value": "animais",
+      "cor": {
+        "label": "Amarelo",
+        "value": "yellow"
+      },
+      "emoji": {
+        "label": "🐶",
+        "value": "cachorro"
+      }
+    },
+    {
+      "label": "Arte",
+      "value": "arte",
+      "cor": {
+        "label": "Vermelho",
+        "value": "red"
+      },
+      "emoji": {
+        "label": "🎨",
+        "value": "arte"
+      }
+    },
+    {
+      "label": "Tecnologia",
+      "value": "tecnologia",
+      "cor": {
+        "label": "Verde",
+        "value": "green"
+      },
+      "emoji": {
+        "label": "💻",
+        "value": "computador"
+      }
+    },
+    {
+      "label": "Eventos",
+      "value": "eventos",
+      "cor": {
+        "label": "Rosa",
+        "value": "pink"
+      },
+      "emoji": {
+        "label": "🎉",
+        "value": "festa"
+      }
+    },
+    {
+      "label": "Beleza",
+      "value": "beleza",
+      "cor": {
+        "label": "Laranja",
+        "value": "orange"
+      },
+      "emoji": {
+        "label": "💄",
+        "value": "maquiagem"
+      }
+    },
+    {
+      "label": "Comida",
+      "value": "comida",
+      "cor": {
+        "label": "Amarelo",
+        "value": "yellow"
+      },
+      "emoji": {
+        "label": "🍕",
+        "value": "pizza"
+      }
+    },
+    {
+      "label": "Finanças",
+      "value": "financas",
+      "cor": {
+        "label": "Verde",
+        "value": "green"
+      },
+      "emoji": {
+        "label": "📈",
+        "value": "grafico"
+      }
+    }
+  ]
+}

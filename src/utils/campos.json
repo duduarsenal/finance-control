@@ -1,0 +1,1566 @@
+{
+  "campos": [
+    {
+      "id": "1",
+      "type": "gastos",
+      "data": "2024-01-15",
+      "descricao": "Almoço no restaurante",
+      "month": 1,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3500,
+      "dtadd": "2024-01-16T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "type": "gastos",
+      "data": "2024-01-20",
+      "descricao": "Festa de aniversário",
+      "month": 1,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4500,
+      "dtadd": "2024-01-21T12:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "type": "ganhos",
+      "data": "2024-01-25",
+      "descricao": "Salário",
+      "month": 1,
+      "categoria": {
+        "label": "Programação",
+        "value": "programacao",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 50000,
+      "dtadd": "2024-01-26T12:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "type": "gastos",
+      "data": "2024-01-28",
+      "descricao": "Recarga do bilhete único",
+      "month": 1,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2000,
+      "dtadd": "2024-01-29T12:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "type": "gastos",
+      "data": "2024-02-10",
+      "descricao": "Jantar fora",
+      "month": 2,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2500,
+      "dtadd": "2024-02-11T12:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "type": "gastos",
+      "data": "2024-02-14",
+      "descricao": "Festa de carnaval",
+      "month": 2,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 5000,
+      "dtadd": "2024-02-15T12:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "type": "ganhos",
+      "data": "2024-02-25",
+      "descricao": "Salário",
+      "month": 2,
+      "categoria": {
+        "label": "Programação",
+        "value": "programacao",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 50000,
+      "dtadd": "2024-02-26T12:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "type": "gastos",
+      "data": "2024-02-28",
+      "descricao": "Combustível",
+      "month": 2,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3000,
+      "dtadd": "2024-02-29T12:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "type": "gastos",
+      "data": "2024-03-05",
+      "descricao": "Almoço com colegas",
+      "month": 3,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3000,
+      "dtadd": "2024-03-06T12:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "type": "gastos",
+      "data": "2024-03-18",
+      "descricao": "Noite no bar",
+      "month": 3,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4000,
+      "dtadd": "2024-03-19T12:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "type": "ganhos",
+      "data": "2024-03-25",
+      "descricao": "Freelance de programação",
+      "month": 3,
+      "categoria": {
+        "label": "Programação",
+        "value": "programacao",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-03-26T12:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "type": "gastos",
+      "data": "2024-03-28",
+      "descricao": "Passagem de ônibus",
+      "month": 3,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1000,
+      "dtadd": "2024-03-29T12:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "type": "gastos",
+      "data": "2024-04-08",
+      "descricao": "Lanche no shopping",
+      "month": 4,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1500,
+      "dtadd": "2024-04-09T12:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "type": "gastos",
+      "data": "2024-04-15",
+      "descricao": "Cinema com amigos",
+      "month": 4,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3000,
+      "dtadd": "2024-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "type": "ganhos",
+      "data": "2024-04-25",
+      "descricao": "Salário",
+      "month": 4,
+      "categoria": {
+        "label": "Programação",
+        "value": "programacao",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 50000,
+      "dtadd": "2024-04-26T12:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "type": "gastos",
+      "data": "2024-04-28",
+      "descricao": "Uber para o aeroporto",
+      "month": 4,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4000,
+      "dtadd": "2024-04-29T12:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "type": "gastos",
+      "data": "2024-04-25",
+      "descricao": "Manutenção do carro",
+      "month": 4,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 6000,
+      "dtadd": "2024-04-26T12:00:00.000Z"
+    },
+    {
+      "id": "17",
+      "type": "gastos",
+      "data": "2024-05-03",
+      "descricao": "Café da manhã",
+      "month": 5,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-05-04T12:00:00.000Z"
+    },
+    {
+      "id": "18",
+      "type": "gastos",
+      "data": "2024-05-12",
+      "descricao": "Compra de presentes",
+      "month": 5,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4000,
+      "dtadd": "2024-05-13T12:00:00.000Z"
+    },
+    {
+      "id": "19",
+      "type": "ganhos",
+      "data": "2024-05-20",
+      "descricao": "Trabalho extra",
+      "month": 5,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 7000,
+      "dtadd": "2024-05-21T12:00:00.000Z"
+    },
+    {
+      "id": "20",
+      "type": "gastos",
+      "data": "2024-05-25",
+      "descricao": "Táxi",
+      "month": 5,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1500,
+      "dtadd": "2024-05-26T12:00:00.000Z"
+    },
+    {
+      "id": "21",
+      "type": "gastos",
+      "data": "2024-06-05",
+      "descricao": "Almoço rápido",
+      "month": 6,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1200,
+      "dtadd": "2024-06-06T12:00:00.000Z"
+    },
+    {
+      "id": "22",
+      "type": "gastos",
+      "data": "2024-06-15",
+      "descricao": "Festa junina",
+      "month": 6,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3200,
+      "dtadd": "2024-06-16T12:00:00.000Z"
+    },
+    {
+      "id": "23",
+      "type": "ganhos",
+      "data": "2024-06-20",
+      "descricao": "Projeto freelance",
+      "month": 6,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 10000,
+      "dtadd": "2024-06-21T12:00:00.000Z"
+    },
+    {
+      "id": "24",
+      "type": "gastos",
+      "data": "2024-06-25",
+      "descricao": "Passagem de avião",
+      "month": 6,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-06-26T12:00:00.000Z"
+    },
+    {
+      "id": "25",
+      "type": "gastos",
+      "data": "2024-07-07",
+      "descricao": "Jantar romântico",
+      "month": 7,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 5000,
+      "dtadd": "2024-07-08T12:00:00.000Z"
+    },
+    {
+      "id": "26",
+      "type": "gastos",
+      "data": "2024-07-14",
+      "descricao": "Balada com amigos",
+      "month": 7,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 7000,
+      "dtadd": "2024-07-15T12:00:00.000Z"
+    },
+    {
+      "id": "27",
+      "type": "ganhos",
+      "data": "2024-07-21",
+      "descricao": "Consultoria de programação",
+      "month": 7,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-07-22T12:00:00.000Z"
+    },
+    {
+      "id": "28",
+      "type": "gastos",
+      "data": "2024-07-30",
+      "descricao": "Transporte público",
+      "month": 7,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2000,
+      "dtadd": "2024-07-31T12:00:00.000Z"
+    },
+    {
+      "id": "29",
+      "type": "gastos",
+      "data": "2024-08-05",
+      "descricao": "Fast food",
+      "month": 8,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1800,
+      "dtadd": "2024-08-06T12:00:00.000Z"
+    },
+    {
+      "id": "30",
+      "type": "gastos",
+      "data": "2024-08-12",
+      "descricao": "Show de música",
+      "month": 8,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8500,
+      "dtadd": "2024-08-13T12:00:00.000Z"
+    },
+    {
+      "id": "31",
+      "type": "ganhos",
+      "data": "2024-08-20",
+      "descricao": "Projeto de software",
+      "month": 8,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-08-21T12:00:00.000Z"
+    },
+    {
+      "id": "32",
+      "type": "gastos",
+      "data": "2024-08-28",
+      "descricao": "Revisão do carro",
+      "month": 8,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-08-29T12:00:00.000Z"
+    },
+    {
+      "id": "33",
+      "type": "gastos",
+      "data": "2024-09-02",
+      "descricao": "Almoço de negócios",
+      "month": 9,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 6000,
+      "dtadd": "2024-09-03T12:00:00.000Z"
+    },
+    {
+      "id": "34",
+      "type": "gastos",
+      "data": "2024-09-11",
+      "descricao": "Festa de casamento",
+      "month": 9,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-09-12T12:00:00.000Z"
+    },
+    {
+      "id": "35",
+      "type": "ganhos",
+      "data": "2024-09-20",
+      "descricao": "Contrato de desenvolvimento",
+      "month": 9,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 20000,
+      "dtadd": "2024-09-21T12:00:00.000Z"
+    },
+    {
+      "id": "36",
+      "type": "gastos",
+      "data": "2024-09-27",
+      "descricao": "Aluguel de carro",
+      "month": 9,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 9000,
+      "dtadd": "2024-09-28T12:00:00.000Z"
+    },
+    {
+      "id": "37",
+      "type": "gastos",
+      "data": "2024-10-04",
+      "descricao": "Pizza delivery",
+      "month": 10,
+      "categoria": {
+        "label": "Alimentação",
+        "value": "alimentacao",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍔",
+          "value": "comida"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4000,
+      "dtadd": "2024-10-05T12:00:00.000Z"
+    },
+    {
+      "id": "38",
+      "type": "gastos",
+      "data": "2024-10-14",
+      "descricao": "Festa de Halloween",
+      "month": 10,
+      "categoria": {
+        "label": "Festa",
+        "value": "festa",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "39",
+      "type": "ganhos",
+      "data": "2024-10-20",
+      "descricao": "Consultoria tech",
+      "month": 10,
+      "categoria": {
+        "label": "Programação",
+        "value": "programação",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-10-21T12:00:00.000Z"
+    },
+    {
+      "id": "40",
+      "type": "gastos",
+      "data": "2024-10-25",
+      "descricao": "Transporte urbano",
+      "month": 10,
+      "categoria": {
+        "label": "Transporte",
+        "value": "transporte",
+        "cor": {
+          "label": "Azul",
+          "value": "blue"
+        },
+        "emoji": {
+          "label": "🚌",
+          "value": "onibus"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1000,
+      "dtadd": "2024-10-26T12:00:00.000Z"
+    },
+    {
+      "id": "1",
+      "type": "gastos",
+      "data": "2024-04-15",
+      "descricao": "Cinema com amigos",
+      "month": 4,
+      "categoria": {
+        "label": "Cinema",
+        "value": "cinema",
+        "cor": {
+          "label": "Roxo",
+          "value": "purple"
+        },
+        "emoji": {
+          "label": "🎬",
+          "value": "cinema"
+        }
+      },
+      "parcelas": 0,
+      "valor": 3000,
+      "dtadd": "2024-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "type": "gastos",
+      "data": "2024-07-08",
+      "descricao": "Livros novos",
+      "month": 7,
+      "categoria": {
+        "label": "Livros",
+        "value": "livros",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "📚",
+          "value": "livros"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-07-09T12:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "type": "gastos",
+      "data": "2024-08-20",
+      "descricao": "Concerto de música",
+      "month": 8,
+      "categoria": {
+        "label": "Música",
+        "value": "musica",
+        "cor": {
+          "label": "Verde Agua",
+          "value": "bluemarin"
+        },
+        "emoji": {
+          "label": "🎵",
+          "value": "musica"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2500,
+      "dtadd": "2024-08-21T12:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "type": "gastos",
+      "data": "2024-06-05",
+      "descricao": "Ração para cachorro",
+      "month": 6,
+      "categoria": {
+        "label": "Animais de Estimação",
+        "value": "animais",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🐶",
+          "value": "cachorro"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-06-06T12:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "type": "gastos",
+      "data": "2024-05-12",
+      "descricao": "Material de arte",
+      "month": 5,
+      "categoria": {
+        "label": "Arte",
+        "value": "arte",
+        "cor": {
+          "label": "Vermelho",
+          "value": "red"
+        },
+        "emoji": {
+          "label": "🎨",
+          "value": "arte"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-05-13T12:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "type": "gastos",
+      "data": "2024-09-18",
+      "descricao": "Curso de programação",
+      "month": 9,
+      "categoria": {
+        "label": "Tecnologia",
+        "value": "tecnologia",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 500,
+      "dtadd": "2024-09-19T12:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "type": "gastos",
+      "data": "2024-11-03",
+      "descricao": "Aniversário amigo",
+      "month": 11,
+      "categoria": {
+        "label": "Eventos",
+        "value": "eventos",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 20000,
+      "dtadd": "2024-11-04T12:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "type": "gastos",
+      "data": "2024-07-22",
+      "descricao": "Produtos de beleza",
+      "month": 7,
+      "categoria": {
+        "label": "Beleza",
+        "value": "beleza",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "💄",
+          "value": "maquiagem"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1800,
+      "dtadd": "2024-07-23T12:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "type": "gastos",
+      "data": "2024-10-10",
+      "descricao": "Pizza com amigos",
+      "month": 10,
+      "categoria": {
+        "label": "Comida",
+        "value": "comida",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍕",
+          "value": "pizza"
+        }
+      },
+      "parcelas": 0,
+      "valor": 5000,
+      "dtadd": "2024-10-11T12:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "type": "gastos",
+      "data": "2024-12-05",
+      "descricao": "Investimento em ações",
+      "month": 12,
+      "categoria": {
+        "label": "Finanças",
+        "value": "financas",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1000,
+      "dtadd": "2024-12-06T12:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "type": "gastos",
+      "data": "2024-04-29",
+      "descricao": "Cinema sozinho",
+      "month": 4,
+      "categoria": {
+        "label": "Cinema",
+        "value": "cinema",
+        "cor": {
+          "label": "Roxo",
+          "value": "purple"
+        },
+        "emoji": {
+          "label": "🎬",
+          "value": "cinema"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1500,
+      "dtadd": "2024-04-30T12:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "type": "gastos",
+      "data": "2024-08-08",
+      "descricao": "Compra de camisetas",
+      "month": 8,
+      "categoria": {
+        "label": "Roupas",
+        "value": "roupas",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "👕",
+          "value": "camisa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2000,
+      "dtadd": "2024-08-09T12:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "type": "gastos",
+      "data": "2024-09-30",
+      "descricao": "Consulta médica",
+      "month": 9,
+      "categoria": {
+        "label": "Saúde",
+        "value": "saude",
+        "cor": {
+          "label": "Vermelho",
+          "value": "red"
+        },
+        "emoji": {
+          "label": "🏥",
+          "value": "hospital"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-10-01T12:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "type": "gastos",
+      "data": "2024-06-18",
+      "descricao": "Curso de pintura",
+      "month": 6,
+      "categoria": {
+        "label": "Arte",
+        "value": "arte",
+        "cor": {
+          "label": "Vermelho",
+          "value": "red"
+        },
+        "emoji": {
+          "label": "🎨",
+          "value": "arte"
+        }
+      },
+      "parcelas": 0,
+      "valor": 30000,
+      "dtadd": "2024-06-19T12:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "type": "gastos",
+      "data": "2024-11-15",
+      "descricao": "Smartphone novo",
+      "month": 11,
+      "categoria": {
+        "label": "Tecnologia",
+        "value": "tecnologia",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 1500,
+      "dtadd": "2024-11-16T12:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "type": "gastos",
+      "data": "2024-05-05",
+      "descricao": "Festa de aniversário",
+      "month": 5,
+      "categoria": {
+        "label": "Eventos",
+        "value": "eventos",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 40000,
+      "dtadd": "2024-05-06T12:00:00.000Z"
+    },
+    {
+      "id": "17",
+      "type": "gastos",
+      "data": "2024-07-03",
+      "descricao": "Maquiagem",
+      "month": 7,
+      "categoria": {
+        "label": "Beleza",
+        "value": "beleza",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "💄",
+          "value": "maquiagem"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-07-04T12:00:00.000Z"
+    },
+    {
+      "id": "18",
+      "type": "gastos",
+      "data": "2024-10-28",
+      "descricao": "Jantar em restaurante",
+      "month": 10,
+      "categoria": {
+        "label": "Comida",
+        "value": "comida",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍕",
+          "value": "pizza"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-10-29T12:00:00.000Z"
+    },
+    {
+      "id": "19",
+      "type": "gastos",
+      "data": "2024-12-20",
+      "descricao": "Investimento em fundo",
+      "month": 12,
+      "categoria": {
+        "label": "Finanças",
+        "value": "financas",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 8000,
+      "dtadd": "2024-12-21T12:00:00.000Z"
+    },
+    {
+      "id": "20",
+      "type": "gastos",
+      "data": "2024-05-22",
+      "descricao": "Curso de culinária",
+      "month": 5,
+      "categoria": {
+        "label": "Comida",
+        "value": "comida",
+        "cor": {
+          "label": "Amarelo",
+          "value": "yellow"
+        },
+        "emoji": {
+          "label": "🍕",
+          "value": "pizza"
+        }
+      },
+      "parcelas": 0,
+      "valor": 18000,
+      "dtadd": "2024-05-23T12:00:00.000Z"
+    },
+    {
+      "id": "21",
+      "type": "ganhos",
+      "data": "2024-04-01",
+      "descricao": "Salário",
+      "month": 4,
+      "categoria": {
+        "label": "Finanças",
+        "value": "financas",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 5000,
+      "dtadd": "2024-04-02T12:00:00.000Z"
+    },
+    {
+      "id": "22",
+      "type": "ganhos",
+      "data": "2024-07-15",
+      "descricao": "Bônus",
+      "month": 7,
+      "categoria": {
+        "label": "Investimentos",
+        "value": "investimentos",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 10000,
+      "dtadd": "2024-07-16T12:00:00.000Z"
+    },
+    {
+      "id": "23",
+      "type": "ganhos",
+      "data": "2024-08-05",
+      "descricao": "Freelance",
+      "month": 8,
+      "categoria": {
+        "label": "Programação",
+        "value": "programacao",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 80000,
+      "dtadd": "2024-08-06T12:00:00.000Z"
+    },
+    {
+      "id": "24",
+      "type": "ganhos",
+      "data": "2024-06-10",
+      "descricao": "Venda de objetos de arte",
+      "month": 6,
+      "categoria": {
+        "label": "Arte",
+        "value": "arte",
+        "cor": {
+          "label": "Vermelho",
+          "value": "red"
+        },
+        "emoji": {
+          "label": "🎨",
+          "value": "arte"
+        }
+      },
+      "parcelas": 0,
+      "valor": 4000,
+      "dtadd": "2024-06-11T12:00:00.000Z"
+    },
+    {
+      "id": "25",
+      "type": "ganhos",
+      "data": "2024-05-20",
+      "descricao": "Consultoria",
+      "month": 5,
+      "categoria": {
+        "label": "Tecnologia",
+        "value": "tecnologia",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "💻",
+          "value": "computador"
+        }
+      },
+      "parcelas": 0,
+      "valor": 12000,
+      "dtadd": "2024-05-21T12:00:00.000Z"
+    },
+    {
+      "id": "26",
+      "type": "ganhos",
+      "data": "2024-09-25",
+      "descricao": "Presente de aniversário",
+      "month": 9,
+      "categoria": {
+        "label": "Eventos",
+        "value": "eventos",
+        "cor": {
+          "label": "Rosa",
+          "value": "pink"
+        },
+        "emoji": {
+          "label": "🎉",
+          "value": "festa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 15000,
+      "dtadd": "2024-09-26T12:00:00.000Z"
+    },
+    {
+      "id": "27",
+      "type": "ganhos",
+      "data": "2024-11-10",
+      "descricao": "Venda de roupas usadas",
+      "month": 11,
+      "categoria": {
+        "label": "Roupas",
+        "value": "roupas",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "👕",
+          "value": "camisa"
+        }
+      },
+      "parcelas": 0,
+      "valor": 2500,
+      "dtadd": "2024-11-11T12:00:00.000Z"
+    },
+    {
+      "id": "28",
+      "type": "ganhos",
+      "data": "2024-07-30",
+      "descricao": "Palestra",
+      "month": 7,
+      "categoria": {
+        "label": "Educação",
+        "value": "educacao",
+        "cor": {
+          "label": "Laranja",
+          "value": "orange"
+        },
+        "emoji": {
+          "label": "📚",
+          "value": "livros"
+        }
+      },
+      "parcelas": 0,
+      "valor": 30000,
+      "dtadd": "2024-07-31T12:00:00.000Z"
+    },
+    {
+      "id": "29",
+      "type": "ganhos",
+      "data": "2024-10-12",
+      "descricao": "Bonificação no trabalho",
+      "month": 10,
+      "categoria": {
+        "label": "Investimentos",
+        "value": "investimentos",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 6000,
+      "dtadd": "2024-10-13T12:00:00.000Z"
+    },
+    {
+      "id": "30",
+      "type": "ganhos",
+      "data": "2024-12-15",
+      "descricao": "Prêmio de loteria",
+      "month": 12,
+      "categoria": {
+        "label": "Finanças",
+        "value": "financas",
+        "cor": {
+          "label": "Verde",
+          "value": "green"
+        },
+        "emoji": {
+          "label": "📈",
+          "value": "grafico"
+        }
+      },
+      "parcelas": 0,
+      "valor": 10000,
+      "dtadd": "2024-12-16T12:00:00.000Z"
+    }
+  ]
+}

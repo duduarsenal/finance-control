@@ -17,7 +17,7 @@ import {
   GenericProps,
   OutletContextProps,
 } from "@typings";
-import { Icons, cn, currencyFormatPT, months } from "@utils";
+import { Icons, cn, currencyFormatPT, months, campos as camposJSON, categorias as categoriasJSON } from "@utils";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -25,8 +25,8 @@ export function Dashboard() {
   const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null);
   const [modalCategoria, setModalCategoria] = useState<boolean>(false);
 
-  const [categorias, setCategorias] = useState<CategoriaProps[]>([]);
-  const [campos, setCampos] = useState<CamposProps[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaProps[]>(categoriasJSON);
+  const [campos, setCampos] = useState<CamposProps[]>(camposJSON);
 
   const [totalGastos, setTotalGastos] = useState<number>(0);
   const [totalGanhos, setTotalGanhos] = useState<number>(0);
@@ -105,14 +105,14 @@ export function Dashboard() {
 
   async function handleStates() {
     // SALVA LISTA DE CATEGORIAS NO STATE BUSCANDO DO LOCALSTORAGE/BACK
-    setCategorias(await getCategorias());
+    setCategorias(categoriasJSON);
     // SALVA LISTA DE CAMPOS NO STATE BUSCANDO DO LOCALSTORAGE/BACK (APLICANDO FILTRO DE MÊS CASO ESTEJA SELECIONADO)
     setCampos(
       (monthSelected
-        ? (await getCampos()).filter(
+        ? (camposJSON).filter(
           (campo) => campo.month == monthSelected?.value
         )
-        : await getCampos()
+        : camposJSON
       ).sort(
         (a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime()
       )
@@ -169,7 +169,7 @@ export function Dashboard() {
   useEffect(() => {
     processarCamposByAno(campos, "ganhos", setGanhosByYear)
     processarCamposByAno(campos, "gastos", setGastosByYear)
-  }, [campos, categorias, totalGastos, totalGanhos, saldoTotal])
+  }, [campos, categorias, totalGastos, totalGanhos, saldoTotal, year])
 
   // PROCESSA OS CAMPOS PARA EXIBIR NO GRÁFICO MENSAL DE DONUT
   function processarCamposByMonth(campos: CamposProps[], tipo: string, setState: (values: CategoriasGraficoProps[]) => void) {
@@ -186,7 +186,7 @@ export function Dashboard() {
       { label: "green", value: "#89e23b" }
     ]
 
-    const mesFiltro = month ? month.value : Number(new Date().toISOString().split("-")[1])
+    const mesFiltro = monthSelected ? monthSelected.value : month ? month.value : Number(new Date().toISOString().split("-")[1])
 
     const camposByTipo = campos.filter((campo) => {
       if (campo.type === tipo && campo.month.toString() === mesFiltro.toString()) return campo
@@ -217,7 +217,7 @@ export function Dashboard() {
   // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
   useEffect(() => {
     processarCamposByMonth(campos, typeGraphicDonut, setCategoriasByMonth)
-  }, [campos, typeGraphicDonut, month])
+  }, [campos, typeGraphicDonut, month, monthSelected])
 
   return (
     <main className="px-2 overflow-y-hidden h-max">
@@ -291,13 +291,13 @@ export function Dashboard() {
         </h4>
 
         {/* GRAFICO DE PIZZA MENSAL */}
-        <div className="flex items-center justify-center w-full h-full gap-4">
+        <div className="flex flex-row flex-wrap items-center justify-between w-full h-full gap-4">
           {/* GRÁFICO */}
-          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 rounded-md bg-brand-dark-gray min-w-[750px]">
+          <div className="relative flex flex-col items-center justify-center h-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] w-full m-auto">
             <div className="flex items-center justify-between w-full">
               <div className="w-max">
                 <Select
-                  value={(month ? month : months.find((_, index) => index === new Date().getMonth())) as CategoriaProps}
+                  value={(monthSelected ? monthSelected : month ? month : months.find((_, index) => index === new Date().getMonth())) as CategoriaProps}
                   setValue={setMonth}
                   optionDefault="Selecione um mês"
                   options={months}
@@ -340,18 +340,18 @@ export function Dashboard() {
             </div>
           </div>
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex items-center justify-center w-full h-full col-span-2">
+          <div className="flex items-center justify-center h-full w-full max-w-[500px] m-auto">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia impedit consequuntur distinctio praesentium animi sapiente nesciunt earum in. Nostrum temporibus ratione tempora provident? Doloribus pariatur sequi, dolorum voluptatibus adipisci blanditiis?
           </div>
         </div>
 
         {/* GRÁFICO DE BARRAS DO ANO */}
-        <div className="flex items-center justify-center w-full h-full gap-4">
+        <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-4">
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex items-center justify-center w-full h-full">
+          <div className="flex items-center justify-center w-full h-full max-w-[500px]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod eius, iure dignissimos quam deserunt repellat quis. Qui aliquid facere accusamus dolor in architecto saepe porro magni pariatur, ipsum aspernatur accusantium.
           </div>
-          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray min-w-[750px]">
+          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] m-auto">
             <div className="flex justify-between w-full">
               <div className="w-max">
                 <Select

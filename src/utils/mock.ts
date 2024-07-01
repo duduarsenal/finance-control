@@ -42,6 +42,5 @@ export const cores = [
     { label: "Vermelho", value: "red" },
     { label: "Verde Agua", value: "bluemarin" },
     { label: "Rosa", value: "pink" },
-    { label: "Verde", value: "green" },
-    
+    { label: "Verde", value: "green" }
 ]
