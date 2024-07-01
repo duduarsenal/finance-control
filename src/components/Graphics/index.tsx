@@ -27,7 +27,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
       labels: {
         style: {
           colors: "#E1E1E1",
-          fontFamily: "Nunito",
+          fontFamily: "Nunito, sans-serif",
           fontWeight: "semibold",
           fontSize: "16px",
           cssClass: "col-types",
@@ -38,13 +38,13 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
       labels: {
         style: {
           colors: "#E1E1E1",
-          fontFamily: "Nunito",
+          fontFamily: "Nunito, sans-serif",
           fontWeight: "semibold",
           fontSize: "14px",
           cssClass: "row-types",
         },
         formatter(val) {
-          return "R$ " + val;
+          return currencyFormatPT(val);
         },
       },
     },
@@ -69,7 +69,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
     tooltip: {
       enabled: true,
       fillSeriesColor: true,
-      cssClass: "texte",
+      cssClass: "tooltip-bar",
       style: {
         fontSize: "14px",
         fontFamily: "Nunito",
@@ -78,11 +78,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
         show: false,
       },
       custom(options) {
-        return currencyFormatPT(
-          options.series[options.seriesIndex][options.dataPointIndex]
-        )
-          .toString()
-          .replace(",", "");
+        return "Total: " + currencyFormatPT(options.series[options.seriesIndex][options.dataPointIndex])
       },
     },
     legend: {
@@ -91,7 +87,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
   };
 
   return (
-    <div className={cn(className)}>
+    <div className={cn("flex items-center justify-center w-full h-full", className)}>
       <Chart options={options} series={options.series} width={700} type="bar" />
     </div>
   );
@@ -103,14 +99,28 @@ export function GraphicsPie({className, data}: GraphicsPieProps) {
     labels: data.map((label) => label.label),
     series: data.map((serie) => serie.value),
     colors: data.map((color) => color.color),
+    dataLabels: {
+      style: {
+        colors: ["#0F0F0F"],
+        fontWeight: "bold",
+        fontSize: "14px"
+      },
+      dropShadow: {
+        enabled: false
+      }
+    },
     tooltip: {
       y: {
         formatter(val) {
-          return `R$ ${val}`
+          if(val === 3141592653589793) return "Nenhum item registrado"
+          else return currencyFormatPT(val)
         }
       },
       hideEmptySeries: true,
-      cssClass: "tooltip-donut"
+      cssClass: "tooltip-donut",
+      style: {
+        fontSize: '14px'
+      },
     },
     plotOptions: {
       pie: {
@@ -120,8 +130,12 @@ export function GraphicsPie({className, data}: GraphicsPieProps) {
         }
       }
     },
+    yaxis: {
+      show: false
+    },
     stroke: {
-      colors: ['#1F1F1F80']
+      colors: ['#1F1F1F80'],
+      width: 2
     },
     legend: {
       show: false

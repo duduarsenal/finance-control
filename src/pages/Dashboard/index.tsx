@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { getCampos, getCategorias, saveCampos, saveCategorias } from "@api";
 import {
   Button,
@@ -12,6 +13,7 @@ import {
 import {
   CamposProps,
   CategoriaProps,
+  CategoriasGraficoProps,
   GenericProps,
   OutletContextProps,
 } from "@typings";
@@ -37,10 +39,12 @@ export function Dashboard() {
   const [loadindBar, setLoadindBar] = useState<boolean>(false);
   const [loadindDonut, setLoadindDonut] = useState<boolean>(false);
 
-  const [ganhosByYear, setGanhosByYear] = useState<any[]>([])
-  const [gastosByYear, setGastosByYear] = useState<any[]>([])
-  
-  const [categoriasByMonth, setCategoriasByMonth] = useState<any>()
+  const [ganhosByYear, setGanhosByYear] = useState<number[]>([])
+  const [gastosByYear, setGastosByYear] = useState<number[]>([])
+
+  const [typeGraphicDonut, setTypeGraphicDonut] = useState<string>("ganhos")
+
+  const [categoriasByMonth, setCategoriasByMonth] = useState<CategoriasGraficoProps[] | null>(null)
 
   const { addNotification, setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>();
 
@@ -106,8 +110,8 @@ export function Dashboard() {
     setCampos(
       (monthSelected
         ? (await getCampos()).filter(
-            (campo) => campo.month == monthSelected?.value
-          )
+          (campo) => campo.month == monthSelected?.value
+        )
         : await getCampos()
       ).sort(
         (a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime()
@@ -135,42 +139,85 @@ export function Dashboard() {
     setSaldoTotal(totalGanhos - totalGastos);
   }, [totalGanhos, totalGastos]);
 
-  function processarCamposByAno(campos: CamposProps[], tipo: string, setState: (values: any[]) => void){
-    const result = Array(12).fill(0);
-    
+  // PROCESSA OS CAMPOS PARA EXIBIR NO GRAFICO ANUAL DE BARRAS
+  function processarCamposByAno(campos: CamposProps[], tipo: string, setState: (values: number[]) => void) {
+    setLoadindBar(true)
+    const result: number[] = Array(12).fill(0);
+
     let camposFiltrados: CamposProps[] = campos;
 
-    if(year){
-      camposFiltrados = camposFiltrados.filter((campo) => campo.data.split("-")[0] === year.value.toString())
+    if (year) {
+      camposFiltrados = camposFiltrados
+      .filter((campo) => campo.data.split("-")[0] === year.value.toString())
     } else {
-      camposFiltrados = camposFiltrados.filter((campo) => campo.data.split("-")[0] === new Date().getFullYear().toString())
+      camposFiltrados = camposFiltrados
+      .filter((campo) => campo.data.split("-")[0] === new Date().getFullYear().toString())
     }
 
     camposFiltrados.forEach((campo) => {
       if (campo.type === tipo) {
-        let value = currencyFormatPT(campo.valor)
-          .split(" ")[1]
-          .replace(/[\.\,]/g, "");
-        value = value.slice(0, -2) + "." + value.slice(-2);
-        const numValue = Number(value);
-
-        if (!isNaN(numValue)) {
-          result[campo.month - 1] += numValue; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
+        if (!isNaN(campo.valor)) {
+          result[campo.month - 1] += campo.valor; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
         }
       }
     });
 
     setState(result);
-  };
-
+    setLoadindBar(false)
+  }
+  // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
   useEffect(() => {
     processarCamposByAno(campos, "ganhos", setGanhosByYear)
     processarCamposByAno(campos, "gastos", setGastosByYear)
   }, [campos, categorias, totalGastos, totalGanhos, saldoTotal])
 
-  function processarCamposByMonth(campos: CamposProps[], tipo: string, setState: (values: any[]) => void){
+  // PROCESSA OS CAMPOS PARA EXIBIR NO GRÁFICO MENSAL DE DONUT
+  function processarCamposByMonth(campos: CamposProps[], tipo: string, setState: (values: CategoriasGraficoProps[]) => void) {
     
+    setLoadindDonut(true)
+    const cores = [
+      { label: "yellow", value: "#ffc300" },
+      { label: "red", value: "#D1001F" },
+      { label: "orange", value: "#fe8f00" },
+      { label: "pink", value: "#ff83b6" },
+      { label: "purple", value: "#7542fe" },
+      { label: "blue", value: "#1061ff" },
+      { label: "bluemarin", value: "#198e7b" },
+      { label: "green", value: "#89e23b" }
+    ]
+
+    const mesFiltro = month ? month.value : Number(new Date().toISOString().split("-")[1])
+
+    const camposByTipo = campos.filter((campo) => {
+      if (campo.type === tipo && campo.month.toString() === mesFiltro.toString()) return campo
+    })
+
+    const camposFiltrados: { label: string, value: number, color: string }[] = [];
+
+    camposByTipo.forEach((ct) => {
+
+      if (!camposFiltrados.some((campo) => campo.label === ct.categoria.label)) {
+        camposFiltrados.push(
+          {
+            label: ct.categoria.label,
+            value: ct.valor,
+            color: cores.find((cor) => cor.label === ct.categoria.cor?.value)?.value as string
+          })
+      } else {
+        const existingCampo = camposFiltrados.find((campo) => campo.label === ct.categoria.label);
+        if (existingCampo) {
+            existingCampo.value += ct.valor;
+        }
+      }
+    })
+
+    setState(camposFiltrados)
+    setLoadindDonut(false)
   }
+  // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
+  useEffect(() => {
+    processarCamposByMonth(campos, typeGraphicDonut, setCategoriasByMonth)
+  }, [campos, typeGraphicDonut, month])
 
   return (
     <main className="px-2 overflow-y-hidden h-max">
@@ -238,15 +285,15 @@ export function Dashboard() {
       )}
 
       {/* GRÁFICOS */}
-      <div className="grid grid-cols-2 py-6 gap-6 overflow-x-hidden">
+      <div className="flex flex-col gap-6 py-6">
         <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md col-span-2 w-max m-auto">
           Gráficos
         </h4>
 
         {/* GRAFICO DE PIZZA MENSAL */}
-        <div className="grid grid-cols-5 w-full h-full col-span-2 items-center justify-center gap-4">
+        <div className="flex items-center justify-center w-full h-full gap-4">
           {/* GRÁFICO */}
-          <div className="flex flex-col gap-6 bg-brand-dark-gray p-4 rounded-md w-full h-full col-span-3 items-center relative">
+          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 rounded-md bg-brand-dark-gray min-w-[750px]">
             <div className="flex items-center justify-between w-full">
               <div className="w-max">
                 <Select
@@ -261,13 +308,19 @@ export function Dashboard() {
               </div>
               <h4 className="font-normal text-[20px]">Estatisticas do Mês</h4>
               {/* SWITCH GASTOS/GANHOS */}
-              <Switch 
-                  type="text"
-                  option1={{label: "Ganhos", className: "text-brand-green font-bold"}}
-                  option2={{label: "Gastos", className: "text-brand-red font-bold"}}
-                  action1={() => console.log('act1')}
-                  action2={() => console.log('act2')}
-                  className="py-2"
+              <Switch
+                type="text"
+                option1={{ label: "Ganhos", className: "text-brand-green font-bold" }}
+                option2={{ label: "Gastos", className: "text-brand-red font-bold" }}
+                action1={() => {
+                  setTypeGraphicDonut("ganhos")
+                  processarCamposByMonth(campos, "ganhos", setCategoriasByMonth)
+                }}
+                action2={() => {
+                  setTypeGraphicDonut("gastos")
+                  processarCamposByMonth(campos, "gastos", setCategoriasByMonth)
+                }}
+                className="py-2"
               />
             </div>
             <div className="min-h-[400px] flex items-center overflow-hidden">
@@ -278,12 +331,10 @@ export function Dashboard() {
                 />
               ) : (
                 <GraphicsPie
-                  data={[
-                    { label: "Nubank", value: 250, color: "purple" },
-                    { label: "Santander", value: 900, color: "red" },
-                    { label: "Inter", value: 700, color: "orange" },
-                    { label: "Nubank", value: 1200, color: "violet" },
-                  ]}
+                  data={categoriasByMonth?.length
+                    ? categoriasByMonth
+                    : [{ label: "", value: 3141592653589793, color: "#808080" }]
+                  }
                 />
               )}
             </div>
@@ -295,12 +346,12 @@ export function Dashboard() {
         </div>
 
         {/* GRÁFICO DE BARRAS DO ANO */}
-        <div className="grid grid-cols-5 w-full h-full col-span-2 items-center justify-center gap-4">
+        <div className="flex items-center justify-center w-full h-full gap-4">
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex items-center justify-center w-full h-full col-span-2">
+          <div className="flex items-center justify-center w-full h-full">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod eius, iure dignissimos quam deserunt repellat quis. Qui aliquid facere accusamus dolor in architecto saepe porro magni pariatur, ipsum aspernatur accusantium.
           </div>
-          <div className="flex flex-col gap-6 bg-brand-dark-gray p-4 rounded-md w-full h-full col-span-3 items-center overflow-x-auto relative">
+          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray min-w-[750px]">
             <div className="flex justify-between w-full">
               <div className="w-max">
                 <Select
@@ -329,7 +380,7 @@ export function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="h-[410px] flex items-center overflow-hidden">
+            <div className="h-[410px] flex items-center justify-center w-full overflow-hidden">
               {loadindBar ? (
                 <Loading
                   isTrue={loadindBar}

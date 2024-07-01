@@ -67,12 +67,11 @@
     -moz-appearance: textfield;
   }
 
-  .texte{
-    color: black !important;
+  .tooltip-bar{
     font-weight: 800 !important;
     padding: 8px;
   }
 
-  .tooltip-donut{
+  .tooltip-donut, .tooltip-bar{
     color: black !important;
   }

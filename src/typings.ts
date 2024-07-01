@@ -187,3 +187,9 @@ export interface SwitchProps{
     action1: () => void
     action2: () => void
 } 
+
+export interface CategoriasGraficoProps{
+    label: string
+    value: number
+    color: string
+}
