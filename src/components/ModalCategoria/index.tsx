@@ -130,6 +130,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                             optionDefault="Emoji"
                             value={emoji as CategoriaProps}
                             setValue={setEmoji}
+                            emoji={true}
                         />
                     </div>
                     <div className="col-span-4">

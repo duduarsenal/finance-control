@@ -75,3 +75,13 @@
   .tooltip-donut, .tooltip-bar{
     color: black !important;
   }
+
+  @media (max-width: 1400px) {
+    .graphic-media{
+        max-width: 680px !important;
+    }
+
+    .graphic-info{
+      max-width: 450px !important;
+    }
+  }

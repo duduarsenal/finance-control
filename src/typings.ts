@@ -62,6 +62,7 @@ export interface SelectProps{
     required?: boolean
     direction?: string
     clearable?: boolean
+    emoji?: boolean
 }
 
 export interface DashboardProps{

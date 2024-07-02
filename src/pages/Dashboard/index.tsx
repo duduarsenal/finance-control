@@ -192,24 +192,23 @@ export function Dashboard() {
       if (campo.type === tipo && campo.month.toString() === mesFiltro.toString()) return campo
     })
 
-    const camposFiltrados: { label: string, value: number, color: string }[] = [];
+    const camposFiltrados = camposByTipo.reduce((acc: CategoriasGraficoProps[], ct: CamposProps) => {
+      
+      const existingCampo = acc.find((campo) => campo.label === ct.categoria.label);
 
-    camposByTipo.forEach((ct) => {
-
-      if (!camposFiltrados.some((campo) => campo.label === ct.categoria.label)) {
-        camposFiltrados.push(
+      if (existingCampo) {
+          existingCampo.value += ct.valor;
+      } else {
+        acc.push(
           {
             label: ct.categoria.label,
             value: ct.valor,
             color: cores.find((cor) => cor.label === ct.categoria.cor?.value)?.value as string
           })
-      } else {
-        const existingCampo = camposFiltrados.find((campo) => campo.label === ct.categoria.label);
-        if (existingCampo) {
-            existingCampo.value += ct.valor;
-        }
       }
-    })
+      
+      return acc
+    }, [])
 
     setState(camposFiltrados)
     setLoadindDonut(false)
@@ -293,7 +292,7 @@ export function Dashboard() {
         {/* GRAFICO DE PIZZA MENSAL */}
         <div className="flex flex-row flex-wrap items-center justify-between w-full h-full gap-4">
           {/* GRÁFICO */}
-          <div className="relative flex flex-col items-center justify-center h-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] w-full m-auto">
+          <div className="graphic-media relative flex flex-col items-center justify-center h-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] w-full m-auto">
             <div className="flex items-center justify-between w-full">
               <div className="w-max">
                 <Select
@@ -340,7 +339,7 @@ export function Dashboard() {
             </div>
           </div>
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex items-center justify-center h-full w-full max-w-[500px] m-auto">
+          <div className="graphic-info flex items-center justify-center h-full w-full max-w-[350px] lg:max-w-[500px] m-auto">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia impedit consequuntur distinctio praesentium animi sapiente nesciunt earum in. Nostrum temporibus ratione tempora provident? Doloribus pariatur sequi, dolorum voluptatibus adipisci blanditiis?
           </div>
         </div>
@@ -348,10 +347,10 @@ export function Dashboard() {
         {/* GRÁFICO DE BARRAS DO ANO */}
         <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-4">
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex items-center justify-center w-full h-full max-w-[500px]">
+          <div className="graphic-info flex items-center justify-center w-full h-full max-w-[350px] lg:max-w-[500px]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod eius, iure dignissimos quam deserunt repellat quis. Qui aliquid facere accusamus dolor in architecto saepe porro magni pariatur, ipsum aspernatur accusantium.
           </div>
-          <div className="relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] m-auto">
+          <div className="graphic-media relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray xl:max-w-[750px] max-w-[600px] m-auto">
             <div className="flex justify-between w-full">
               <div className="w-max">
                 <Select

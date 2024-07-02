@@ -16,7 +16,8 @@ export function Select({
     theme, 
     required = false, 
     direction = "down",
-    clearable = true
+    clearable = true,
+    emoji = false
 }: SelectProps) {
 
     const [select, setSelect] = useState(false);
@@ -149,13 +150,13 @@ export function Select({
                                 setValue({ label, value })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-2 hover:brightness-75 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999]",
+                            className={cn("py-1 px-2 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999] hover:bg-brand-dark-gray",
                                 {
                                     "py-2": colors,
                                     "border-b-0": options[index + 1] === (null || undefined),
                                     "hover:text-brand-gray": theme === "light",
                                     "basis-full": options.length <= 4,
-                                    "basis-1/3 hover:bg-[#80808050] hover:brightness-100 text-[20px] justify-center transition-all rounded-md": options.length > 12
+                                    "basis-1/3 hover:bg-[#80808050] hover:brightness-100 text-[20px] justify-center transition-all rounded-md": emoji
                                 })}
                             key={index}
                         >
@@ -175,17 +176,17 @@ export function Select({
                     {optionsCategorias && [...(direction === "up" ? optionsCategorias.reverse() : optionsCategorias)]
                     .filter((obj, index, self) => index === self
                     .findIndex((t) => t.value === obj.value))
-                    .map(({ label, value, cor, emoji }, index) => (
+                    .map(({ label, value, cor, emoji: thisEmoji }, index) => (
                         <span
                             onClick={() => {
-                                setValue({ label, value, cor, emoji })
+                                setValue({ label, value, cor, emoji: thisEmoji })
                                 setSelect(false)
                             }}
                             className={cn("py-1 px-1 odd:bg-brand-dark-gray hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full z-[99999]", 
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,
-                                    "basis-1/3": optionsCategorias.length > 12
+                                    "basis-1/3": emoji
                                 }
                             )}
                             key={index}
@@ -200,7 +201,7 @@ export function Select({
                                     "bg-colors-bluemarin": cor?.value === 'bluemarin',
                                     "bg-colors-green": cor?.value === 'green',
                                 })}>
-                                <span>{emoji?.label}</span>
+                                <span>{thisEmoji?.label}</span>
                                 <span className="truncate ">{label}</span>
                             </span>
                         </span>
