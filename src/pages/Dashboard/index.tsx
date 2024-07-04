@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { getCampos, getCategorias, saveCampos, saveCategorias } from "@api";
 import {
   Button,
@@ -17,7 +16,14 @@ import {
   GenericProps,
   OutletContextProps,
 } from "@typings";
-import { Icons, cn, currencyFormatPT, months, campos as camposJSON, categorias as categoriasJSON } from "@utils";
+import {
+  Icons,
+  cn,
+  currencyFormatPT,
+  months,
+  campos as camposJSON,
+  categorias as categoriasJSON
+} from "@utils";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
@@ -64,10 +70,7 @@ export function Dashboard() {
     // SALVA NOVA LISTA DE CAMPOS NO STATE
     setCampos(await getCampos());
 
-    addNotification(
-      "sucess",
-      `${campo.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`
-    );
+    addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`);
   }
 
   async function editCampo(campo: CamposProps) {
@@ -82,10 +85,7 @@ export function Dashboard() {
     // SALVA NOVA LISTA DE CAMPOS NO STATE
     setCampos(await getCampos());
 
-    addNotification(
-      "sucess",
-      `${campo.type === "gastos" ? "Gasto" : "Ganho"} editado com sucesso.`
-    );
+    addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} editado com sucesso.`);
   }
 
   async function removeCampo(campo: CamposProps) {
@@ -97,10 +97,7 @@ export function Dashboard() {
     // SALVA NOVA LISTA DE CAMPOS NO STATE
     setCampos(await getCampos());
 
-    addNotification(
-      "sucess",
-      `${campo.type === "gastos" ? "Gasto" : "Ganho"} removido com sucesso.`
-    );
+    addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} removido com sucesso.`);
   }
 
   async function handleStates() {
@@ -109,13 +106,9 @@ export function Dashboard() {
     // SALVA LISTA DE CAMPOS NO STATE BUSCANDO DO LOCALSTORAGE/BACK (APLICANDO FILTRO DE MÊS CASO ESTEJA SELECIONADO)
     setCampos(
       (monthSelected
-        ? (camposJSON).filter(
-          (campo) => campo.month == monthSelected?.value
-        )
+        ? camposJSON.filter((campo) => campo.month == monthSelected?.value)
         : camposJSON
-      ).sort(
-        (a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime()
-      )
+      ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
     );
 
     setIsLoading(false);
@@ -139,84 +132,97 @@ export function Dashboard() {
     setSaldoTotal(totalGanhos - totalGastos);
   }, [totalGanhos, totalGastos]);
 
-  // PROCESSA OS CAMPOS PARA EXIBIR NO GRAFICO ANUAL DE BARRAS
-  function processarCamposByAno(campos: CamposProps[], tipo: string, setState: (values: number[]) => void) {
-    setLoadindBar(true)
-    const result: number[] = Array(12).fill(0);
-
-    let camposFiltrados: CamposProps[] = campos;
-
-    if (year) {
-      camposFiltrados = camposFiltrados
-      .filter((campo) => campo.data.split("-")[0] === year.value.toString())
-    } else {
-      camposFiltrados = camposFiltrados
-      .filter((campo) => campo.data.split("-")[0] === new Date().getFullYear().toString())
-    }
-
-    camposFiltrados.forEach((campo) => {
-      if (campo.type === tipo) {
-        if (!isNaN(campo.valor)) {
-          result[campo.month - 1] += campo.valor; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
-        }
-      }
-    });
-
-    setState(result);
-    setLoadindBar(false)
-  }
   // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
   useEffect(() => {
+    // PROCESSA OS CAMPOS PARA EXIBIR NO GRAFICO ANUAL DE BARRAS
+    function processarCamposByAno(campos: CamposProps[], tipo: string, setState: (values: number[]) => void) {
+      setLoadindBar(true)
+      const result: number[] = Array(12).fill(0);
+
+      let camposFiltrados: CamposProps[] = campos;
+
+      if (year) {
+        camposFiltrados = camposFiltrados
+          .filter((campo) => campo.data.split("-")[0] === year.value.toString())
+      } else {
+        camposFiltrados = camposFiltrados
+          .filter((campo) => campo.data.split("-")[0] === new Date().getFullYear().toString())
+      }
+
+      camposFiltrados.forEach((campo) => {
+        if (campo.type === tipo) {
+          if (!isNaN(campo.valor)) {
+            result[campo.month - 1] += campo.valor; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
+          }
+        }
+      });
+
+      setState(result);
+      setLoadindBar(false)
+    }
+
     processarCamposByAno(campos, "ganhos", setGanhosByYear)
     processarCamposByAno(campos, "gastos", setGastosByYear)
   }, [campos, categorias, totalGastos, totalGanhos, saldoTotal, year])
 
-  // PROCESSA OS CAMPOS PARA EXIBIR NO GRÁFICO MENSAL DE DONUT
-  function processarCamposByMonth(campos: CamposProps[], tipo: string, setState: (values: CategoriasGraficoProps[]) => void) {
-    
-    setLoadindDonut(true)
-    const cores = [
-      { label: "yellow", value: "#ffc300" },
-      { label: "red", value: "#D1001F" },
-      { label: "orange", value: "#fe8f00" },
-      { label: "pink", value: "#ff83b6" },
-      { label: "purple", value: "#7542fe" },
-      { label: "blue", value: "#1061ff" },
-      { label: "bluemarin", value: "#198e7b" },
-      { label: "green", value: "#89e23b" }
-    ]
-
-    const mesFiltro = monthSelected ? monthSelected.value : month ? month.value : Number(new Date().toISOString().split("-")[1])
-
-    const camposByTipo = campos.filter((campo) => {
-      if (campo.type === tipo && campo.month.toString() === mesFiltro.toString()) return campo
-    })
-
-    const camposFiltrados = camposByTipo.reduce((acc: CategoriasGraficoProps[], ct: CamposProps) => {
-      
-      const existingCampo = acc.find((campo) => campo.label === ct.categoria.label);
-
-      if (existingCampo) {
-          existingCampo.value += ct.valor;
-      } else {
-        acc.push(
-          {
-            label: ct.categoria.label,
-            value: ct.valor,
-            color: cores.find((cor) => cor.label === ct.categoria.cor?.value)?.value as string
-          })
-      }
-      
-      return acc
-    }, [])
-
-    setState(camposFiltrados)
-    setLoadindDonut(false)
-  }
   // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
   useEffect(() => {
+    // PROCESSA OS CAMPOS PARA EXIBIR NO GRÁFICO MENSAL DE DONUT
+    function processarCamposByMonth(campos: CamposProps[], tipo: string, setState: (values: CategoriasGraficoProps[]) => void) {
+
+      setLoadindDonut(true)
+      const cores = [
+        { label: "yellow", value: "#ffc300" },
+        { label: "red", value: "#D1001F" },
+        { label: "orange", value: "#fe8f00" },
+        { label: "pink", value: "#ff83b6" },
+        { label: "purple", value: "#7542fe" },
+        { label: "blue", value: "#1061ff" },
+        { label: "bluemarin", value: "#198e7b" },
+        { label: "green", value: "#89e23b" }
+      ]
+
+      const mesFiltro = monthSelected ? monthSelected.value : month ? month.value : Number(new Date().toISOString().split("-")[1])
+
+      const camposByTipo = campos.filter((campo) => {
+        if (campo.type === tipo && campo.month.toString() === mesFiltro.toString()) return campo
+      })
+
+      const camposFiltrados = camposByTipo.reduce((acc: CategoriasGraficoProps[], ct: CamposProps) => {
+
+        const existingCampo = acc.find((campo) => campo.label === ct.categoria.label);
+
+        if (existingCampo) {
+          existingCampo.value += ct.valor;
+        } else {
+          acc.push(
+            {
+              label: ct.categoria.label,
+              value: ct.valor,
+              color: cores.find((cor) => cor.label === ct.categoria.cor?.value)?.value as string
+            })
+        }
+
+        return acc
+      }, [])
+
+      setState(camposFiltrados)
+      setLoadindDonut(false)
+    }
+
     processarCamposByMonth(campos, typeGraphicDonut, setCategoriasByMonth)
   }, [campos, typeGraphicDonut, month, monthSelected])
+
+  function calcPorcentagem(valor: number, total: number[]): number {
+
+    if (!valor) return 0;
+
+    const somaTotal = total.reduce((soma, iterador) => {
+      return soma + iterador
+    }, 0)
+
+    return Math.round(((valor / somaTotal) * 100) * Math.pow(10, 1)) / Math.pow(10, 1);
+  }
 
   return (
     <main className="px-2 overflow-y-hidden h-max">
@@ -283,20 +289,20 @@ export function Dashboard() {
         />
       )}
 
-      {/* GRÁFICOS */}
-      <div className="flex flex-col gap-6 py-6">
-        <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md col-span-2 w-max m-auto">
+      {/* ------------------------------------------ GRÁFICOS -------------------------------------- */}
+      <div className="flex flex-col gap-10 py-6">
+        <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md m-auto">
           Gráficos
         </h4>
 
         {/* GRAFICO DE PIZZA MENSAL */}
-        <div className="flex flex-row flex-wrap items-center justify-between w-full h-full gap-4">
-          {/* GRÁFICO */}
-          <div className="graphic-media relative flex flex-col items-center justify-center h-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px] w-full m-auto">
+        <div className="flex flex-wrap items-center justify-between w-full h-full gap-x-6 gap-y-2 lg:justify-center">
+          <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
+            {/* SELECT E LABELS */}
             <div className="flex items-center justify-between w-full">
               <div className="w-max">
                 <Select
-                  value={(monthSelected ? monthSelected : month ? month : months.find((_, index) => index === new Date().getMonth())) as CategoriaProps}
+                  value={(monthSelected ? monthSelected : month ? month : months.find((mes) => Number(mes.value) === (new Date().getMonth() + 1))) as CategoriaProps}
                   setValue={setMonth}
                   optionDefault="Selecione um mês"
                   options={months}
@@ -311,18 +317,13 @@ export function Dashboard() {
                 type="text"
                 option1={{ label: "Ganhos", className: "text-brand-green font-bold" }}
                 option2={{ label: "Gastos", className: "text-brand-red font-bold" }}
-                action1={() => {
-                  setTypeGraphicDonut("ganhos")
-                  processarCamposByMonth(campos, "ganhos", setCategoriasByMonth)
-                }}
-                action2={() => {
-                  setTypeGraphicDonut("gastos")
-                  processarCamposByMonth(campos, "gastos", setCategoriasByMonth)
-                }}
+                action1={() => setTypeGraphicDonut("ganhos")}
+                action2={() => setTypeGraphicDonut("gastos")}
                 className="py-2"
               />
             </div>
-            <div className="min-h-[400px] flex items-center overflow-hidden">
+            {/* GRÁFICO */}
+            <div className="min-h-[370px] flex items-center overflow-hidden">
               {loadindDonut ? (
                 <Loading
                   isTrue={loadindDonut}
@@ -339,19 +340,77 @@ export function Dashboard() {
             </div>
           </div>
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="graphic-info flex items-center justify-center h-full w-full max-w-[350px] lg:max-w-[500px] m-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia impedit consequuntur distinctio praesentium animi sapiente nesciunt earum in. Nostrum temporibus ratione tempora provident? Doloribus pariatur sequi, dolorum voluptatibus adipisci blanditiis?
+          <div className="flex flex-col xl:max-w-[350px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+            <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
+              Maior {typeGraphicDonut.slice(0, -1)} do mês:
+              <p className="flex items-center gap-2 px-4 py-2 font-medium rounded-md bg-brand-dark-gray">
+                  <span
+                    style={{ backgroundColor: Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.color }}
+                    className="w-4 h-4 rounded-sm"
+                  />
+                <span>{Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.label}</span>
+                <span>{`- ${calcPorcentagem(
+                    Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.value,
+                    categoriasByMonth?.sort((a, b) => a.value - b.value).map((c) => c.value) || []
+                  )}%`}
+                </span>
+                <span className="text-brand-gray">{`(${currencyFormatPT(Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.value)})`}</span>
+              </p>
+            </h4>
+            <div className="flex flex-col flex-wrap lg:flex-row gap-x-3 gap-y-[.05rem]">
+              {categoriasByMonth?.map((categInfo, index) => (
+                <div className="flex items-center justify-center gap-2 w-max" key={index}>
+                  <span
+                    style={{ backgroundColor: categInfo.color }}
+                    className="w-4 h-4 rounded-sm"
+                  />
+                  {categInfo.label}
+                  {" - "}
+                  <span className="">
+                    {calcPorcentagem(categInfo.value, categoriasByMonth.sort((a, b) => a.value - b.value).map((c) => c.value))}{"% "}
+                    <span className="text-brand-gray">{"("+currencyFormatPT(categInfo.value)+")"}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* GRÁFICO DE BARRAS DO ANO */}
-        <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-4">
+        <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-x-6">
           {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="graphic-info flex items-center justify-center w-full h-full max-w-[350px] lg:max-w-[500px]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod eius, iure dignissimos quam deserunt repellat quis. Qui aliquid facere accusamus dolor in architecto saepe porro magni pariatur, ipsum aspernatur accusantium.
+          <div className="flex flex-col xl:max-w-[350px] m-auto lg:items-center max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+            <div className="flex flex-col items-start w-full py-4 leading-5 text-[18px]">
+              <h4 className="flex gap-2 font-semibold">
+                Maior ganho do Ano:
+                <span className="font-medium text-brand-red">
+                  {currencyFormatPT([...gastosByYear].sort((a, b) => b - a)[0])}
+                </span>
+              </h4>
+              <h4 className="flex gap-2 font-semibold">
+                Maior gasto do Ano:
+                <span className="font-medium text-brand-green">
+                  {currencyFormatPT([...ganhosByYear].sort((a, b) => b - a)[0])}
+                </span>
+              </h4>
+            </div>
+            <div className="flex flex-wrap items-center justify-start w-full h-full max-h-full gap-y-2">
+              {Array(12).fill(0).map((_, index) => (
+                <div className="flex items-center basis-1/3" key={index}>
+                  <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray">
+                    <span className="font-bold text-brand-white-gray">{months.find((month) => Number(month.value) == index + 1)?.label}</span>
+                    <div className="flex flex-col leading-none">
+                      <span className="font-semibold text-brand-red">{currencyFormatPT(gastosByYear[index])}</span>
+                      <span className="font-semibold text-brand-green">{currencyFormatPT(ganhosByYear[index])}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="graphic-media relative flex flex-col items-center justify-center w-full h-full gap-6 p-4 overflow-x-auto rounded-md bg-brand-dark-gray xl:max-w-[750px] max-w-[600px] m-auto">
-            <div className="flex justify-between w-full">
+          <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
+            {/* SELLECT E LABELS */}
+            <div className="flex items-center justify-between w-full">
               <div className="w-max">
                 <Select
                   value={year as CategoriaProps}
@@ -379,7 +438,8 @@ export function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="h-[410px] flex items-center justify-center w-full overflow-hidden">
+            {/* GRÁFICO */}
+            <div className="min-h-[370px] h-[370px] flex items-center overflow-hidden">
               {loadindBar ? (
                 <Loading
                   isTrue={loadindBar}

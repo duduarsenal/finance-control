@@ -87,11 +87,11 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
     },
   };
 
-  const [width, setWidth] = useState<number>(700)
+  const [width, setWidth] = useState<number>(630)
 
   useEffect(() => {
     const resizeFunc = () => {
-      setWidth(document.body.clientWidth > 1400 ? 700 : 600)
+      setWidth(document.body.clientWidth > 1400 ? 630 : 600)
     }
 
     window.addEventListener('resize', resizeFunc)

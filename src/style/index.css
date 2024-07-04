@@ -76,12 +76,8 @@
     color: black !important;
   }
 
-  @media (max-width: 1400px) {
+  @media (max-width: 1360px) {
     .graphic-media{
-        max-width: 680px !important;
-    }
-
-    .graphic-info{
-      max-width: 450px !important;
+        max-width: 650px !important;
     }
   }
