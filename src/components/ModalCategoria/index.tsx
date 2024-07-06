@@ -7,12 +7,16 @@ import { useOutletContext } from "react-router-dom";
 export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }: ModalCategoriaProps) {
 
     const [categoria, setCategoria] = useState<string>("")
+
     const [emoji, setEmoji] = useState<GenericProps | null>(null)
     const [cor, setCor] = useState<GenericProps | null>(null)
+
     const [tempCategorias, setTempCategorias] = useState<CategoriaProps[]>(categorias)
+
     const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
     const [messageConfirmAction, setMessageConfirmAction] = useState<string>("")
     const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
+
     const ref = useRef<HTMLDivElement>(null)
 
     const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
@@ -21,6 +25,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
 
         if (!categoria || !cor || !emoji) return
 
+        // VALIDAÇÃO PARA VERIFICAR SE A CATEGORIA NÃO É REPETIDA (NOME DA CATEGORIA)
         const canAdd = categorias?.filter((c) => c.value === categoria.toLocaleLowerCase())
         if (canAdd?.length){
             return addNotification("warning", "Categoria já existente")
@@ -32,7 +37,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
             cor: cor, 
             emoji: emoji 
         }
-        // SALVA A CATEGORIA TEMPORARIAMENTE
+        // SALVA A NOVA CATEGORIA NA LISTA DE CATEGORIAS 'TEMPORARIAMENTE'
         setTempCategorias((prev) => [...prev, newCateg])
 
         // RESET FIELDS
@@ -41,25 +46,29 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
         setEmoji(null)
     }
 
+    // FUNÇÃO PARA CAPTAR EXCLUSÃO DE CATEGORIA AO CLICAR NA "LIXEIRA" AO LADO DA CATEGORIA
     function handleRemoveCategoria(delCategoria: string) {
         const newList = tempCategorias?.filter((categoria) => categoria.value != delCategoria) || []
         setTempCategorias(newList)
     }
 
+    // HANDLER AO CLICAR NO BOTÃO DE SALVAR NO MODAL DE CATEGORIAS
     function handleSaveCategorias(){
-        if(categoria || cor || emoji){
-            handleConfirmAction(true, "Categoria não salva, deseja descartar alterações?")
+        if(validarMudancas()){
+            handleConfirmAction(true, "Categorias não salvas, deseja descartar alterações?")
             return
         }
         saveCategorias(tempCategorias)
     }
 
+    // HANDLER PARA ABRIR COMPONENTE DE CONFIRMAÇÃO PERSONALIZADO
     function handleConfirmAction(state: boolean, message: string){
         setMessageConfirmAction(message)
         setActionConfirmAction({action: saveCategoriasConfirmAction})
         setModalConfirmAction(state)
     }
 
+    // DESCARTAR INFORMAÇÕES AO CLICAR EM DESCARTAR NO COMPONENTE CONFIRM ACTION
     function handleDescartarAction() {
         // RESET FIELDS
         setCategoria("")
@@ -68,16 +77,40 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
         setModalCategoria(false)
     }
 
+    // SALVAR CATEGORIAS AO CLICAR EM SALVAR NO COMPONENTE CONFIRM ACTION
     function saveCategoriasConfirmAction(){
         saveCategorias(tempCategorias)
         handleDescartarAction()
     }
 
-    useEffect(() => {
+    // VALIDA QUALQUER MUDANÇA NAS CATEGORIAS (ADD, EDIT, REMOVE)
+    function validarMudancas(){
+        if(categoria || cor || emoji) return true
+        if(tempCategorias.length !== categorias.length) return true
 
+        function objetosIguais(obj1: any, obj2: any){
+            const keys1 = Object.keys(obj1);
+            const keys2 = Object.keys(obj2);
+          
+            if (keys1.length !== keys2.length) return false;
+          
+            for (const key of keys1) {
+              if (obj1[key] !== obj2[key]) return false;
+            }
+          
+            return true;
+        }
+
+        for(let i = 0; i < tempCategorias.length; i++) {
+            if (!objetosIguais(tempCategorias[i], categorias[i])) return true;
+        }
+    }
+
+    useEffect(() => {
+        // VIGIA TECLA ESC PARA FECHAR O MODAL DE ADD CATEGORIA
         function handleEscapeOut(e: KeyboardEvent) {
             if (e.key === "Escape") {
-                if (categoria || cor || emoji) {
+                if (validarMudancas()) {
                     setModalConfirmAction(true)
                     return;
                 } else if(!modalConfirmAction){
@@ -88,9 +121,10 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
             }
         }
 
+        // VIGIA CLICK FORA DO MODAL (CLICK OUT) PARA FECHAR O MODAL DE ADD CATEGORIA
         function handleclickOut(e: MouseEvent){
             if(ref.current && !ref.current.contains(e?.target as Node)){
-                if (categoria || cor || emoji) {
+                if (validarMudancas()) {
                     setModalConfirmAction(true)
                     return;
                 } else if(!modalConfirmAction){

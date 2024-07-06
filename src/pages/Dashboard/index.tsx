@@ -3,12 +3,8 @@ import {
   Button,
   DashboardTable,
   Graphics,
-  GraphicsBar,
-  GraphicsPie,
-  Loading,
   ModalCategoria,
-  Select,
-  Switch,
+  Select
 } from "@components";
 import {
   CamposProps,
