@@ -94,10 +94,10 @@ export function Graphics({
           </div>
         </div>
         {/* INFORMAÇÕES DO GRÁFICO */}
-        <div className="flex flex-col xl:max-w-[350px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+        <div className="flex flex-col xl:max-w-[400px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
           <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
             Maior {typeGraphicDonut.slice(0, -1)} do mês:
-            <p className="flex items-center gap-2 px-4 py-2 font-medium rounded-md bg-brand-dark-gray">
+            <p className="flex items-center gap-2 px-4 truncate py-2 font-medium rounded-md bg-brand-dark-gray">
               <span
                 style={{
                   backgroundColor: Array.from(categoriasByMonth || []).sort(
@@ -163,7 +163,7 @@ export function Graphics({
       {/* ------------------------------------------------- GRÁFICO DE BARRAS DO ANO ----------------------------------------------------- */}
       <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-x-6">
         {/* INFORMAÇÕES DO GRÁFICO */}
-        <div className="flex flex-col xl:max-w-[350px] m-auto lg:items-center max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+        <div className="flex flex-col xl:max-w-[400px] m-auto lg:items-center max-w-full xl:mx-0 sm:max-w-[650px] w-full">
           <div className="flex flex-col items-start w-full py-4 leading-5 text-[18px]">
             <h4 className="flex gap-2 font-semibold">
               Maior ganho do Ano:
@@ -185,14 +185,14 @@ export function Graphics({
               .fill(0)
               .map((_, index) => (
                 <div className="flex items-center basis-1/3" key={index}>
-                  <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray">
+                  <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray overflow-hidden">
                     <span className="font-bold text-brand-white-gray">
                       {
                         months.find((month) => Number(month.value) == index + 1)
                           ?.label
                       }
                     </span>
-                    <div className="flex flex-col leading-none">
+                    <div className="flex flex-col leading-none text-center truncate">
                       <span className="font-semibold text-brand-red">
                         {currencyFormatPT(gastosByYear[index]) || "-"}
                       </span>
