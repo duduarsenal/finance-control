@@ -5,7 +5,9 @@ export function ConfirmAction({label, option1, option2, action1, action2}: Confi
     return (
         <div className="fixed top-0 left-0 w-screen h-screen bg-[#11111190] flex items-center justify-center z-[999]">
             <div className="bg-brand-black px-1 w-[400px] h-[150px] rounded-lg outline outline-solid outline-[1px] outline-brand-gray py-2 flex flex-col items-center justify-center gap-5">
-                <span className="w-full text-center text-[18px] font-semibold text-brand-white-gray">{label}</span>
+                <span className="w-full text-center text-[18px] font-semibold text-brand-white-gray">
+                    {label}
+                </span>
                 <div className="flex items-center justify-around w-full">
                     <Button 
                         value={option1}

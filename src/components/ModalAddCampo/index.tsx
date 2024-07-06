@@ -81,7 +81,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
 
         function handleEscapeOut(e: KeyboardEvent) {
             if (e.key === "Escape") {
-                if (data || descricao || categoria || valor) {
+                if (data || descricao || categoria || valor || categoria) {
                     setModalConfirmAction(true)
                     return;
                 } else if (!modalConfirmAction) {
@@ -94,7 +94,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
 
         function handleclickOut(e: MouseEvent) {
             if (ref.current && !ref.current.contains(e?.target as Node) && !openDate) {
-                if (data || descricao || categoria || valor) {
+                if (data || descricao || categoria || valor || categoria) {
                     setModalConfirmAction(true)
                     return;
                 } else if (!modalConfirmAction) {
@@ -196,7 +196,13 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                     <div className="col-span-1">
                         <Button
                             handleButton={() => {
+                                if(data || categoria || parcelas || valor || descricao){
+                                    setModalConfirmAction(true)
+                                    return
+                                }
+
                                 setModalAddCampo(false)
+
                                 if(editCampo){
                                     setEditCampo(null)
                                 }

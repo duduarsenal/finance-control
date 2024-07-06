@@ -157,7 +157,7 @@ export interface HeaderProps{
 }
 
 export interface ConfirmActionProps{
-    label: string
+    label: string | ReactNode
     option1: string
     option2: string
     action1: () => void

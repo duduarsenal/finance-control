@@ -54,7 +54,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
 
     // HANDLER AO CLICAR NO BOTÃO DE SALVAR NO MODAL DE CATEGORIAS
     function handleSaveCategorias(){
-        if(validarMudancas()){
+        if(categoria || cor || emoji){
             handleConfirmAction(true, "Categorias não salvas, deseja descartar alterações?")
             return
         }
@@ -208,7 +208,10 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                 <div className="grid w-full grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Button
-                            handleButton={() => setModalCategoria(false)}
+                            handleButton={() => {
+                                if (validarMudancas()) setModalConfirmAction(true)
+                                else setModalCategoria(false)
+                            }}
                             value="Cancelar"
                             className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />

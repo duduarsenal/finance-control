@@ -1,16 +1,23 @@
-import { Button, DateField, ModalAddCampo, Select } from '@components';
+import { Button, ConfirmAction, DateField, ModalAddCampo, Select } from '@components';
 import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 export function DashboardTable({ type, campos, saveCampo, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
+
     const [dtFiltro, setDtFiltro] = useState<string | null>(null)
     const [totalContent, setTotalContent] = useState<number>(0)
+    
     const [modalAddCampo, setModalAddCampo] = useState<boolean>(false)
     const [tempCampos, setTempCampos] = useState<CamposProps[]>(campos)
+    
     const [editCampo, setEditCampo] = useState<CamposProps | null>(null)
+
+    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
+    const [messageConfirmAction, setMessageConfirmAction] = useState<string | ReactNode>("")
+    const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
 
     useEffect(() => {
         let total = 0;
@@ -40,6 +47,15 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
 
     async function handleRemoveCampo(campo: CamposProps){
         await removeCampo(campo)
+    }
+
+    function handleConfirmAction(row: CamposProps){
+        const item = <div className='leading-4 font-bold'>{row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...</div>
+        const valor = currencyFormatPT(row.valor)
+
+        setMessageConfirmAction(<span className='leading-4 font-normal'>Deseja realmente excluir o campo {item} no valor de {valor}?</span>)
+        setActionConfirmAction({action: () => { handleRemoveCampo(row); setModalConfirmAction(false) }})
+        setModalConfirmAction(true)
     }
     
 
@@ -104,7 +120,7 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
                                         />
                                         <Button
                                             className='my-0 border-none outline-0 text-[18px] px-0 hover:text-brand-gray'
-                                            handleButton={() => handleRemoveCampo(row)}
+                                            handleButton={() => handleConfirmAction(row)}
                                             icon={<Icons.FaTrashAlt />}
                                         />
                                     </p> : '-'}
@@ -165,7 +181,16 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
                     editCampo={editCampo as CamposProps}
                     setEditCampo={setEditCampo}
                     handleEditCampo={handleEditCampo}
-                />}
+            />}
+
+            {modalConfirmAction &&
+                <ConfirmAction
+                    label={messageConfirmAction || "Desejar descartar as alterações não salvas?"}
+                    option1="Excluir"
+                    action1={actionConfirmAction?.action ?? (() => console.log("Erro ao localizar a função de descarte"))}
+                    option2="Cancelar"
+                    action2={() => setModalConfirmAction(false)}
+            />}
 
         </section>
     )
