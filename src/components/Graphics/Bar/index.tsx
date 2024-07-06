@@ -57,14 +57,14 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
       },
       series: [
         {
-          name: "Gastos",
-          data: gastos,
-          color: "#FF2C2C",
-        },
-        {
           name: "Ganhos",
           data: ganhos,
           color: "#5bb450",
+        },
+        {
+          name: "Gastos",
+          data: gastos,
+          color: "#FF2C2C",
         },
       ],
       tooltip: {

@@ -1,5 +1,5 @@
 import { currencyFormatPT } from "@utils";
-import { GraphicsBar, GraphicsPie, Loading, Select, Switch } from "@components";
+import { GraphicsBar, GraphicsDonut, Loading, Select, Switch } from "@components";
 import { CategoriaProps, GraphicsProps } from "@typings";
 
 export function Graphics({
@@ -83,7 +83,7 @@ export function Graphics({
                 className="absolute top-0 left-0 w-full h-full row-span-1 loading-not"
               />
             ) : (
-              <GraphicsPie
+              <GraphicsDonut
                 data={
                   categoriasByMonth?.length
                     ? categoriasByMonth
@@ -167,15 +167,15 @@ export function Graphics({
           <div className="flex flex-col items-start w-full py-4 leading-5 text-[18px]">
             <h4 className="flex gap-2 font-semibold">
               Maior ganho do Ano:
-              <span className="font-medium text-brand-red">
-                {currencyFormatPT([...gastosByYear].sort((a, b) => b - a)[0]) ||
+              <span className="font-medium text-brand-green">
+                {currencyFormatPT([...ganhosByYear].sort((a, b) => b - a)[0]) ||
                   "-"}
               </span>
             </h4>
             <h4 className="flex gap-2 font-semibold">
               Maior gasto do Ano:
-              <span className="font-medium text-brand-green">
-                {currencyFormatPT([...ganhosByYear].sort((a, b) => b - a)[0]) ||
+              <span className="font-medium text-brand-red">
+                {currencyFormatPT([...gastosByYear].sort((a, b) => b - a)[0]) ||
                   "-"}
               </span>
             </h4>
@@ -193,11 +193,11 @@ export function Graphics({
                       }
                     </span>
                     <div className="flex flex-col leading-none text-center truncate">
-                      <span className="font-semibold text-brand-red">
-                        {currencyFormatPT(gastosByYear[index]) || "-"}
-                      </span>
                       <span className="font-semibold text-brand-green">
                         {currencyFormatPT(ganhosByYear[index]) || "-"}
+                      </span>
+                      <span className="font-semibold text-brand-red">
+                        {currencyFormatPT(gastosByYear[index]) || "-"}
                       </span>
                     </div>
                   </div>
@@ -226,15 +226,15 @@ export function Graphics({
             <h4 className="font-normal text-[20px]">Estatisticas Anuais</h4>
             <div className="flex gap-4">
               <div className="flex gap-2">
-                <span className="w-6 h-6 rounded-md bg-brand-red" />
-                <span className="font-semibold text-brand-white-gray">
-                  Gastos
-                </span>
-              </div>
-              <div className="flex gap-2">
                 <span className="w-6 h-6 rounded-md bg-brand-green" />
                 <span className="font-semibold text-brand-white-gray">
                   Ganhos
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <span className="w-6 h-6 rounded-md bg-brand-red" />
+                <span className="font-semibold text-brand-white-gray">
+                  Gastos
                 </span>
               </div>
             </div>

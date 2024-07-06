@@ -21,18 +21,18 @@ export function Switch({ type, className, option1, option2, action1, action2 }: 
             // SWITCH DE TEXTO
             <div className={cn("flex", className)}>
                 <p
-                    className={cn("border-2 border-brand-dark-gray border-r-0 px-4 py-1 rounded-l-sm rounded-br-none hover:bg-green-900 hover:text-colors-green cursor-pointer transition-all",
+                    className={cn("border-2 border-brand-dark-gray border-r-0 px-4 py-1 rounded-l-md rounded-r-none cursor-pointer transition-all",
                         typeof option1 === "object" && option1.className,
-                        { "text-colors-green bg-green-900": switchActive }
+                        { "switch-text border-brand-black": switchActive }
                     )}
                     onClick={handleAction1}
                 >
                     {typeof option1 === "string" ? option1 : option1.label}
                 </p>
                 <p
-                    className={cn("border-2 border-brand-dark-gray px-4 py-1 rounded-r-sm hover:bg-red-900 hover:text-red-200 cursor-pointer transition-all",
+                    className={cn("border-2 border-brand-dark-gray px-4 py-1 rounded-r-md rounded-l-none cursor-pointer transition-all",
                         typeof option2 === "object" && option2.className,
-                        { "text-red-200 bg-red-900": !switchActive }
+                        { "switch-text border-brand-black": !switchActive }
                     )}
                     onClick={handleAction2}
                 >
@@ -51,9 +51,10 @@ export function Switch({ type, className, option1, option2, action1, action2 }: 
                     {typeof option1 === "string" ? option1 : option1.label}
                 </p>
                 <div 
-                    className={cn("relative w-10 h-4 m-auto rounded-full bg-brand-dark-gray after:w-6 after:h-6 after:bg-brand-gray after:absolute after:rounded-full after:top-2/4 after:-translate-y-2/4 after:transition-all cursor-pointer", 
+                    className={cn("switch-button relative w-10 h-6 m-auto rounded-full bg-brand-gray after:w-5 after:h-5 after:bg-brand-gray after:absolute after:rounded-full after:top-2/4 after:-translate-y-2/4 after:transition-all cursor-pointer", 
                         {
-                            "after:ml-4": !switchActive
+                            "after:bg-colors-green": switchActive,
+                            "after:ml-[14px] after:bg-yellow-400": !switchActive
                         }
                     )}
                     onClick={() => {switchActive ? handleAction2() : handleAction1()}}

@@ -3,7 +3,7 @@ import { cn, currencyFormatPT } from "@utils";
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
 
-export function GraphicsPie({className, data}: GraphicsPieProps) {
+export function GraphicsDonut({className, data}: GraphicsPieProps) {
 
     const options: ApexOptions = {
       labels: data.map((label) => label.label),
