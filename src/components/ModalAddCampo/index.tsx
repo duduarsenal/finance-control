@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCampo, categorias, editCampo }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,6 +62,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
         setParcelas("")
         setDescricao("")
         setValor("")
+        setEditCampo(null)
         setModalAddCampo(false)
     }
 
@@ -72,6 +73,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
         setParcelas("")
         setDescricao("")
         setValor("")
+        setEditCampo(null)
         setModalAddCampo(false)
     }
 
@@ -193,7 +195,12 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                 <div className="grid w-full grid-cols-2 gap-4 my-6">
                     <div className="col-span-1">
                         <Button
-                            handleButton={() => setModalAddCampo(false)}
+                            handleButton={() => {
+                                setModalAddCampo(false)
+                                if(editCampo){
+                                    setEditCampo(null)
+                                }
+                            }}
                             value="Cancelar"
                             className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />

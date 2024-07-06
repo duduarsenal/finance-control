@@ -163,6 +163,7 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
                     type={type}
                     categorias={categorias}
                     editCampo={editCampo as CamposProps}
+                    setEditCampo={setEditCampo}
                     handleEditCampo={handleEditCampo}
                 />}
 

@@ -25,7 +25,7 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
                 {type == "warning" && <Icons.RiErrorWarningLine className="text-notify-dark-yellow -mt-[2px] text-[18px]" />}
                 {type == "danger" && <Icons.AiOutlineCloseCircle className="text-notify-dark-red -mt-[2px] text-[20px]" />}
                 {!type && <Icons.FaRegCircleQuestion className="-mt-[2px] text-brand-black text-[18px]" />}
-                <div className="text-[14px] leading-4 break-all">
+                <div className="text-[14px] leading-4 break-all font-semibold">
                     {message || "Notificação padrão"}
                 </div>
             </div>

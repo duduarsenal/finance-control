@@ -2,6 +2,7 @@ import { getCampos, getCategorias, saveCampos, saveCategorias } from "@api";
 import {
   Button,
   DashboardTable,
+  Graphics,
   GraphicsBar,
   GraphicsPie,
   Loading,
@@ -31,8 +32,8 @@ export function Dashboard() {
   const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null);
   const [modalCategoria, setModalCategoria] = useState<boolean>(false);
 
-  const [categorias, setCategorias] = useState<CategoriaProps[]>(categoriasJSON);
-  const [campos, setCampos] = useState<CamposProps[]>(camposJSON);
+  const [categorias, setCategorias] = useState<CategoriaProps[]>([]);
+  const [campos, setCampos] = useState<CamposProps[]>([]);
 
   const [totalGastos, setTotalGastos] = useState<number>(0);
   const [totalGanhos, setTotalGanhos] = useState<number>(0);
@@ -52,64 +53,120 @@ export function Dashboard() {
 
   const [categoriasByMonth, setCategoriasByMonth] = useState<CategoriasGraficoProps[] | null>(null)
 
-  const { addNotification, setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>();
+  const { addNotification, setIsPageHeader, setIsLoading, tipoDados } = useOutletContext<OutletContextProps>();
+
+  // Altera entre os tipos de dados mockados
+  useEffect(() => {
+    handleTipoDados(tipoDados)
+  }, [tipoDados])
+
+  async function handleTipoDados(tipoDados?: string){
+    if(tipoDados == "prod"){
+      setIsLoading(true)
+
+      setCategorias(await getCategorias())
+      setCampos(await getCampos());
+
+      setIsLoading(false)
+    }
+
+    if(tipoDados == "mock"){
+      setIsLoading(true)
+
+      setCategorias(categoriasJSON)
+      setCampos(camposJSON)
+      
+      setIsLoading(false)
+    }
+  }
 
   async function saveCategoria(values: CategoriaProps[]) {
-    // SALVE LISTA DE CATEGORIAS NO LOCALSTORAGE
-    await saveCategorias(values);
-    // SALVA NOVA LISTA DE CATEGORIAS NO STATE
-    setCategorias(await getCategorias());
+
+    if(tipoDados == "mock"){
+      // SALVA OS DADOS MOCKADOS
+      setCategorias(values)
+    } else {
+      // SALVE LISTA DE CATEGORIAS NO LOCALSTORAGE
+      await saveCategorias(values);
+      // SALVA NOVA LISTA DE CATEGORIAS NO STATE
+      setCategorias(await getCategorias());
+    }
 
     setModalCategoria(false);
     addNotification("sucess", "Categorias atualizas com sucesso.");
   }
 
   async function saveCampo(campo: CamposProps) {
-    // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
-    await saveCampos([...(await getCampos()), campo]);
-    // SALVA NOVA LISTA DE CAMPOS NO STATE
-    setCampos(await getCampos());
+    if(tipoDados == "mock"){
+      setCampos([...campos, campo])
+    } else {
+      // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
+      await saveCampos([...(await getCampos()), campo]);
+      // SALVA NOVA LISTA DE CAMPOS NO STATE
+      setCampos(await getCampos());
+    }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`);
   }
 
   async function editCampo(campo: CamposProps) {
-    // CRIA UMA NOVA LISTA DE CAMPOS COM O CAMPO EDITADO
-    const novosCampos = (await getCampos()).map((c) => {
-      if (c.id === campo.id) c = { ...campo };
-      return c;
-    });
-
-    // SALVA NOVA LISTA NO LOCALSTORAGE/BACKEND
-    await saveCampos(novosCampos);
-    // SALVA NOVA LISTA DE CAMPOS NO STATE
-    setCampos(await getCampos());
+    if(tipoDados == "mock"){
+      setCampos(campos.map((c) => { 
+        if(c.id === campo.id) c = {...campo}
+        return c
+      }))
+    } else {
+      // CRIA UMA NOVA LISTA DE CAMPOS COM O CAMPO EDITADO
+      const novosCampos = (await getCampos()).map((c) => {
+        if (c.id === campo.id) c = { ...campo };
+        return c;
+      });
+  
+      // SALVA NOVA LISTA NO LOCALSTORAGE/BACKEND
+      await saveCampos(novosCampos);
+      // SALVA NOVA LISTA DE CAMPOS NO STATE
+      setCampos(await getCampos());
+    }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} editado com sucesso.`);
   }
 
   async function removeCampo(campo: CamposProps) {
-    //CRIA UMA NOVA LISTA DE CAMPOS REMOVENDO O CAMPO EXCLUIDO
-    const novosCampos = (await getCampos()).filter((c) => c.id !== campo.id);
-
-    // SALVA NOVA LISTA DE CAMPOS NO LOCALSTORAGE/BACKEND
-    await saveCampos(novosCampos);
-    // SALVA NOVA LISTA DE CAMPOS NO STATE
-    setCampos(await getCampos());
+    if(tipoDados == "mock"){
+      setCampos(campos.filter((c) => c.id !== campo.id))
+    } else {
+      //CRIA UMA NOVA LISTA DE CAMPOS REMOVENDO O CAMPO EXCLUIDO
+      const novosCampos = (await getCampos()).filter((c) => c.id !== campo.id);
+      
+      // SALVA NOVA LISTA DE CAMPOS NO LOCALSTORAGE/BACKEND
+      await saveCampos(novosCampos);
+      // SALVA NOVA LISTA DE CAMPOS NO STATE
+      setCampos(await getCampos());
+    }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} removido com sucesso.`);
   }
 
   async function handleStates() {
-    // SALVA LISTA DE CATEGORIAS NO STATE BUSCANDO DO LOCALSTORAGE/BACK
-    setCategorias(categoriasJSON);
-    // SALVA LISTA DE CAMPOS NO STATE BUSCANDO DO LOCALSTORAGE/BACK (APLICANDO FILTRO DE MÊS CASO ESTEJA SELECIONADO)
-    setCampos(
-      (monthSelected
-        ? camposJSON.filter((campo) => campo.month == monthSelected?.value)
-        : camposJSON
-      ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
-    );
+    if(tipoDados == "mock"){
+      setCategorias(categoriasJSON)
+      setCampos(
+        (monthSelected
+          ? camposJSON.filter((campo) => campo.month == monthSelected?.value)
+          : camposJSON
+        ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
+      );
+    } else {
+      // SALVA LISTA DE CATEGORIAS NO STATE BUSCANDO DO LOCALSTORAGE/BACK
+      setCategorias(await getCategorias());
+      // SALVA LISTA DE CAMPOS NO STATE BUSCANDO DO LOCALSTORAGE/BACK (APLICANDO FILTRO DE MÊS CASO ESTEJA SELECIONADO)
+      setCampos(
+        (monthSelected
+          ? (await getCampos()).filter((campo) => campo.month == monthSelected?.value)
+          : await getCampos()
+          ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
+      );
+    }
 
     setIsLoading(false);
   }
@@ -213,17 +270,6 @@ export function Dashboard() {
     processarCamposByMonth(campos, typeGraphicDonut, setCategoriasByMonth)
   }, [campos, typeGraphicDonut, month, monthSelected])
 
-  function calcPorcentagem(valor: number, total: number[]): number {
-
-    if (!valor) return 0;
-
-    const somaTotal = total.reduce((soma, iterador) => {
-      return soma + iterador
-    }, 0)
-
-    return Math.round(((valor / somaTotal) * 100) * Math.pow(10, 1)) / Math.pow(10, 1);
-  }
-
   return (
     <main className="px-2 overflow-y-hidden h-max">
       <div className="flex justify-between w-full py-8 h-max">
@@ -289,173 +335,22 @@ export function Dashboard() {
         />
       )}
 
-      {/* ------------------------------------------ GRÁFICOS -------------------------------------- */}
-      <div className="flex flex-col gap-10 py-6">
-        <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md m-auto">
-          Gráficos
-        </h4>
-
-        {/* GRAFICO DE PIZZA MENSAL */}
-        <div className="flex flex-wrap items-center justify-between w-full h-full gap-x-6 gap-y-2 lg:justify-center">
-          <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
-            {/* SELECT E LABELS */}
-            <div className="flex items-center justify-between w-full">
-              <div className="w-max">
-                <Select
-                  value={(monthSelected ? monthSelected : month ? month : months.find((mes) => Number(mes.value) === (new Date().getMonth() + 1))) as CategoriaProps}
-                  setValue={setMonth}
-                  optionDefault="Selecione um mês"
-                  options={months}
-                  transparent={false}
-                  className="min-w-[200px]"
-                  clearable={false}
-                />
-              </div>
-              <h4 className="font-normal text-[20px]">Estatisticas do Mês</h4>
-              {/* SWITCH GASTOS/GANHOS */}
-              <Switch
-                type="text"
-                option1={{ label: "Ganhos", className: "text-brand-green font-bold" }}
-                option2={{ label: "Gastos", className: "text-brand-red font-bold" }}
-                action1={() => setTypeGraphicDonut("ganhos")}
-                action2={() => setTypeGraphicDonut("gastos")}
-                className="py-2"
-              />
-            </div>
-            {/* GRÁFICO */}
-            <div className="min-h-[370px] flex items-center overflow-hidden">
-              {loadindDonut ? (
-                <Loading
-                  isTrue={loadindDonut}
-                  className="absolute top-0 left-0 w-full h-full row-span-1 loading-not"
-                />
-              ) : (
-                <GraphicsPie
-                  data={categoriasByMonth?.length
-                    ? categoriasByMonth
-                    : [{ label: "", value: 3141592653589793, color: "#808080" }]
-                  }
-                />
-              )}
-            </div>
-          </div>
-          {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex flex-col xl:max-w-[350px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
-            <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
-              Maior {typeGraphicDonut.slice(0, -1)} do mês:
-              <p className="flex items-center gap-2 px-4 py-2 font-medium rounded-md bg-brand-dark-gray">
-                  <span
-                    style={{ backgroundColor: Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.color }}
-                    className="w-4 h-4 rounded-sm"
-                  />
-                <span>{Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.label}</span>
-                <span>{`- ${calcPorcentagem(
-                    Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.value,
-                    categoriasByMonth?.sort((a, b) => a.value - b.value).map((c) => c.value) || []
-                  )}%`}
-                </span>
-                <span className="text-brand-gray">{`(${currencyFormatPT(Array.from(categoriasByMonth || []).sort((a, b) => b.value - a.value)[0]?.value)})`}</span>
-              </p>
-            </h4>
-            <div className="flex flex-col flex-wrap lg:flex-row gap-x-3 gap-y-[.05rem]">
-              {categoriasByMonth?.map((categInfo, index) => (
-                <div className="flex items-center justify-center gap-2 w-max" key={index}>
-                  <span
-                    style={{ backgroundColor: categInfo.color }}
-                    className="w-4 h-4 rounded-sm"
-                  />
-                  {categInfo.label}
-                  {" - "}
-                  <span className="">
-                    {calcPorcentagem(categInfo.value, categoriasByMonth.sort((a, b) => a.value - b.value).map((c) => c.value))}{"% "}
-                    <span className="text-brand-gray">{"("+currencyFormatPT(categInfo.value)+")"}</span>
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* GRÁFICO DE BARRAS DO ANO */}
-        <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-x-6">
-          {/* INFORMAÇÕES DO GRÁFICO */}
-          <div className="flex flex-col xl:max-w-[350px] m-auto lg:items-center max-w-full xl:mx-0 sm:max-w-[650px] w-full">
-            <div className="flex flex-col items-start w-full py-4 leading-5 text-[18px]">
-              <h4 className="flex gap-2 font-semibold">
-                Maior ganho do Ano:
-                <span className="font-medium text-brand-red">
-                  {currencyFormatPT([...gastosByYear].sort((a, b) => b - a)[0])}
-                </span>
-              </h4>
-              <h4 className="flex gap-2 font-semibold">
-                Maior gasto do Ano:
-                <span className="font-medium text-brand-green">
-                  {currencyFormatPT([...ganhosByYear].sort((a, b) => b - a)[0])}
-                </span>
-              </h4>
-            </div>
-            <div className="flex flex-wrap items-center justify-start w-full h-full max-h-full gap-y-2">
-              {Array(12).fill(0).map((_, index) => (
-                <div className="flex items-center basis-1/3" key={index}>
-                  <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray">
-                    <span className="font-bold text-brand-white-gray">{months.find((month) => Number(month.value) == index + 1)?.label}</span>
-                    <div className="flex flex-col leading-none">
-                      <span className="font-semibold text-brand-red">{currencyFormatPT(gastosByYear[index])}</span>
-                      <span className="font-semibold text-brand-green">{currencyFormatPT(ganhosByYear[index])}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
-            {/* SELLECT E LABELS */}
-            <div className="flex items-center justify-between w-full">
-              <div className="w-max">
-                <Select
-                  value={year as CategoriaProps}
-                  setValue={setYear}
-                  optionDefault={new Date().getFullYear().toString()}
-                  options={[
-                    { label: "2024", value: "2024" },
-                    { label: "2023", value: "2023" },
-                    { label: "2022", value: "2022" },
-                  ]}
-                  transparent={false}
-                  className="min-w-[120px]"
-                  clearable={false}
-                />
-              </div>
-              <h4 className="font-normal text-[20px]">Estatisticas Anuais</h4>
-              <div className="flex gap-4">
-                <div className="flex gap-2">
-                  <span className="w-6 h-6 rounded-md bg-brand-red" />
-                  <span className="font-semibold text-brand-white-gray">Gastos</span>
-                </div>
-                <div className="flex gap-2">
-                  <span className="w-6 h-6 rounded-md bg-brand-green" />
-                  <span className="font-semibold text-brand-white-gray">Ganhos</span>
-                </div>
-              </div>
-            </div>
-            {/* GRÁFICO */}
-            <div className="min-h-[370px] h-[370px] flex items-center overflow-hidden">
-              {loadindBar ? (
-                <Loading
-                  isTrue={loadindBar}
-                  className="absolute top-0 left-0 w-full h-full row-span-1 loading-not"
-                />
-              ) : (
-                <GraphicsBar
-                  colTypes={months.map((month) => month.label.slice(0, 3))}
-                  gastos={gastosByYear}
-                  ganhos={ganhosByYear}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* GRÁFICOS */}
+      <Graphics 
+        year={year}
+        setYear={setYear}
+        month={month}
+        setMonth={setMonth}
+        months={months}
+        monthSelected={monthSelected}
+        loadingBar={loadindBar}
+        loadingDonut={loadindDonut}
+        ganhosByYear={ganhosByYear}
+        gastosByYear={gastosByYear}
+        categoriasByMonth={categoriasByMonth}
+        typeGraphicDonut={typeGraphicDonut}
+        setTypeGraphicDonut={setTypeGraphicDonut}
+      />
     </main>
   );
 }

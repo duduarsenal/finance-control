@@ -1,4 +1,4 @@
-import React, { ReactNode} from "react";
+import React, { Dispatch, ReactNode, SetStateAction} from "react";
 
 export interface UserProps{
     username: string
@@ -112,6 +112,7 @@ export interface ModalAddCampoProps{
     handleEditCampo: (campo: CamposProps) => void
     categorias: CategoriaProps[]
     editCampo: CamposProps
+    setEditCampo: Dispatch<SetStateAction<CamposProps | null>>
 }
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{
@@ -167,6 +168,7 @@ export interface OutletContextProps{
     addNotification: (type: string, message: string) => void
     setIsPageHeader: (value: string | null) => void
     setIsLoading: (value: boolean) => void
+    tipoDados?: string
 }
 
 export interface GraphicsBarProps{
@@ -194,4 +196,20 @@ export interface CategoriasGraficoProps{
     label: string
     value: number
     color: string
+}
+
+export interface GraphicsProps{
+    year: GenericProps | null
+    setYear: Dispatch<SetStateAction<GenericProps | CategoriaProps | null>>
+    month: GenericProps | null
+    setMonth: Dispatch<SetStateAction<GenericProps | CategoriaProps | null>>
+    months: GenericProps[]
+    monthSelected: GenericProps | null
+    loadingBar: boolean
+    loadingDonut: boolean
+    ganhosByYear: number[]
+    gastosByYear: number[]
+    categoriasByMonth: CategoriasGraficoProps[] | null
+    typeGraphicDonut: string
+    setTypeGraphicDonut: (value: string) => void
 }

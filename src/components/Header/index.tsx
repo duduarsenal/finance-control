@@ -18,17 +18,17 @@ export function Header({ className, setTipoDados }: HeaderProps) {
 
     return (
         <section className={cn("text-brand-white z-[10] flex items-center justify-between w-screen h-16 bg-brand-black px-28", className)}>
-            <LogoMark />
-            <div className="flex items-center justify-center gap-8">
+            <div className="flex items-center justify-center gap-8 h-16">
+                <LogoMark />
                 <Switch
                     type="button"
-                    option1={"Produção"}
-                    option2={"Teste"}
+                    option1={"Real"}
+                    option2={"Fictício"}
                     action1={() => setTipoDados("prod")}
                     action2={() => setTipoDados("mock")}
                 />
-                <Icons.MdOutlineLogout className="text-[30px] mx-2 cursor-pointer rounded-sm hover:brightness-75" onClick={handleLogout} />
             </div>
+            <Icons.MdOutlineLogout className="text-[30px] mx-2 cursor-pointer rounded-sm hover:brightness-75" onClick={handleLogout} />
         </section>
     )
 }

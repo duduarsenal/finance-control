@@ -14,10 +14,6 @@ export default function Layout({error}: IsErrorProps) {
   const [tipoDados, setTipoDados] = useState<string>("prod");
   const {notifications, addNotification, removeNotification} = useNotify();
 
-  useEffect(() => {
-    console.log('tipoDados', tipoDados)
-  }, [tipoDados])
-
   return (
     <div className={cn("flex flex-col items-center justify-between h-dvh overflow-y-auto overflow-x-hidden", 
     { "justify-center": isPageHeader === "/login" })}>
@@ -29,7 +25,7 @@ export default function Layout({error}: IsErrorProps) {
           alt="Background gradient" 
           className="fixed top-0 left-0 w-screen h-screen bg-black object-fit -z-10" 
         />
-        {error ? error : <Outlet context={{setIsPageHeader, setIsLoading, addNotification}} />}
+        {error ? error : <Outlet context={{setIsPageHeader, setIsLoading, addNotification, tipoDados}} />}
       </div>
       {isPageHeader != "/login" && <Footer /> }
       <Analytics/>

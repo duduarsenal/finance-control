@@ -1,163 +1,261 @@
-import { GraphicsBarProps, GraphicsPieProps } from "@typings";
-import { cn, currencyFormatPT } from "@utils";
-import { ApexOptions } from "apexcharts";
-import { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+import { currencyFormatPT } from "@utils";
+import { GraphicsBar, GraphicsPie, Loading, Select, Switch } from "@components";
+import { CategoriaProps, GraphicsProps } from "@typings";
 
-export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBarProps) {
+export function Graphics({
+  year,
+  setYear,
+  month,
+  setMonth,
+  months,
+  monthSelected,
+  loadingBar,
+  loadingDonut,
+  ganhosByYear,
+  gastosByYear,
+  categoriasByMonth,
+  typeGraphicDonut,
+  setTypeGraphicDonut,
+}: GraphicsProps) {
+  
+  function calcPorcentagem(valor: number, total: number[]): number {
+    if (!valor) return 0;
 
-  const options: ApexOptions = {
-    chart: {
-      type: "bar",
-      height: 350,
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "80%",
-      },
-    },
-    xaxis: {
-      categories: colTypes,
-      labels: {
-        style: {
-          colors: "#E1E1E1",
-          fontFamily: "Nunito, sans-serif",
-          fontWeight: "semibold",
-          fontSize: "16px",
-          cssClass: "col-types",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#E1E1E1",
-          fontFamily: "Nunito, sans-serif",
-          fontWeight: "semibold",
-          fontSize: "14px",
-          cssClass: "row-types",
-        },
-        formatter(val) {
-          return currencyFormatPT(val);
-        },
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-    grid: {
-      borderColor: "#80808080",
-    },
-    series: [
-      {
-        name: "Gastos",
-        data: gastos,
-        color: "#FF2C2C",
-      },
-      {
-        name: "Ganhos",
-        data: ganhos,
-        color: "#5bb450",
-      },
-    ],
-    tooltip: {
-      enabled: true,
-      fillSeriesColor: true,
-      cssClass: "tooltip-bar",
-      style: {
-        fontSize: "14px",
-        fontFamily: "Nunito",
-      },
-      x: {
-        show: false,
-      },
-      custom(options) {
-        return "Total: " + currencyFormatPT(options.series[options.seriesIndex][options.dataPointIndex])
-      },
-    },
-    legend: {
-      show: false,
-    },
-  };
+    const somaTotal = total.reduce((soma, iterador) => {
+      return soma + iterador;
+    }, 0);
 
-  const [width, setWidth] = useState<number>(630)
-
-  useEffect(() => {
-    const resizeFunc = () => {
-      setWidth(document.body.clientWidth > 1400 ? 630 : 600)
-    }
-
-    window.addEventListener('resize', resizeFunc)
-    return () => window.removeEventListener('resize', resizeFunc)
-  }, [])
+    return Math.round((valor / somaTotal) * 100 * Math.pow(10, 1)) / Math.pow(10, 1)
+  }
 
   return (
-    <div className={cn("flex items-center justify-center w-full h-full", className)}>
-      <Chart options={options} series={options.series} width={width} type="bar" />
-    </div>
-  )
-}
+    <div className="flex flex-col gap-10 py-6">
+      <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md m-auto">
+        Gráficos
+      </h4>
 
-export function GraphicsPie({className, data}: GraphicsPieProps) {
+      {/* ------------------------------------------------- GRAFICO DE PIZZA MENSAL ---------------------------------------------------------- */}
+      <div className="flex flex-wrap items-center justify-between w-full h-full gap-x-6 gap-y-2 lg:justify-center">
+        <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
+          {/* SELECT E LABELS */}
+          <div className="flex items-center justify-between w-full">
+            <div className="w-max">
+              <Select
+                value={
+                  (monthSelected
+                    ? monthSelected
+                    : month
+                    ? month
+                    : months.find(
+                        (mes) => Number(mes.value) === new Date().getMonth() + 1
+                      )) as CategoriaProps
+                }
+                setValue={setMonth}
+                optionDefault="Selecione um mês"
+                options={months}
+                transparent={false}
+                className="min-w-[200px]"
+                clearable={false}
+              />
+            </div>
+            <h4 className="font-normal text-[20px]">Estatisticas do Mês</h4>
+            {/* SWITCH GASTOS/GANHOS */}
+            <Switch
+              type="text"
+              option1={{
+                label: "Ganhos",
+                className: "text-brand-green font-bold",
+              }}
+              option2={{
+                label: "Gastos",
+                className: "text-brand-red font-bold",
+              }}
+              action1={() => setTypeGraphicDonut("ganhos")}
+              action2={() => setTypeGraphicDonut("gastos")}
+              className="py-2"
+            />
+          </div>
+          {/* GRÁFICO */}
+          <div className="min-h-[370px] flex items-center overflow-hidden">
+            {loadingDonut ? (
+              <Loading
+                isTrue={loadingDonut}
+                className="absolute top-0 left-0 w-full h-full row-span-1 loading-not"
+              />
+            ) : (
+              <GraphicsPie
+                data={
+                  categoriasByMonth?.length
+                    ? categoriasByMonth
+                    : [{ label: "", value: 3141592653589793, color: "#808080" }]
+                }
+              />
+            )}
+          </div>
+        </div>
+        {/* INFORMAÇÕES DO GRÁFICO */}
+        <div className="flex flex-col xl:max-w-[350px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+          <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
+            Maior {typeGraphicDonut.slice(0, -1)} do mês:
+            <p className="flex items-center gap-2 px-4 py-2 font-medium rounded-md bg-brand-dark-gray">
+              <span
+                style={{
+                  backgroundColor: Array.from(categoriasByMonth || []).sort(
+                    (a, b) => b.value - a.value
+                  )[0]?.color,
+                }}
+                className="w-4 h-4 rounded-sm"
+              />
+              <span>
+                {
+                  Array.from(categoriasByMonth || []).sort(
+                    (a, b) => b.value - a.value
+                  )[0]?.label
+                }
+              </span>
+              <span>
+                {`- ${calcPorcentagem(
+                  Array.from(categoriasByMonth || []).sort(
+                    (a, b) => b.value - a.value
+                  )[0]?.value,
+                  categoriasByMonth
+                    ?.sort((a, b) => a.value - b.value)
+                    .map((c) => c.value) || []
+                )}%`}
+              </span>
+              <span className="text-brand-gray">{`(${currencyFormatPT(
+                Array.from(categoriasByMonth || []).sort(
+                  (a, b) => b.value - a.value
+                )[0]?.value
+              )})`}</span>
+            </p>
+          </h4>
+          <div className="flex flex-col flex-wrap lg:flex-row gap-x-3 gap-y-[.05rem]">
+            {categoriasByMonth?.map((categInfo, index) => (
+              <div
+                className="flex items-center justify-center gap-2 w-max"
+                key={index}
+              >
+                <span
+                  style={{ backgroundColor: categInfo.color }}
+                  className="w-4 h-4 rounded-sm"
+                />
+                {categInfo.label}
+                {" - "}
+                <span className="">
+                  {calcPorcentagem(
+                    categInfo.value,
+                    categoriasByMonth
+                      .sort((a, b) => a.value - b.value)
+                      .map((c) => c.value)
+                  )}
+                  {"% "}
+                  <span className="text-brand-gray">
+                    {"(" + currencyFormatPT(categInfo.value) + ")"}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-  const options: ApexOptions = {
-    labels: data.map((label) => label.label),
-    series: data.map((serie) => serie.value),
-    colors: data.map((color) => color.color),
-    dataLabels: {
-      style: {
-        colors: ["#0F0F0F"],
-        fontWeight: "bold",
-        fontSize: "14px"
-      },
-      dropShadow: {
-        enabled: false
-      }
-    },
-    tooltip: {
-      y: {
-        formatter(val) {
-          if(val === 3141592653589793) return "Nenhum item registrado"
-          else return currencyFormatPT(val)
-        }
-      },
-      hideEmptySeries: true,
-      cssClass: "tooltip-donut",
-      style: {
-        fontSize: '14px'
-      },
-    },
-    plotOptions: {
-      pie: {
-        expandOnClick: false,
-        donut: {
-          size: "60px"
-        }
-      }
-    },
-    yaxis: {
-      show: false
-    },
-    stroke: {
-      colors: ['#1F1F1F80'],
-      width: 2
-    },
-    legend: {
-      show: false
-    }
-  };
-
-  return (
-    <div
-      className={cn(className)}>
-      <Chart options={options} series={options.series} width={450} type="donut" />
+      {/* ------------------------------------------------- GRÁFICO DE BARRAS DO ANO ----------------------------------------------------- */}
+      <div className="flex flex-wrap-reverse items-center justify-center w-full h-full gap-x-6">
+        {/* INFORMAÇÕES DO GRÁFICO */}
+        <div className="flex flex-col xl:max-w-[350px] m-auto lg:items-center max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+          <div className="flex flex-col items-start w-full py-4 leading-5 text-[18px]">
+            <h4 className="flex gap-2 font-semibold">
+              Maior ganho do Ano:
+              <span className="font-medium text-brand-red">
+                {currencyFormatPT([...gastosByYear].sort((a, b) => b - a)[0]) ||
+                  "-"}
+              </span>
+            </h4>
+            <h4 className="flex gap-2 font-semibold">
+              Maior gasto do Ano:
+              <span className="font-medium text-brand-green">
+                {currencyFormatPT([...ganhosByYear].sort((a, b) => b - a)[0]) ||
+                  "-"}
+              </span>
+            </h4>
+          </div>
+          <div className="flex flex-wrap items-center justify-start w-full h-full max-h-full gap-y-2">
+            {Array(12)
+              .fill(0)
+              .map((_, index) => (
+                <div className="flex items-center basis-1/3" key={index}>
+                  <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray">
+                    <span className="font-bold text-brand-white-gray">
+                      {
+                        months.find((month) => Number(month.value) == index + 1)
+                          ?.label
+                      }
+                    </span>
+                    <div className="flex flex-col leading-none">
+                      <span className="font-semibold text-brand-red">
+                        {currencyFormatPT(gastosByYear[index]) || "-"}
+                      </span>
+                      <span className="font-semibold text-brand-green">
+                        {currencyFormatPT(ganhosByYear[index]) || "-"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
+          {/* SELLECT E LABELS */}
+          <div className="flex items-center justify-between w-full">
+            <div className="w-max">
+              <Select
+                value={year as CategoriaProps}
+                setValue={setYear}
+                optionDefault={new Date().getFullYear().toString()}
+                options={[
+                  { label: "2024", value: "2024" },
+                  { label: "2023", value: "2023" },
+                  { label: "2022", value: "2022" },
+                ]}
+                transparent={false}
+                className="min-w-[120px]"
+                clearable={false}
+              />
+            </div>
+            <h4 className="font-normal text-[20px]">Estatisticas Anuais</h4>
+            <div className="flex gap-4">
+              <div className="flex gap-2">
+                <span className="w-6 h-6 rounded-md bg-brand-red" />
+                <span className="font-semibold text-brand-white-gray">
+                  Gastos
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <span className="w-6 h-6 rounded-md bg-brand-green" />
+                <span className="font-semibold text-brand-white-gray">
+                  Ganhos
+                </span>
+              </div>
+            </div>
+          </div>
+          {/* GRÁFICO */}
+          <div className="min-h-[370px] h-[370px] flex items-center overflow-hidden">
+            {loadingBar ? (
+              <Loading
+                isTrue={loadingBar}
+                className="absolute top-0 left-0 w-full h-full row-span-1 loading-not"
+              />
+            ) : (
+              <GraphicsBar
+                colTypes={months.map((month) => month.label.slice(0, 3))}
+                gastos={gastosByYear}
+                ganhos={ganhosByYear}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
