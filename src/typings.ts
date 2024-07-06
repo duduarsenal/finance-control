@@ -152,6 +152,7 @@ export interface NotifyManagerProps{
 
 export interface HeaderProps{
     className?: string
+    setTipoDados: (value: string) => void 
 }
 
 export interface ConfirmActionProps{

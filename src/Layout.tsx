@@ -2,7 +2,7 @@ import { Footer, Header, Loading, NotifyManager } from "@components";
 import { useNotify } from "@hooks";
 import { IsErrorProps } from "@typings";
 import { cn } from "@utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import bgGradient from 'src/assets/bg-gradient.png'
 import { Analytics } from "@vercel/analytics/react"
@@ -11,12 +11,17 @@ export default function Layout({error}: IsErrorProps) {
 
   const [isPageHeader, setIsPageHeader] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tipoDados, setTipoDados] = useState<string>("prod");
   const {notifications, addNotification, removeNotification} = useNotify();
+
+  useEffect(() => {
+    console.log('tipoDados', tipoDados)
+  }, [tipoDados])
 
   return (
     <div className={cn("flex flex-col items-center justify-between h-dvh overflow-y-auto overflow-x-hidden", 
     { "justify-center": isPageHeader === "/login" })}>
-      {isPageHeader != "/login" && <Header /> }
+      {isPageHeader != "/login" && <Header setTipoDados={setTipoDados} /> }
       <Loading isTrue={isLoading} />
       <NotifyManager notifications={notifications} removeNotification={removeNotification} />
       <div className={cn("px-24 text-brand-white", { "pt-0": isPageHeader == "/login"})}>
