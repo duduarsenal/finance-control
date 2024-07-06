@@ -2,7 +2,7 @@ import { Footer, Header, Loading, NotifyManager } from "@components";
 import { useNotify } from "@hooks";
 import { IsErrorProps } from "@typings";
 import { cn } from "@utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import bgGradient from 'src/assets/bg-gradient.png'
 import { Analytics } from "@vercel/analytics/react"
