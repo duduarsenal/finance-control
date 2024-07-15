@@ -1,3 +1,6 @@
+import { CamposProps } from "@typings"
+import { v4 as uuidv4 } from "uuid";
+
 export function currencyFormatPT(value?: string | number) {
     if(value){
         let sanitizeValue = value.toString().replace(/\D-/g, "")
@@ -44,3 +47,54 @@ export function dateFormatPT(data?: string){
 
     return "-"
 }
+
+export async function preencherParcelas(campos?: CamposProps[], campo?: CamposProps): Promise<CamposProps[]> {
+    if (campos?.length) {
+      return campos?.reduce((acc: CamposProps[], campo) => {
+        if (campo.parcelas.total > 1) {
+          for (let i = 0; i < campo.parcelas.total; i++) {
+            const [year, month, day] = campo.data.split("-");
+            const dataComParcela = year + "-" + (Number(month) + i) + "-" + day
+
+            acc.push({
+              ...campo,
+              data: dataComParcela,
+              month: campo.month + i,
+              parcelas: {
+                total: campo.parcelas.total,
+                atual: i + 1
+              }
+            })
+          }
+        } else {
+          acc.push(campo)
+        }
+
+        return acc
+      }, [])
+    }
+
+    if (campo) {
+      const camposComParcela: CamposProps[] = [];
+      for (let i = 0; i < campo?.parcelas?.total; i++) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [year, _, day] = campo.data.split("-");
+        const dataComParcela = year + "-" + (campo.month + i) + "-" + day;
+
+        camposComParcela.push({
+          ...campo,
+          id: uuidv4(),
+          originalId: campo.originalId,
+          data: dataComParcela,
+          month: campo.month + i,
+          parcelas: {
+            total: campo.parcelas.total ?? 1,
+            atual: i + 1
+          }
+        })
+      }
+      return camposComParcela
+    }
+
+    return []
+  }

@@ -97,7 +97,7 @@ export function Graphics({
         <div className="flex flex-col xl:max-w-[400px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
           <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
             Maior {typeGraphicDonut.slice(0, -1)} do mês:
-            <p className="flex items-center gap-2 px-4 truncate py-2 font-medium rounded-md bg-brand-dark-gray">
+            <p className="flex items-center gap-2 px-4 py-2 font-medium truncate rounded-md bg-brand-dark-gray">
               <span
                 style={{
                   backgroundColor: Array.from(categoriasByMonth || []).sort(

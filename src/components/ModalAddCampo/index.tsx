@@ -3,8 +3,9 @@ import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@comp
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { preencherParcelas } from "@utils";
 
-export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos, handleEditCampo, handleRemoveCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,41 +19,146 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
     const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
     const ref = useRef<HTMLDivElement>(null)
 
-    const { addNotification } = useOutletContext<{addNotification: (type: string, message: string) => void}>()
+    const { addNotification } = useOutletContext<{ addNotification: (type: string, message: string) => void }>()
 
-    function handleSaveCampo() {
+    function arredondar(numero: number, casasDecimais: number) {
+        const fator = Math.pow(10, casasDecimais);
+        return Math.round(numero * fator) / fator;
+    }
+
+    async function handleEditedCampo(campo: CamposProps){
+        if (campo.parcelas.total !== Number(parcelas)) {
+            if (parcelas && Number(parcelas) > 1) {
+                await handleRemoveCampo(campo, 2)
+                
+                const novoEditCampo = await preencherParcelas([], {
+                    id: campo.id,
+                    originalId: campo.originalId,
+                    type: campo.type,
+                    data,
+                    descricao,
+                    month: (Number(data.split('-')[1]) - (campo.parcelas.atual ?? 1)) + 1,
+                    categoria: categoria as CategoriaProps,
+                    parcelas: {
+                        total: Number(parcelas),
+                        atual: 0
+                    },
+                    valor: {
+                        total: Number(valor),
+                        parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                    },
+                    dtadd: campo.dtadd
+                })
+                
+                await salvarCampos(novoEditCampo)
+            } else {
+                await handleRemoveCampo(campo, 1)
+
+                await saveCampo({
+                    id: campo.id,
+                    originalId: campo.originalId,
+                    type: campo.type,
+                    data,
+                    descricao,
+                    month: Number(data.split('-')[1]),
+                    categoria: categoria as CategoriaProps,
+                    parcelas: {
+                        total: Number(parcelas) ?? 1,
+                        atual: 0
+                    },
+                    valor: {
+                        total: Number(valor),
+                        parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                    },
+                    dtadd: campo.dtadd
+                })
+            }
+        } else { 
+            const editedCampo = {
+                id: campo.id,
+                originalId: campo.originalId,
+                type: campo.type,
+                data,
+                descricao,
+                month: Number(data.split('-')[1]),
+                categoria: categoria as CategoriaProps,
+                parcelas: {
+                    total: Number(parcelas) ?? 1,
+                    atual: campo.parcelas.atual
+                },
+                valor: {
+                    total: Number(valor),
+                    parcela: Number(valor) || campo.valor.parcela
+                },
+                dtadd: campo.dtadd
+            }
+            
+            await handleEditCampo(editedCampo)
+        }
+    }
+
+    async function handleSaveCampo() {
         if (!data || !descricao || !categoria || !valor) {
             return addNotification("warning", "Preencha todos os campos")
         }
-
-        let novoCampo: CamposProps;
+        
         if (editCampo) {
-            novoCampo = {
-                id: editCampo.id,
-                type: editCampo.type,
-                data,
-                descricao,
-                month: Number(data.split('-')[1]),
-                categoria: categoria as CategoriaProps,
-                parcelas: Number(parcelas) ?? 1,
-                valor: Number(valor),
-                dtadd: editCampo.dtadd
-            }
-
-            handleEditCampo(novoCampo)
+            handleEditedCampo(editCampo)
         } else {
-            novoCampo = {
-                id: uuidv4(),
-                type,
-                data,
-                descricao,
-                month: Number(data.split('-')[1]),
-                categoria: categoria as CategoriaProps,
-                parcelas: Number(parcelas) ?? 1,
-                valor: Number(valor),
-                dtadd: new Date().toISOString()
+            if (parcelas && Number(parcelas) > 1) {
+                //ADICIONANDO NOVO COM COM PARCELAS ACIMA DE 1 
+                const originalId = uuidv4();
+                for (let i = 0; i < Number(parcelas); i++) {
+                    const [year, month, day] = data.split("-");
+                    const dataComParcela = (Number(month) + i) <= 12 
+                    ? year + "-" + (Number(month) + i) + "-" + day
+                    : year + "-" + ((Number(month) + i) - 12) + "-" + day
+
+                    const campo = {
+                        id: uuidv4(),
+                        originalId: originalId,
+                        type,
+                        data: dataComParcela,
+                        descricao,
+                        month: Number(data.split('-')[1]) + i,
+                        categoria: categoria as CategoriaProps,
+                        parcelas: {
+                            total: Number(parcelas),
+                            atual: i + 1
+                        },
+                        valor: {
+                            total: Number(valor),
+                            parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                        },
+                        dtadd: new Date().toISOString()
+                    }
+                    
+                    await saveCampo(campo)
+                }
+            } else {
+                // ADICIONANDO NOVO CAMPO COM 1 OU SEM PARCELAS
+                const originalId = uuidv4();
+                
+                const novoCampo = {
+                    id: originalId,
+                    originalId: originalId,
+                    type,
+                    data,
+                    descricao,
+                    month: Number(data.split('-')[1]),
+                    categoria: categoria as CategoriaProps,
+                    parcelas: {
+                        total: Number(parcelas) ?? 1,
+                        atual: 0
+                    },
+                    valor: {
+                        total: Number(valor),
+                        parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                    },
+                    dtadd: new Date().toISOString()
+                }
+                await saveCampo(novoCampo)
             }
-            saveCampo(novoCampo)
         }
 
 
@@ -117,8 +223,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
         if (editCampo) {
             setData(editCampo.data)
             setCategoria(editCampo.categoria)
-            setParcelas(editCampo.parcelas.toString() ?? "")
-            setValor(editCampo.valor.toString())
+            setParcelas(editCampo.parcelas.total.toString() ?? "")
+            setValor(editCampo.valor.parcela.toString())
             setDescricao(editCampo.descricao)
         }
     }, [editCampo])
@@ -196,14 +302,14 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, handleEditCam
                     <div className="col-span-1">
                         <Button
                             handleButton={() => {
-                                if(data || categoria || parcelas || valor || descricao){
+                                if (data || categoria || parcelas || valor || descricao) {
                                     setModalConfirmAction(true)
                                     return
                                 }
 
                                 setModalAddCampo(false)
 
-                                if(editCampo){
+                                if (editCampo) {
                                     setEditCampo(null)
                                 }
                             }}

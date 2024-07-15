@@ -2,6 +2,7 @@
   "campos": [
     {
       "id": "1",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-01-15",
       "descricao": "Almoço no restaurante",
@@ -18,12 +19,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 3500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-01-16T12:00:00.000Z"
     },
     {
       "id": "2",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-01-20",
       "descricao": "Festa de aniversário",
@@ -40,12 +48,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 4500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-01-21T12:00:00.000Z"
     },
     {
       "id": "3",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-01-25",
       "descricao": "Salário",
@@ -62,12 +77,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 50000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-01-26T12:00:00.000Z"
     },
     {
       "id": "4",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-01-28",
       "descricao": "Recarga do bilhete único",
@@ -84,12 +106,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 2000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-01-29T12:00:00.000Z"
     },
     {
       "id": "5",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-02-10",
       "descricao": "Jantar fora",
@@ -106,12 +135,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 2500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-02-11T12:00:00.000Z"
     },
     {
       "id": "6",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-02-14",
       "descricao": "Festa de carnaval",
@@ -128,12 +164,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 5000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-02-15T12:00:00.000Z"
     },
     {
       "id": "7",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-02-25",
       "descricao": "Salário",
@@ -150,12 +193,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 50000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-02-26T12:00:00.000Z"
     },
     {
       "id": "8",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-02-28",
       "descricao": "Combustível",
@@ -172,12 +222,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 3000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-02-29T12:00:00.000Z"
     },
     {
       "id": "9",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-03-05",
       "descricao": "Almoço com colegas",
@@ -194,12 +251,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 3000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-03-06T12:00:00.000Z"
     },
     {
       "id": "10",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-03-18",
       "descricao": "Noite no bar",
@@ -216,12 +280,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 4000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-03-19T12:00:00.000Z"
     },
     {
       "id": "11",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-03-25",
       "descricao": "Freelance de programação",
@@ -238,12 +309,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-03-26T12:00:00.000Z"
     },
     {
       "id": "12",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-03-28",
       "descricao": "Passagem de ônibus",
@@ -260,12 +338,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 1000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-03-29T12:00:00.000Z"
     },
     {
       "id": "13",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-08",
       "descricao": "Lanche no shopping",
@@ -282,12 +367,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 1500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-09T12:00:00.000Z"
     },
     {
       "id": "14",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-15",
       "descricao": "Cinema com amigos",
@@ -304,12 +396,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 3000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-16T12:00:00.000Z"
     },
     {
       "id": "15",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-04-25",
       "descricao": "Salário",
@@ -326,12 +425,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 50000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-26T12:00:00.000Z"
     },
     {
       "id": "16",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-28",
       "descricao": "Uber para o aeroporto",
@@ -348,12 +454,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 4000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-29T12:00:00.000Z"
     },
     {
       "id": "16",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-25",
       "descricao": "Manutenção do carro",
@@ -370,12 +483,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 6000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-26T12:00:00.000Z"
     },
     {
       "id": "17",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-03",
       "descricao": "Café da manhã",
@@ -392,12 +512,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-04T12:00:00.000Z"
     },
     {
       "id": "18",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-12",
       "descricao": "Compra de presentes",
@@ -414,12 +541,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 4000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-13T12:00:00.000Z"
     },
     {
       "id": "19",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-05-20",
       "descricao": "Trabalho extra",
@@ -436,12 +570,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 7000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-21T12:00:00.000Z"
     },
     {
       "id": "20",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-25",
       "descricao": "Táxi",
@@ -458,12 +599,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 1500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-26T12:00:00.000Z"
     },
     {
       "id": "21",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-06-05",
       "descricao": "Almoço rápido",
@@ -480,12 +628,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 1200,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-06T12:00:00.000Z"
     },
     {
       "id": "22",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-06-15",
       "descricao": "Festa junina",
@@ -502,12 +657,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 3200,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-16T12:00:00.000Z"
     },
     {
       "id": "23",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-06-20",
       "descricao": "Projeto freelance",
@@ -524,12 +686,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 10000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-21T12:00:00.000Z"
     },
     {
       "id": "24",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-06-25",
       "descricao": "Passagem de avião",
@@ -546,12 +715,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-26T12:00:00.000Z"
     },
     {
       "id": "25",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-07",
       "descricao": "Jantar romântico",
@@ -568,12 +744,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 5000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-08T12:00:00.000Z"
     },
     {
       "id": "26",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-14",
       "descricao": "Balada com amigos",
@@ -590,12 +773,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 7000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-15T12:00:00.000Z"
     },
     {
       "id": "27",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-07-21",
       "descricao": "Consultoria de programação",
@@ -612,12 +802,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-22T12:00:00.000Z"
     },
     {
       "id": "28",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-30",
       "descricao": "Transporte público",
@@ -634,12 +831,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 2000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-31T12:00:00.000Z"
     },
     {
       "id": "29",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-08-05",
       "descricao": "Fast food",
@@ -656,12 +860,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 1800,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-06T12:00:00.000Z"
     },
     {
       "id": "30",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-08-12",
       "descricao": "Show de música",
@@ -678,12 +889,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 8500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-13T12:00:00.000Z"
     },
     {
       "id": "31",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-08-20",
       "descricao": "Projeto de software",
@@ -700,12 +918,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-21T12:00:00.000Z"
     },
     {
       "id": "32",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-08-28",
       "descricao": "Revisão do carro",
@@ -722,12 +947,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-29T12:00:00.000Z"
     },
     {
       "id": "33",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-09-02",
       "descricao": "Almoço de negócios",
@@ -744,12 +976,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 6000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-03T12:00:00.000Z"
     },
     {
       "id": "34",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-09-11",
       "descricao": "Festa de casamento",
@@ -766,12 +1005,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-12T12:00:00.000Z"
     },
     {
       "id": "35",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-09-20",
       "descricao": "Contrato de desenvolvimento",
@@ -788,12 +1034,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 20000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-21T12:00:00.000Z"
     },
     {
       "id": "36",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-09-27",
       "descricao": "Aluguel de carro",
@@ -810,12 +1063,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 9000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-28T12:00:00.000Z"
     },
     {
       "id": "37",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-10-04",
       "descricao": "Pizza delivery",
@@ -832,12 +1092,19 @@
           "value": "comida"
         }
       },
-      "parcelas": 0,
-      "valor": 4000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-05T12:00:00.000Z"
     },
     {
       "id": "38",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-10-14",
       "descricao": "Festa de Halloween",
@@ -854,12 +1121,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-15T12:00:00.000Z"
     },
     {
       "id": "39",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-10-20",
       "descricao": "Consultoria tech",
@@ -876,12 +1150,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-21T12:00:00.000Z"
     },
     {
       "id": "40",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-10-25",
       "descricao": "Transporte urbano",
@@ -898,12 +1179,19 @@
           "value": "onibus"
         }
       },
-      "parcelas": 0,
-      "valor": 1000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-26T12:00:00.000Z"
     },
     {
       "id": "1",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-15",
       "descricao": "Cinema com amigos",
@@ -920,12 +1208,19 @@
           "value": "cinema"
         }
       },
-      "parcelas": 0,
-      "valor": 3000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-16T12:00:00.000Z"
     },
     {
       "id": "2",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-08",
       "descricao": "Livros novos",
@@ -942,12 +1237,19 @@
           "value": "livros"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-09T12:00:00.000Z"
     },
     {
       "id": "3",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-08-20",
       "descricao": "Concerto de música",
@@ -964,12 +1266,19 @@
           "value": "musica"
         }
       },
-      "parcelas": 0,
-      "valor": 2500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-21T12:00:00.000Z"
     },
     {
       "id": "4",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-06-05",
       "descricao": "Ração para cachorro",
@@ -986,12 +1295,19 @@
           "value": "cachorro"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-06T12:00:00.000Z"
     },
     {
       "id": "5",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-12",
       "descricao": "Material de arte",
@@ -1008,12 +1324,19 @@
           "value": "arte"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-13T12:00:00.000Z"
     },
     {
       "id": "6",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-09-18",
       "descricao": "Curso de programação",
@@ -1030,12 +1353,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-19T12:00:00.000Z"
     },
     {
       "id": "7",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-11-03",
       "descricao": "Aniversário amigo",
@@ -1052,12 +1382,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 20000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-11-04T12:00:00.000Z"
     },
     {
       "id": "8",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-22",
       "descricao": "Produtos de beleza",
@@ -1074,12 +1411,19 @@
           "value": "maquiagem"
         }
       },
-      "parcelas": 0,
-      "valor": 1800,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-23T12:00:00.000Z"
     },
     {
       "id": "9",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-10-10",
       "descricao": "Pizza com amigos",
@@ -1096,12 +1440,19 @@
           "value": "pizza"
         }
       },
-      "parcelas": 0,
-      "valor": 5000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-11T12:00:00.000Z"
     },
     {
       "id": "10",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-12-05",
       "descricao": "Investimento em ações",
@@ -1118,12 +1469,19 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 1000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-12-06T12:00:00.000Z"
     },
     {
       "id": "11",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-04-29",
       "descricao": "Cinema sozinho",
@@ -1140,12 +1498,19 @@
           "value": "cinema"
         }
       },
-      "parcelas": 0,
-      "valor": 1500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-30T12:00:00.000Z"
     },
     {
       "id": "12",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-08-08",
       "descricao": "Compra de camisetas",
@@ -1162,12 +1527,19 @@
           "value": "camisa"
         }
       },
-      "parcelas": 0,
-      "valor": 2000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-09T12:00:00.000Z"
     },
     {
       "id": "13",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-09-30",
       "descricao": "Consulta médica",
@@ -1184,12 +1556,19 @@
           "value": "hospital"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-01T12:00:00.000Z"
     },
     {
       "id": "14",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-06-18",
       "descricao": "Curso de pintura",
@@ -1206,12 +1585,19 @@
           "value": "arte"
         }
       },
-      "parcelas": 0,
-      "valor": 30000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-19T12:00:00.000Z"
     },
     {
       "id": "15",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-11-15",
       "descricao": "Smartphone novo",
@@ -1228,12 +1614,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 1500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-11-16T12:00:00.000Z"
     },
     {
       "id": "16",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-05",
       "descricao": "Festa de aniversário",
@@ -1250,12 +1643,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 40000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-06T12:00:00.000Z"
     },
     {
       "id": "17",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-07-03",
       "descricao": "Maquiagem",
@@ -1272,12 +1672,19 @@
           "value": "maquiagem"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-04T12:00:00.000Z"
     },
     {
       "id": "18",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-10-28",
       "descricao": "Jantar em restaurante",
@@ -1294,12 +1701,19 @@
           "value": "pizza"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-29T12:00:00.000Z"
     },
     {
       "id": "19",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-12-20",
       "descricao": "Investimento em fundo",
@@ -1316,12 +1730,19 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 8000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-12-21T12:00:00.000Z"
     },
     {
       "id": "20",
+      "originalId": "5",
       "type": "gastos",
       "data": "2024-05-22",
       "descricao": "Curso de culinária",
@@ -1338,12 +1759,19 @@
           "value": "pizza"
         }
       },
-      "parcelas": 0,
-      "valor": 18000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-23T12:00:00.000Z"
     },
     {
       "id": "21",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-04-01",
       "descricao": "Salário",
@@ -1360,12 +1788,19 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 5000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-04-02T12:00:00.000Z"
     },
     {
       "id": "22",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-07-15",
       "descricao": "Bônus",
@@ -1382,12 +1817,19 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 10000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-16T12:00:00.000Z"
     },
     {
       "id": "23",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-08-05",
       "descricao": "Freelance",
@@ -1404,12 +1846,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 80000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-08-06T12:00:00.000Z"
     },
     {
       "id": "24",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-06-10",
       "descricao": "Venda de objetos de arte",
@@ -1426,12 +1875,19 @@
           "value": "arte"
         }
       },
-      "parcelas": 0,
-      "valor": 4000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-06-11T12:00:00.000Z"
     },
     {
       "id": "25",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-05-20",
       "descricao": "Consultoria",
@@ -1448,12 +1904,19 @@
           "value": "computador"
         }
       },
-      "parcelas": 0,
-      "valor": 12000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-05-21T12:00:00.000Z"
     },
     {
       "id": "26",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-09-25",
       "descricao": "Presente de aniversário",
@@ -1470,12 +1933,19 @@
           "value": "festa"
         }
       },
-      "parcelas": 0,
-      "valor": 15000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-09-26T12:00:00.000Z"
     },
     {
       "id": "27",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-11-10",
       "descricao": "Venda de roupas usadas",
@@ -1492,12 +1962,19 @@
           "value": "camisa"
         }
       },
-      "parcelas": 0,
-      "valor": 2500,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-11-11T12:00:00.000Z"
     },
     {
       "id": "28",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-07-30",
       "descricao": "Palestra",
@@ -1514,12 +1991,19 @@
           "value": "livros"
         }
       },
-      "parcelas": 0,
-      "valor": 30000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-07-31T12:00:00.000Z"
     },
     {
       "id": "29",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-10-12",
       "descricao": "Bonificação no trabalho",
@@ -1536,12 +2020,19 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 6000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-10-13T12:00:00.000Z"
     },
     {
       "id": "30",
+      "originalId": "5",
       "type": "ganhos",
       "data": "2024-12-15",
       "descricao": "Prêmio de loteria",
@@ -1558,8 +2049,14 @@
           "value": "grafico"
         }
       },
-      "parcelas": 0,
-      "valor": 10000,
+      "parcelas": {
+        "total": 2,
+        "atual": 0
+      },
+      "valor": {
+        "total": 1500,
+        "parcela": 750
+      },
       "dtadd": "2024-12-16T12:00:00.000Z"
     }
   ]

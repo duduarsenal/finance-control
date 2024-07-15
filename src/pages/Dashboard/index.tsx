@@ -19,7 +19,8 @@ import {
   currencyFormatPT,
   months,
   campos as camposJSON,
-  categorias as categoriasJSON
+  categorias as categoriasJSON,
+  preencherParcelas
 } from "@utils";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -56,29 +57,31 @@ export function Dashboard() {
     handleTipoDados(tipoDados)
   }, [tipoDados])
 
-  async function handleTipoDados(tipoDados?: string){
-    if(tipoDados == "prod"){
+  async function handleTipoDados(tipoDados?: string) {
+    if (tipoDados == "prod") {
       setIsLoading(true)
 
-      setCategorias(await getCategorias())
-      setCampos(await getCampos());
+      // setCategorias(await getCategorias())
+      // setCampos(await getCampos());
+      handleStates()
 
       setIsLoading(false)
     }
 
-    if(tipoDados == "mock"){
+    if (tipoDados == "mock") {
       setIsLoading(true)
 
-      setCategorias(categoriasJSON)
-      setCampos(camposJSON)
-      
+      // setCategorias(categoriasJSON)
+      // setCampos(camposJSON)
+      handleStates()
+
       setIsLoading(false)
     }
   }
 
   async function saveCategoria(values: CategoriaProps[]) {
 
-    if(tipoDados == "mock"){
+    if (tipoDados == "mock") {
       // SALVA OS DADOS MOCKADOS
       setCategorias(values)
     } else {
@@ -91,76 +94,114 @@ export function Dashboard() {
     setModalCategoria(false);
     addNotification("sucess", "Categorias atualizas com sucesso.");
   }
+  
+  async function salvarCampos(campos: CamposProps[]){
+    await saveCampos([...await getCampos(), ...campos])
+
+    setCampos(await getCampos())
+  }
 
   async function saveCampo(campo: CamposProps) {
-    if(tipoDados == "mock"){
-      setCampos([...campos, campo])
-    } else {
-      // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
-      await saveCampos([...(await getCampos()), campo]);
+    if (tipoDados == "mock") {      
+      const camposExistentes = [...campos];
+      camposExistentes.push(campo)
+      
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(await getCampos());
+      setCampos(camposExistentes)
+    } else {
+      const camposExistentes = await getCampos();
+      camposExistentes.push(campo)
+      console.log('camposExistentes', camposExistentes)
+      console.log(`campo ${campo.parcelas.atual}`, campo)
+      
+      // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
+      await saveCampos(camposExistentes);
+      
+      // SALVA NOVA LISTA DE CAMPOS NO STATE
+      setCampos(camposExistentes);
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`);
   }
 
   async function editCampo(campo: CamposProps) {
-    if(tipoDados == "mock"){
-      setCampos(campos.map((c) => { 
-        if(c.id === campo.id) c = {...campo}
+    if (tipoDados == "mock") {
+      setCampos(campos.map((c) => {
+        if (c.originalId === campo.originalId && c.parcelas.atual == campo.parcelas.atual) {
+          c = { ...campo }
+        }
         return c
       }))
     } else {
+      const camposExistentes = await getCampos();
       // CRIA UMA NOVA LISTA DE CAMPOS COM O CAMPO EDITADO
-      const novosCampos = (await getCampos()).map((c) => {
-        if (c.id === campo.id) c = { ...campo };
+      const novosCampos = camposExistentes.map((c) => {
+        if (c.id === campo.id && c.parcelas.atual == campo.parcelas.atual) {
+          c = { ...campo };
+        }
         return c;
       });
-  
+
       // SALVA NOVA LISTA NO LOCALSTORAGE/BACKEND
       await saveCampos(novosCampos);
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(await getCampos());
+      setCampos(novosCampos);
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} editado com sucesso.`);
   }
 
-  async function removeCampo(campo: CamposProps) {
-    if(tipoDados == "mock"){
-      setCampos(campos.filter((c) => c.id !== campo.id))
+  async function removeCampo(campo: CamposProps, idTipo: number) {
+    if (tipoDados == "mock") {
+      if(idTipo === 1){
+        setCampos(campos.filter((c) => c.id  !== campo.id))
+      } else {
+        setCampos(campos.filter((c) => c.originalId  !== campo.originalId))
+      }
     } else {
-      //CRIA UMA NOVA LISTA DE CAMPOS REMOVENDO O CAMPO EXCLUIDO
-      const novosCampos = (await getCampos()).filter((c) => c.id !== campo.id);
+      const camposExistentes = await getCampos();
       
+      console.log('camposExistentes', camposExistentes)
+      //CRIA UMA NOVA LISTA DE CAMPOS REMOVENDO O CAMPO EXCLUIDO
+      let novosCampos
+      if(idTipo === 1){
+        novosCampos = camposExistentes.filter((c) => c.id !== campo.id)
+      } else {
+        novosCampos = camposExistentes.filter((c) => c.originalId !== campo.originalId)
+        console.log('novosCampos', novosCampos)
+      }
+
       // SALVA NOVA LISTA DE CAMPOS NO LOCALSTORAGE/BACKEND
       await saveCampos(novosCampos);
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(await getCampos());
+      setCampos(novosCampos);
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} removido com sucesso.`);
   }
 
   async function handleStates() {
-    if(tipoDados == "mock"){
+    if (tipoDados == "mock") {
       setCategorias(categoriasJSON)
+
+      const camposComParcelas = await preencherParcelas(camposJSON)
       setCampos(
         (monthSelected
-          ? camposJSON.filter((campo) => campo.month == monthSelected?.value)
-          : camposJSON
+          ? camposComParcelas.filter((campo) => campo.month == monthSelected?.value)
+          : camposComParcelas
         ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
       );
     } else {
+
+      const camposComParcelas = await getCampos()
       // SALVA LISTA DE CATEGORIAS NO STATE BUSCANDO DO LOCALSTORAGE/BACK
       setCategorias(await getCategorias());
       // SALVA LISTA DE CAMPOS NO STATE BUSCANDO DO LOCALSTORAGE/BACK (APLICANDO FILTRO DE MÊS CASO ESTEJA SELECIONADO)
       setCampos(
         (monthSelected
-          ? (await getCampos()).filter((campo) => campo.month == monthSelected?.value)
-          : await getCampos()
-          ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
+          ? camposComParcelas.filter((campo) => campo.month == monthSelected?.value)
+          : camposComParcelas
+        ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
       );
     }
 
@@ -204,8 +245,8 @@ export function Dashboard() {
 
       camposFiltrados.forEach((campo) => {
         if (campo.type === tipo) {
-          if (!isNaN(campo.valor)) {
-            result[campo.month - 1] += campo.valor; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
+          if (!isNaN(campo.valor.total)) {
+            result[campo.month - 1] += campo.valor.total; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
           }
         }
       });
@@ -246,12 +287,12 @@ export function Dashboard() {
         const existingCampo = acc.find((campo) => campo.label === ct.categoria.label);
 
         if (existingCampo) {
-          existingCampo.value += ct.valor;
+          existingCampo.value += ct.valor.total;
         } else {
           acc.push(
             {
               label: ct.categoria.label,
-              value: ct.valor,
+              value: ct.valor.total,
               color: cores.find((cor) => cor.label === ct.categoria.cor?.value)?.value as string
             })
         }
@@ -305,6 +346,7 @@ export function Dashboard() {
         type="gastos"
         campos={campos?.filter((campo) => campo.type === "gastos") || []}
         saveCampo={saveCampo}
+        salvarCampos={salvarCampos}
         handleEditCampo={editCampo}
         removeCampo={removeCampo}
         categorias={categorias}
@@ -316,6 +358,7 @@ export function Dashboard() {
         type="ganhos"
         campos={campos?.filter((campo) => campo.type === "ganhos") || []}
         saveCampo={saveCampo}
+        salvarCampos={salvarCampos}
         handleEditCampo={editCampo}
         removeCampo={removeCampo}
         categorias={categorias}
@@ -332,7 +375,7 @@ export function Dashboard() {
       )}
 
       {/* GRÁFICOS */}
-      <Graphics 
+      <Graphics
         year={year}
         setYear={setYear}
         month={month}

@@ -3,7 +3,7 @@ import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typi
 import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
 import { ReactNode, useEffect, useState } from 'react';
 
-export function DashboardTable({ type, campos, saveCampo, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
+export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
 
@@ -21,7 +21,7 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
 
     useEffect(() => {
         let total = 0;
-        tempCampos.forEach((row) => total += row.valor)
+        tempCampos.forEach((row) => total += row.valor.parcela)
         setTotalContent(total)
         setTotal(total)
     }, [tempCampos, campos, setTotal])
@@ -45,16 +45,16 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
         setModalAddCampo(true)
     }
 
-    async function handleRemoveCampo(campo: CamposProps){
-        await removeCampo(campo)
+    async function handleRemoveCampo(campo: CamposProps, idTipo: number){
+        await removeCampo(campo, idTipo)
     }
 
     function handleConfirmAction(row: CamposProps){
-        const item = <div className='leading-4 font-bold'>{row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...</div>
-        const valor = currencyFormatPT(row.valor)
+        const item = <div className='font-bold leading-4'>{row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...</div>
+        const valor = currencyFormatPT(row.valor.total)
 
-        setMessageConfirmAction(<span className='leading-4 font-normal'>Deseja realmente excluir o campo {item} no valor de {valor}?</span>)
-        setActionConfirmAction({action: () => { handleRemoveCampo(row); setModalConfirmAction(false) }})
+        setMessageConfirmAction(<span className='font-normal leading-4'>Deseja realmente excluir o campo {item} no valor de {valor}?</span>)
+        setActionConfirmAction({action: () => { handleRemoveCampo(row, 1); setModalConfirmAction(false) }})
         setModalConfirmAction(true)
     }
     
@@ -110,8 +110,12 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
                                         <span>{row?.categoria?.emoji?.label}</span>
                                         <span className='font-bold truncate text-brand-black'>{row?.categoria?.label || '-'}</span>
                                     </p>
-                                    <p className='col-span-1'>{row?.parcelas ? row?.parcelas : row.data != null ? '1' : '-'}</p>
-                                    <p className='col-span-2 tracking-tighter'>{currencyFormatPT(row?.valor) || '-'}</p>
+                                    <p className='col-span-1'>
+                                            {row?.parcelas?.total > 1
+                                        ? (row?.parcelas?.atual + "/" + row?.parcelas?.total)
+                                        : row.data != null ? '1' : '-'}
+                                    </p>
+                                    <p className='col-span-2 tracking-tighter'>{currencyFormatPT(row?.valor?.parcela) || '-'}</p>
                                     {row.data != null ? <p className='flex items-center justify-center col-span-1 gap-2'>
                                         <Button
                                             className='my-0 border-none outline-0 text-[20px] px-0 hover:text-brand-gray'
@@ -175,12 +179,14 @@ export function DashboardTable({ type, campos, saveCampo, handleEditCampo, remov
             {modalAddCampo &&
                 <ModalAddCampo
                     saveCampo={saveCampo}
+                    salvarCampos={salvarCampos}
                     setModalAddCampo={setModalAddCampo}
                     type={type}
                     categorias={categorias}
                     editCampo={editCampo as CamposProps}
                     setEditCampo={setEditCampo}
                     handleEditCampo={handleEditCampo}
+                    handleRemoveCampo={handleRemoveCampo}
             />}
 
             {modalConfirmAction &&

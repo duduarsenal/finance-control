@@ -66,9 +66,10 @@ export interface SelectProps{
 }
 
 export interface DashboardProps{
-    saveCampo: (campo: CamposProps) => void
-    handleEditCampo: (campo: CamposProps) => void
-    removeCampo: (id: CamposProps) => Promise<void>
+    saveCampo: (campo: CamposProps) => Promise<void>
+    salvarCampos: (campos: CamposProps[]) => Promise<void>
+    handleEditCampo: (campo: CamposProps) => Promise<void>
+    removeCampo: (id: CamposProps, idTipo: number) => Promise<void>
     type: string
     campos: CamposProps[]
     categorias: CategoriaProps[]
@@ -82,9 +83,16 @@ export interface CamposProps{
     month: number
     descricao: string
     categoria: CategoriaProps
-    parcelas: number
-    valor: number
+    parcelas: {
+        total: number
+        atual: number | null
+    }
+    valor: {
+        total: number,
+        parcela: number
+    }
     dtadd: string
+    originalId: string
 }
 
 export interface ModalCategoriaProps{
@@ -108,8 +116,10 @@ export interface GenericProps{
 export interface ModalAddCampoProps{
     type: string
     setModalAddCampo: (value: boolean) => void
-    saveCampo: (campo: CamposProps) => void
-    handleEditCampo: (campo: CamposProps) => void
+    saveCampo: (campo: CamposProps) => Promise<void>
+    salvarCampos: (campos: CamposProps[]) => Promise<void>
+    handleEditCampo: (campo: CamposProps) => Promise<void>
+    handleRemoveCampo: (campo: CamposProps, idTipo: number) => Promise<void>
     categorias: CategoriaProps[]
     editCampo: CamposProps
     setEditCampo: Dispatch<SetStateAction<CamposProps | null>>
