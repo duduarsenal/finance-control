@@ -22,9 +22,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     const {addNotification} = useOutletContext<{addNotification: (type: string, message: string) => void}>()
 
     function handleAddCategoria() {
-
         if (!categoria || !cor || !emoji) return
-
         // VALIDAÇÃO PARA VERIFICAR SE A CATEGORIA NÃO É REPETIDA (NOME DA CATEGORIA)
         const canAdd = categorias?.filter((c) => c.value === categoria.toLocaleLowerCase())
         if (canAdd?.length){
@@ -48,8 +46,8 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
 
     // FUNÇÃO PARA CAPTAR EXCLUSÃO DE CATEGORIA AO CLICAR NA "LIXEIRA" AO LADO DA CATEGORIA
     function handleRemoveCategoria(delCategoria: string) {
-        const newList = tempCategorias?.filter((categoria) => categoria.value != delCategoria) || []
-        setTempCategorias(newList)
+        const novaLista = tempCategorias?.filter((categoria) => categoria.value != delCategoria) || []
+        setTempCategorias(novaLista)
     }
 
     // HANDLER AO CLICAR NO BOTÃO DE SALVAR NO MODAL DE CATEGORIAS
@@ -69,7 +67,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     }
 
     // DESCARTAR INFORMAÇÕES AO CLICAR EM DESCARTAR NO COMPONENTE CONFIRM ACTION
-    function handleDescartarAction() {
+    function resetForm() {
         // RESET FIELDS
         setCategoria("")
         setCor(null)
@@ -80,7 +78,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     // SALVAR CATEGORIAS AO CLICAR EM SALVAR NO COMPONENTE CONFIRM ACTION
     function saveCategoriasConfirmAction(){
         saveCategorias(tempCategorias)
-        handleDescartarAction()
+        resetForm()
     }
 
     // VALIDA QUALQUER MUDANÇA NAS CATEGORIAS (ADD, EDIT, REMOVE)
@@ -88,16 +86,16 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
         if(categoria || cor || emoji) return true
         if(tempCategorias.length !== categorias.length) return true
 
-        function objetosIguais(obj1: any, obj2: any){
+        function objetosIguais(obj1: CategoriaProps, obj2: CategoriaProps){
             const keys1 = Object.keys(obj1);
             const keys2 = Object.keys(obj2);
-          
+        
             if (keys1.length !== keys2.length) return false;
-          
+        
             for (const key of keys1) {
-              if (obj1[key] !== obj2[key]) return false;
+                if (obj1[key as keyof CategoriaProps] !== obj2[key as keyof CategoriaProps]) return false;
             }
-          
+        
             return true;
         }
 
@@ -141,6 +139,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
             document.removeEventListener('keydown', handleEscapeOut, true)
             document.removeEventListener('click', handleclickOut, true)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoria, cor, emoji, modalConfirmAction, setModalCategoria])
     
     return (
@@ -229,7 +228,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                 <ConfirmAction
                     label={messageConfirmAction || "Desejar descartar as alterações não salvas?"}
                     option1="Descartar"
-                    action1={actionConfirmAction?.action ?? handleDescartarAction}
+                    action1={actionConfirmAction?.action ?? resetForm}
                     option2="Cancelar"
                     action2={() => setModalConfirmAction(false)}
                 />

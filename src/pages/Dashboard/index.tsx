@@ -219,7 +219,7 @@ export function Dashboard() {
 
       if (year) {
         camposFiltrados = camposFiltrados
-          .filter((campo) => campo.data.split("-")[0] === year.value.toString())
+        .filter((campo) => campo.data.split("-")[0] === year.value.toString())
       } else {
         camposFiltrados = camposFiltrados
           .filter((campo) => campo.data.split("-")[0] === new Date().getFullYear().toString())

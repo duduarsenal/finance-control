@@ -1,6 +1,6 @@
 import { currencyFormatPT } from "@utils";
 import { GraphicsBar, GraphicsDonut, Loading, Select, Switch } from "@components";
-import { CategoriaProps, GraphicsProps } from "@typings";
+import { CategoriaProps, GenericProps, GraphicsProps } from "@typings";
 
 export function Graphics({
   year,
@@ -17,6 +17,25 @@ export function Graphics({
   typeGraphicDonut,
   setTypeGraphicDonut,
 }: GraphicsProps) {
+
+  const selectYears = () => { 
+    const arr: GenericProps[] = []
+    let anoAtual = new Date().getFullYear() - 4
+    
+    for (let i = 0; i <= 9; i++) {
+      if (i == 0) {
+        arr.push({label: (anoAtual).toString(), value: (anoAtual).toString()})
+      } else if(i % 2 == 0){
+        anoAtual -= 5;
+        anoAtual += 1;
+        arr.push({label: (anoAtual).toString(), value: (anoAtual).toString()})
+      } else {
+        anoAtual += 5;
+        arr.push({label: (anoAtual).toString(), value: (anoAtual).toString()})
+      }
+    }
+    return arr;
+  }
   
   function calcPorcentagem(valor: number, total: number[]): number {
     if (!valor) return 0;
@@ -98,38 +117,44 @@ export function Graphics({
           <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
             Maior {typeGraphicDonut.slice(0, -1)} do mês:
             <p className="flex items-center gap-2 px-4 py-2 font-medium truncate rounded-md bg-brand-dark-gray">
-              <span
-                style={{
-                  backgroundColor: Array.from(categoriasByMonth || []).sort(
-                    (a, b) => b.value - a.value
-                  )[0]?.color,
-                }}
-                className="w-4 h-4 rounded-sm"
-              />
-              <span>
-                {
+              {categoriasByMonth?.length ?
+              <>
+                
+                <span
+                  style={{
+                    backgroundColor: Array.from(categoriasByMonth || []).sort(
+                      (a, b) => b.value - a.value
+                    )[0]?.color,
+                  }}
+                  className="w-4 h-4 rounded-sm"
+                />
+                <span>
+                  {
+                    Array.from(categoriasByMonth || []).sort(
+                      (a, b) => b.value - a.value
+                    )[0]?.label
+                  }
+                </span>
+                <span>
+                  {`- ${calcPorcentagem(
+                    Array.from(categoriasByMonth || []).sort(
+                      (a, b) => b.value - a.value
+                    )[0]?.value,
+                    categoriasByMonth
+                      ?.sort((a, b) => a.value - b.value)
+                      .map((c) => c.value) || []
+                  )}%`}
+                </span>
+                <span className="text-brand-gray">{`(${currencyFormatPT(
                   Array.from(categoriasByMonth || []).sort(
                     (a, b) => b.value - a.value
-                  )[0]?.label
-                }
-              </span>
-              <span>
-                {`- ${calcPorcentagem(
-                  Array.from(categoriasByMonth || []).sort(
-                    (a, b) => b.value - a.value
-                  )[0]?.value,
-                  categoriasByMonth
-                    ?.sort((a, b) => a.value - b.value)
-                    .map((c) => c.value) || []
-                )}%`}
-              </span>
-              <span className="text-brand-gray">{`(${currencyFormatPT(
-                Array.from(categoriasByMonth || []).sort(
-                  (a, b) => b.value - a.value
-                )[0]?.value
-              )})`}</span>
+                  )[0]?.value
+                )})`}</span>
+              </>
+              : <span className="font-normal text-brand-gray">Sem registros...</span>}
             </p>
           </h4>
+          {categoriasByMonth?.length ?
           <div className="flex flex-col flex-wrap lg:flex-row gap-x-3 gap-y-[.05rem]">
             {categoriasByMonth?.map((categInfo, index) => (
               <div
@@ -156,7 +181,7 @@ export function Graphics({
                 </span>
               </div>
             ))}
-          </div>
+          </div> : ""}
         </div>
       </div>
 
@@ -213,13 +238,9 @@ export function Graphics({
                 value={year as CategoriaProps}
                 setValue={setYear}
                 optionDefault={new Date().getFullYear().toString()}
-                options={[
-                  { label: "2024", value: "2024" },
-                  { label: "2023", value: "2023" },
-                  { label: "2022", value: "2022" },
-                ]}
+                options={selectYears()}
                 transparent={false}
-                className="min-w-[120px]"
+                className="min-w-[160px]"
                 clearable={false}
               />
             </div>

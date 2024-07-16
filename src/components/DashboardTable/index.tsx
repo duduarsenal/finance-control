@@ -3,7 +3,16 @@ import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typi
 import { Icons, arredondar, cn, currencyFormatPT, dateFormatPT, preencherParcelas } from '@utils';
 import { ReactNode, useEffect, useState } from 'react';
 
-export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
+export function DashboardTable({ 
+    type, 
+    campos, 
+    saveCampo, 
+    salvarCampos, 
+    handleEditCampo, 
+    removeCampo, 
+    categorias, 
+    setTotal 
+}: DashboardProps) {
 
     const [categoriaSelected, setCategoriaSelected] = useState<GenericProps | CategoriaProps | null>(null)
 
@@ -28,22 +37,22 @@ export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEd
                 arrTotal.push(item)
                 return acc += item.valor.total
             }
-                return acc += 0
-            }, 0)
+            return acc += 0
+        }, 0)
         
         setTotalContent(total)
         setTotal(total)
     }, [tempCampos, campos, setTotal])
 
     useEffect(() => {
-        const filtragemCategoria = categoriaSelected ? campos
-            .filter((campo) => campo.categoria.value === categoriaSelected?.value)
-            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        const filtragemCategoria = categoriaSelected 
+        ? campos.filter((campo) => campo.categoria.value === categoriaSelected?.value)
+                .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
         : campos.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
 
-        const filtragemData = dtFiltro ? filtragemCategoria
-            .filter((campo) => campo.data === dtFiltro)
-            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        const filtragemData = dtFiltro 
+        ? filtragemCategoria.filter((campo) => campo.data === dtFiltro)
+                            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
         : filtragemCategoria.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
 
         setTempCampos(filtragemData)
@@ -56,10 +65,13 @@ export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEd
 
     async function handleRemoveCampo(campo: CamposProps, idTipo: number){
         if(campo?.parcelas?.total > 1){
-            const camposToEdit = campos.filter((item) => campo.originalId === item.originalId && campo.id !== item.id).sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+            const camposToEdit = campos
+            .filter((item) => campo.originalId === item.originalId && campo.id !== item.id)
+            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
             
             await removeCampo(campo, 2)
-            const novosCamposComParcela = await preencherParcelas([], {
+            
+            await salvarCampos(await preencherParcelas([], {
                 ...camposToEdit[0],
                 valor: {
                     total: campo.valor.total,
@@ -69,21 +81,30 @@ export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEd
                     total: campo.parcelas.total - 1,
                     atual: 0
                 }   
-            })
+            }))
             
-            await salvarCampos(novosCamposComParcela);
-
         } else {
             await removeCampo(campo, idTipo)
         }
     }
 
     function handleConfirmAction(row: CamposProps){
-        const item = <div className='font-bold leading-4'>{row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...</div>
-        const valor = currencyFormatPT(row.valor.total)
+        const item = 
+        <div className='font-bold leading-4'>
+            {row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...
+        </div>
+        
+        const valor = currencyFormatPT(row.valor.parcela)
 
-        setMessageConfirmAction(<span className='font-normal leading-4'>Deseja realmente excluir o campo {item} no valor de {valor}?</span>)
-        setActionConfirmAction({action: () => { handleRemoveCampo(row, 1); setModalConfirmAction(false) }})
+        setMessageConfirmAction(
+            <span className='font-normal leading-4'>
+                Deseja realmente excluir o campo {item} no valor de {valor}?
+            </span>
+        )
+        
+        setActionConfirmAction({
+            action: () => { handleRemoveCampo(row, 1); setModalConfirmAction(false) }
+        })
         setModalConfirmAction(true)
     }
     

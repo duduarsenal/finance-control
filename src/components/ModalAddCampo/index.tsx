@@ -1,15 +1,22 @@
-import { CamposProps, CategoriaProps, ModalAddCampoProps } from "@typings";
 import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
+import { CamposProps, CategoriaProps, GenericProps, ModalAddCampoProps } from "@typings";
+import { arredondar, preencherParcelas } from "@utils";
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { arredondar, preencherParcelas } from "@utils";
 
-export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos, handleRemoveCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
-
+export function ModalAddCampo({ 
+    type, 
+    setModalAddCampo, 
+    saveCampo, 
+    salvarCampos, 
+    handleRemoveCampo, 
+    categorias, 
+    editCampo, 
+    setEditCampo
+}: ModalAddCampoProps) {
     const [data, setData] = useState<string>("")
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [categoria, setCategoria] = useState<any>()
+    const [categoria, setCategoria] = useState<CategoriaProps | GenericProps | null>(null)
     const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
     const [valor, setValor] = useState<string>("")
@@ -22,11 +29,10 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
     const { addNotification } = useOutletContext<{ addNotification: (type: string, message: string) => void }>()
 
     async function handleEditedCampo(campo: CamposProps){
-        // if (campo.parcelas.total !== Number(parcelas)) {
             if (parcelas && Number(parcelas) > 1) {
                 await handleRemoveCampo(campo, 2)
                 
-                const novoEditCampo = await preencherParcelas([], {
+                const campoComParcelas = await preencherParcelas([], {
                     id: campo.id,
                     originalId: campo.originalId,
                     type: campo.type,
@@ -35,7 +41,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     month: Number(data.split('-')[1]),
                     categoria: categoria as CategoriaProps,
                     parcelas: {
-                        total: Number(parcelas),
+                        total: Number(parcelas) ?? 1,
                         atual: 0
                     },
                     valor: {
@@ -45,9 +51,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     dtadd: campo.dtadd
                 })
                 
-                console.log('novoEditCampo', novoEditCampo)
-                
-                await salvarCampos(novoEditCampo)
+                await salvarCampos(campoComParcelas)
             } else {
                 await handleRemoveCampo(campo, 1)
 
@@ -70,28 +74,6 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     dtadd: campo.dtadd
                 })
             }
-        // } else { 
-        //     const editedCampo = {
-        //         id: campo.id,
-        //         originalId: campo.originalId,
-        //         type: campo.type,
-        //         data,
-        //         descricao,
-        //         month: Number(data.split('-')[1]),
-        //         categoria: categoria as CategoriaProps,
-        //         parcelas: {
-        //             total: Number(parcelas) ?? 1,
-        //             atual: campo.parcelas.atual
-        //         },
-        //         valor: {
-        //             total: Number(valor),
-        //             parcela: Number(valor) || campo.valor.parcela
-        //         },
-        //         dtadd: campo.dtadd
-        //     }
-            
-        //     await handleEditCampo(editedCampo)
-        // }
     }
 
     async function handleSaveCampo() {
@@ -105,6 +87,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
             if (parcelas && Number(parcelas) > 1) {
                 //ADICIONANDO NOVO CAMPO COM PARCELAS ACIMA DE 1 
                 const originalId = uuidv4();
+                const camposComParcelas: CamposProps[] = [];
+                
                 for (let i = 0; i < Number(parcelas); i++) {
                     const [year, month, day] = data.split("-");
                     let newMonth = Number(month) + i;
@@ -118,16 +102,16 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                 
                     const dataComParcela = `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`;
 
-                    const campo = {
+                    camposComParcelas.push({
                         id: uuidv4(),
                         originalId: originalId,
                         type,
                         data: dataComParcela,
                         descricao,
-                        month: Number(data.split('-')[1]) + i,
+                        month: newMonth,
                         categoria: categoria as CategoriaProps,
                         parcelas: {
-                            total: Number(parcelas),
+                            total: Number(parcelas) ?? 1,
                             atual: i + 1
                         },
                         valor: {
@@ -135,15 +119,15 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                             parcela: arredondar((Number(valor) / Number(parcelas)), 0)
                         },
                         dtadd: new Date().toISOString()
-                    }
-                    
-                    await saveCampo(campo)
+                    })
                 }
+                
+                await salvarCampos(camposComParcelas)
             } else {
                 // ADICIONANDO NOVO CAMPO COM 1 OU SEM PARCELAS
                 const originalId = uuidv4();
                 
-                const novoCampo = {
+                await saveCampo({
                     id: originalId,
                     originalId: originalId,
                     type,
@@ -160,23 +144,16 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                         parcela: arredondar((Number(valor) / Number(parcelas)), 0)
                     },
                     dtadd: new Date().toISOString()
-                }
-                await saveCampo(novoCampo)
+                })
             }
         }
 
 
         // RESET FIELDS
-        setData("")
-        setCategoria(null)
-        setParcelas("")
-        setDescricao("")
-        setValor("")
-        setEditCampo(null)
-        setModalAddCampo(false)
+        resetForm()
     }
 
-    function handleDescartarAction() {
+    function resetForm() {
         // RESET FIELDS
         setData("")
         setCategoria(null)
@@ -188,7 +165,6 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
     }
 
     useEffect(() => {
-
         function handleEscapeOut(e: KeyboardEvent) {
             if (e.key === "Escape") {
                 if (data || descricao || categoria || valor || categoria) {
@@ -227,7 +203,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
         if (editCampo) {
             setData(editCampo.data)
             setCategoria(editCampo.categoria)
-            setParcelas(editCampo.parcelas.total.toString() ?? "")
+            setParcelas(editCampo.parcelas.total.toString())
             setValor(editCampo.valor.total.toString())
             setDescricao(editCampo.descricao)
         }
@@ -334,7 +310,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                 <ConfirmAction
                     label="Desejar descartar as alterações não salvas?"
                     option1="Descartar"
-                    action1={handleDescartarAction}
+                    action1={resetForm}
                     option2="Cancelar"
                     action2={() => setModalConfirmAction(false)}
                 />

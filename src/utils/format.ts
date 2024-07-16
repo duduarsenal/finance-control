@@ -104,7 +104,7 @@ export async function preencherParcelas(campos?: CamposProps[], campo?: CamposPr
           id: uuidv4(),
           originalId: campo.originalId,
           data: dataComParcela,
-          month: campo.month + i,
+          month: newMonth,
           parcelas: {
             total: campo.parcelas.total ?? 1,
             atual: i + 1

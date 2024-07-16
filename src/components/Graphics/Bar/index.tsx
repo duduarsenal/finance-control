@@ -45,7 +45,11 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
             cssClass: "row-types",
           },
           formatter(val) {
-            return currencyFormatPT(val);
+            if(val <= 2){
+              return "R$ 0,00"
+            } else {
+              return currencyFormatPT(val);
+            }
           },
         },
       },

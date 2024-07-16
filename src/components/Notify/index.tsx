@@ -51,8 +51,6 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
 export function NotifyManager({ notifications, removeNotification }: NotifyManagerProps) {
 
     function handleMargin(index: number): string{
-        // const margin: string = `mb-[${index * 33}px]`
-        // return margin;
         switch(index){
             case 1:
                 return 'mb-[65px]'
@@ -68,10 +66,6 @@ export function NotifyManager({ notifications, removeNotification }: NotifyManag
                 return 'mb-[390px]'
             case 7:
                 return 'mb-[455px]'
-            case 8:
-                return 'mb-[520px]'
-            case 9:
-                return 'mb-[585px]'
             default:
                 return 'mb-0'
         }
