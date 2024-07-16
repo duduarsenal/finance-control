@@ -37,7 +37,7 @@ export function dateFormatPT(data?: string){
     if(data){
         // Adiciona +3 horas por conta do fuso horario UTC+3 (Brasil/São Paulo)
         const tempData = (new Date(new Date(data).setHours(new Date(data).getHours() + 3))).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })
-
+        
         const formatedData = tempData.split(" ")
         formatedData[2] = (tempData.split(" ")[2].slice(0, 1).toUpperCase() + tempData.split(" ")[2].slice(1,))
 
@@ -54,7 +54,16 @@ export async function preencherParcelas(campos?: CamposProps[], campo?: CamposPr
         if (campo.parcelas.total > 1) {
           for (let i = 0; i < campo.parcelas.total; i++) {
             const [year, month, day] = campo.data.split("-");
-            const dataComParcela = year + "-" + (Number(month) + i) + "-" + day
+            let newMonth = Number(month) + i;
+            let newYear = Number(year);
+        
+            // Se o mês ultrapassar 12, ajustar o ano e o mês
+            if (newMonth > 12) {
+                newYear += Math.floor((newMonth - 1) / 12);
+                newMonth = ((newMonth - 1) % 12) + 1;
+            }
+        
+            const dataComParcela = `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`;
 
             acc.push({
               ...campo,
@@ -79,7 +88,16 @@ export async function preencherParcelas(campos?: CamposProps[], campo?: CamposPr
       for (let i = 0; i < campo?.parcelas?.total; i++) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [year, _, day] = campo.data.split("-");
-        const dataComParcela = year + "-" + (campo.month + i) + "-" + day;
+        let newMonth = Number(campo.month) + i;
+        let newYear = Number(year);
+    
+        // Se o mês ultrapassar 12, ajustar o ano e o mês
+        if (newMonth > 12) {
+            newYear += Math.floor((newMonth - 1) / 12);
+            newMonth = ((newMonth - 1) % 12) + 1;
+        }
+    
+        const dataComParcela = `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`;
 
         camposComParcela.push({
           ...campo,
@@ -98,3 +116,8 @@ export async function preencherParcelas(campos?: CamposProps[], campo?: CamposPr
 
     return []
   }
+
+export function arredondar(numero: number, casasDecimais: number) {
+  const fator = Math.pow(10, casasDecimais);
+  return Math.round(numero * fator) / fator;
+}

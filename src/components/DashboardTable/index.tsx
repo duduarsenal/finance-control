@@ -1,6 +1,6 @@
 import { Button, ConfirmAction, DateField, ModalAddCampo, Select } from '@components';
 import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
-import { Icons, cn, currencyFormatPT, dateFormatPT } from '@utils';
+import { Icons, arredondar, cn, currencyFormatPT, dateFormatPT, preencherParcelas } from '@utils';
 import { ReactNode, useEffect, useState } from 'react';
 
 export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEditCampo, removeCampo, categorias, setTotal }: DashboardProps) {
@@ -20,8 +20,17 @@ export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEd
     const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
 
     useEffect(() => {
-        let total = 0;
-        tempCampos.forEach((row) => total += row.valor.parcela)
+        const arrTotal: CamposProps[] = [];
+        
+        const total = tempCampos.reduce((acc, item) => {
+            if(!(arrTotal.find((element) => element.originalId === item.originalId)))
+            {
+                arrTotal.push(item)
+                return acc += item.valor.total
+            }
+                return acc += 0
+            }, 0)
+        
         setTotalContent(total)
         setTotal(total)
     }, [tempCampos, campos, setTotal])
@@ -46,7 +55,27 @@ export function DashboardTable({ type, campos, saveCampo, salvarCampos, handleEd
     }
 
     async function handleRemoveCampo(campo: CamposProps, idTipo: number){
-        await removeCampo(campo, idTipo)
+        if(campo?.parcelas?.total > 1){
+            const camposToEdit = campos.filter((item) => campo.originalId === item.originalId && campo.id !== item.id).sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+            
+            await removeCampo(campo, 2)
+            const novosCamposComParcela = await preencherParcelas([], {
+                ...camposToEdit[0],
+                valor: {
+                    total: campo.valor.total,
+                    parcela: arredondar((Number(campo.valor.total,) / Number(campo.parcelas.total - 1)), 0)
+                },
+                parcelas: {
+                    total: campo.parcelas.total - 1,
+                    atual: 0
+                }   
+            })
+            
+            await salvarCampos(novosCamposComParcela);
+
+        } else {
+            await removeCampo(campo, idTipo)
+        }
     }
 
     function handleConfirmAction(row: CamposProps){

@@ -54,30 +54,11 @@ export function Dashboard() {
 
   // Altera entre os tipos de dados mockados
   useEffect(() => {
-    handleTipoDados(tipoDados)
+    setIsLoading(true)
+    handleStates()
+    setIsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tipoDados])
-
-  async function handleTipoDados(tipoDados?: string) {
-    if (tipoDados == "prod") {
-      setIsLoading(true)
-
-      // setCategorias(await getCategorias())
-      // setCampos(await getCampos());
-      handleStates()
-
-      setIsLoading(false)
-    }
-
-    if (tipoDados == "mock") {
-      setIsLoading(true)
-
-      // setCategorias(categoriasJSON)
-      // setCampos(camposJSON)
-      handleStates()
-
-      setIsLoading(false)
-    }
-  }
 
   async function saveCategoria(values: CategoriaProps[]) {
 
@@ -191,6 +172,7 @@ export function Dashboard() {
           : camposComParcelas
         ).sort((a, b) => new Date(a.dtadd).getTime() - new Date(b.dtadd).getTime())
       );
+      
     } else {
 
       const camposComParcelas = await getCampos()

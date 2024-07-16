@@ -3,9 +3,9 @@ import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@comp
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { preencherParcelas } from "@utils";
+import { arredondar, preencherParcelas } from "@utils";
 
-export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos, handleEditCampo, handleRemoveCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
+export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos, handleRemoveCampo, categorias, editCampo, setEditCampo }: ModalAddCampoProps) {
 
     const [data, setData] = useState<string>("")
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,13 +21,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
 
     const { addNotification } = useOutletContext<{ addNotification: (type: string, message: string) => void }>()
 
-    function arredondar(numero: number, casasDecimais: number) {
-        const fator = Math.pow(10, casasDecimais);
-        return Math.round(numero * fator) / fator;
-    }
-
     async function handleEditedCampo(campo: CamposProps){
-        if (campo.parcelas.total !== Number(parcelas)) {
+        // if (campo.parcelas.total !== Number(parcelas)) {
             if (parcelas && Number(parcelas) > 1) {
                 await handleRemoveCampo(campo, 2)
                 
@@ -37,7 +32,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     type: campo.type,
                     data,
                     descricao,
-                    month: (Number(data.split('-')[1]) - (campo.parcelas.atual ?? 1)) + 1,
+                    month: Number(data.split('-')[1]),
                     categoria: categoria as CategoriaProps,
                     parcelas: {
                         total: Number(parcelas),
@@ -49,6 +44,8 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     },
                     dtadd: campo.dtadd
                 })
+                
+                console.log('novoEditCampo', novoEditCampo)
                 
                 await salvarCampos(novoEditCampo)
             } else {
@@ -73,28 +70,28 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
                     dtadd: campo.dtadd
                 })
             }
-        } else { 
-            const editedCampo = {
-                id: campo.id,
-                originalId: campo.originalId,
-                type: campo.type,
-                data,
-                descricao,
-                month: Number(data.split('-')[1]),
-                categoria: categoria as CategoriaProps,
-                parcelas: {
-                    total: Number(parcelas) ?? 1,
-                    atual: campo.parcelas.atual
-                },
-                valor: {
-                    total: Number(valor),
-                    parcela: Number(valor) || campo.valor.parcela
-                },
-                dtadd: campo.dtadd
-            }
+        // } else { 
+        //     const editedCampo = {
+        //         id: campo.id,
+        //         originalId: campo.originalId,
+        //         type: campo.type,
+        //         data,
+        //         descricao,
+        //         month: Number(data.split('-')[1]),
+        //         categoria: categoria as CategoriaProps,
+        //         parcelas: {
+        //             total: Number(parcelas) ?? 1,
+        //             atual: campo.parcelas.atual
+        //         },
+        //         valor: {
+        //             total: Number(valor),
+        //             parcela: Number(valor) || campo.valor.parcela
+        //         },
+        //         dtadd: campo.dtadd
+        //     }
             
-            await handleEditCampo(editedCampo)
-        }
+        //     await handleEditCampo(editedCampo)
+        // }
     }
 
     async function handleSaveCampo() {
@@ -106,13 +103,20 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
             handleEditedCampo(editCampo)
         } else {
             if (parcelas && Number(parcelas) > 1) {
-                //ADICIONANDO NOVO COM COM PARCELAS ACIMA DE 1 
+                //ADICIONANDO NOVO CAMPO COM PARCELAS ACIMA DE 1 
                 const originalId = uuidv4();
                 for (let i = 0; i < Number(parcelas); i++) {
                     const [year, month, day] = data.split("-");
-                    const dataComParcela = (Number(month) + i) <= 12 
-                    ? year + "-" + (Number(month) + i) + "-" + day
-                    : year + "-" + ((Number(month) + i) - 12) + "-" + day
+                    let newMonth = Number(month) + i;
+                    let newYear = Number(year);
+                
+                    // Se o mês ultrapassar 12, ajustar o ano e o mês
+                    if (newMonth > 12) {
+                        newYear += Math.floor((newMonth - 1) / 12);
+                        newMonth = ((newMonth - 1) % 12) + 1;
+                    }
+                
+                    const dataComParcela = `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`;
 
                     const campo = {
                         id: uuidv4(),
@@ -224,7 +228,7 @@ export function ModalAddCampo({ type, setModalAddCampo, saveCampo, salvarCampos,
             setData(editCampo.data)
             setCategoria(editCampo.categoria)
             setParcelas(editCampo.parcelas.total.toString() ?? "")
-            setValor(editCampo.valor.parcela.toString())
+            setValor(editCampo.valor.total.toString())
             setDescricao(editCampo.descricao)
         }
     }, [editCampo])
