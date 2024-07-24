@@ -92,8 +92,6 @@ export function Dashboard() {
     } else {
       const camposExistentes = await getCampos();
       camposExistentes.push(campo)
-      console.log('camposExistentes', camposExistentes)
-      console.log(`campo ${campo.parcelas.atual}`, campo)
       
       // SALVA LISTA DE CAMPOS NO LOCALSTORAGE
       await saveCampos(camposExistentes);
@@ -142,14 +140,12 @@ export function Dashboard() {
     } else {
       const camposExistentes = await getCampos();
       
-      console.log('camposExistentes', camposExistentes)
       //CRIA UMA NOVA LISTA DE CAMPOS REMOVENDO O CAMPO EXCLUIDO
       let novosCampos
       if(idTipo === 1){
         novosCampos = camposExistentes.filter((c) => c.id !== campo.id)
       } else {
         novosCampos = camposExistentes.filter((c) => c.originalId !== campo.originalId)
-        console.log('novosCampos', novosCampos)
       }
 
       // SALVA NOVA LISTA DE CAMPOS NO LOCALSTORAGE/BACKEND

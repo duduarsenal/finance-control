@@ -141,7 +141,7 @@ export function ModalAddCampo({
                     },
                     valor: {
                         total: Number(valor),
-                        parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                        parcela: Number(valor)
                     },
                     dtadd: new Date().toISOString()
                 })
