@@ -11,7 +11,7 @@ export function GraphicsDonut({className, data}: GraphicsPieProps) {
       colors: data.map((color) => color.color),
       dataLabels: {
         style: {
-          colors: ["#0F0F0F"],
+          colors: ["var(--text)"],
           fontWeight: "bold",
           fontSize: "14px"
         },

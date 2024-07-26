@@ -25,7 +25,6 @@ export function Select({
     const [optionsHeight, setOptionsHeight] = useState<number>(33);
 
     useEffect(() => {
-
         function handleclickOut(e: MouseEvent){
             if(ref.current && !ref.current.contains(e?.target as Node)){
                 setSelect(false)
@@ -62,13 +61,13 @@ export function Select({
                 {label}
             </span>}
             <div
-                className={cn("flex items-center h-full justify-between gap-2 hover:brightness-125 w-full outline-1 outline outline-brand-gray px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-white-gray hover:brightness-[.95]": theme === "light" }, className)}
+                className={cn("flex items-center h-full justify-between gap-2 hover:brightness-125 w-full outline-1 outline outline-brand-gray-opacity px-2 rounded-sm transition-all cursor-pointer", { "bg-brand-background hover:brightness-[.95]": theme === "light" }, className)}
                 onClick={() => setSelect(!select)}
             >
                 {icon && icon}
-                <p className={cn("text-gray-300", 
+                <p className={cn("text-brand-gray-opacity", 
                     { 
-                        "text-brand-black": theme === "light",
+                        "text-brand-text": theme === "light",
                         "max-w-[calc(100%-55px)]": value
                     })}>
 
@@ -100,7 +99,7 @@ export function Select({
                                 { "bg-colors-green": value.cor?.value === 'green' }
                             )}>
                             <span>{value?.emoji?.label}</span>
-                            <span className="truncate text-brand-black text-bold">{value.label}</span>
+                            <span className="truncate text-brand-text text-bold">{value.label}</span>
                         </span>
                         : value.label : optionDefault ? optionDefault : "Selecione uma opção"}
                 </p>
@@ -114,7 +113,7 @@ export function Select({
                     <Icons.IoIosArrowUp className={cn("text-[20px] transition-all duration-300",
                         {
                             "-rotate-180": !select,
-                            "text-brand-black": theme === "light",
+                            "text-brand-text": theme === "light",
                         })} />
                 </div>
             </div>
@@ -122,8 +121,8 @@ export function Select({
                 {
                     "opacity-0 pointer-events-none select-none": !select,
                     "opacity-100": select,
-                    "bg-brand-black": !transparent,
-                    "bg-brand-white-gray text-brand-black outline-brand-gray outline outline-1": theme === "light",
+                    "bg-brand-background": !transparent,
+                    "bg-brand-background text-brand-text outline-brand-gray outline outline-1": theme === "light",
                     "top-15": label,
                     "overflow-y-auto max-h-[198px]": optionsCategorias?.length
                 }
@@ -134,9 +133,9 @@ export function Select({
             >
                 {/* CASO NÃO HAJA NENHUMA OPTION PARA EXIBIR, OPÇÃO DEFAULT ABAIXO */}
                 {(!options?.length && !optionsCategorias?.length) && 
-                    <span className={cn("w-full h-8 px-2 py-1 font-light text-brand-gray", 
+                    <span className={cn("w-full h-8 px-2 py-1 font-light text-brand-text", 
                         {
-                            "bg-brand-white-gray outline-brand-gray outline outline-1": theme === "light"
+                            "bg-brand-background outline-brand-gray outline outline-1": theme === "light"
                         }
                     )}>
                         Nenhum item encontrado...
@@ -154,7 +153,7 @@ export function Select({
                                 {
                                     "py-2": colors,
                                     "border-b-0": options[index + 1] === (null || undefined),
-                                    "hover:text-brand-gray": theme === "light",
+                                    "hover:text-brand-text": theme === "light",
                                     "basis-full": options.length <= 4,
                                     "basis-1/3 hover:bg-[#80808050] hover:brightness-100 text-[20px] justify-center transition-all rounded-md": emoji
                                 })}
@@ -182,7 +181,7 @@ export function Select({
                                 setValue({ label, value, cor, emoji: thisEmoji })
                                 setSelect(false)
                             }}
-                            className={cn("py-1 px-1 odd:bg-brand-dark-gray hover:brightness-[.85] cursor-pointer text-brand-black w-full basis-full z-[99999]", 
+                            className={cn("py-1 px-1 odd:bg-brand-hover hover:brightness-[.85] cursor-pointer text-brand-text w-full basis-full z-[99999]", 
                                 {
                                     "border-b-0": optionsCategorias[index + 1] === (null || undefined),
                                     "basis-full": optionsCategorias.length <= 4,
@@ -191,7 +190,7 @@ export function Select({
                             )}
                             key={index}
                         >
-                            <span className={cn("px-2 bg-white rounded-sm w-max font-bold flex items-center gap-2 max-w-full", {
+                            <span className={cn("px-2 bg-white rounded-sm w-max font-semibold flex items-center gap-2 max-w-full", {
                                     "bg-colors-red": cor?.value === 'red',
                                     "bg-colors-yellow": cor?.value === 'yellow',
                                     "bg-colors-orange": cor?.value === 'orange',

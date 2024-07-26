@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+  .display-none {
+    @apple hidden;
+    display: none;
+  }
+
 * {
     font-family: "Nunito", sans-serif;
     letter-spacing: 0px;
@@ -82,16 +87,18 @@
     }
   }
 
-  .switch-text{
-    box-shadow: inset 0px 0px 5px 3px rgb(0, 0, 0, .20);
+  .dark{
+    --background: #0F0F0F;
+    --border: #80808090;
+    --hover: #80808060;
+    --text: #E1E1E1;
+    --gray-opacity: #808080;
   }
 
-  .switch-button{
-    box-shadow: inset 0px 0px 2px 1px rgb(0, 0, 0, 0.5);
-  }
-
-  .switch-button::after{
-    left: 8%;
-    box-shadow: inset -1px -1px 2px -1px rgb(0, 0, 0, 1),
-    inset 1px 1px 2px -1px rgba(255, 255, 255, 1);
+  .light{
+    --background: #E8E8E8;
+    --border: #80808090;
+    --hover: #80808060;
+    --text: #0F0F0F;
+    --gray-opacity: #5F5F5F;
   }

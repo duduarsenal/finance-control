@@ -27,20 +27,20 @@ export function DateField({
                     onOpen={() => setOpenDate(true)}
                     onClose={() => setOpenDate(false)}
                     sx={{
-                        outline: "1px solid #808080",
+                        outline: "1px solid var(--gray-opacity)",
                         borderRadius: "4px",
                         height: "32px",
                         ...style,
                         "& .MuiInputLabel-root.Mui-focused": {
-                            color: "#FFFFFF"
+                            color: "var(--text)"
                         },
                         "& .MuiOutlinedInput-root": {
-                            color: `${style?.color ? style.color : "#E1E1E1"}`,
+                            color: `${style?.color ? style.color : "var(--text)"}`,
                             height: "32px",
                             fontSize: "14px"
                         },
                         "& .MuiSvgIcon-root": {
-                            color: `${style?.color ? style.color : "#E1E1E1"}`,
+                            color: `${style?.color ? style.color : "var(--text)"}`,
                             height: "20px"
                         },
                         "& .Mui-error .MuiOutlinedInput-notchedOutline": {
@@ -53,12 +53,12 @@ export function DateField({
                         actionBar: ({ onClear, onSetToday }) => (
                             <div>
                                 <Button 
-                                    className="absolute bottom-0 mx-4 my-2 right-12 hover:bg-brand-white-gray outline-0"
+                                    className="absolute bottom-0 mx-4 my-2 right-12 hover:bg-brand-background outline-0"
                                     handleButton={onClear}
                                     value="Limpar"
                                 />
                                 <Button 
-                                    className="absolute bottom-0 right-0 mx-4 my-2 hover:bg-brand-white-gray outline-0"
+                                    className="absolute bottom-0 right-0 mx-4 my-2 hover:bg-brand-background outline-0"
                                     handleButton={onSetToday}
                                     value="Hoje"
                                 />

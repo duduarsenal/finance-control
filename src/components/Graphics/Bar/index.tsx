@@ -27,7 +27,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
         categories: colTypes,
         labels: {
           style: {
-            colors: "#E1E1E1",
+            colors: "var(--text)",
             fontFamily: "Nunito, sans-serif",
             fontWeight: "semibold",
             fontSize: "16px",
@@ -38,7 +38,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
       yaxis: {
         labels: {
           style: {
-            colors: "#E1E1E1",
+            colors: "var(--text)",
             fontFamily: "Nunito, sans-serif",
             fontWeight: "semibold",
             fontSize: "14px",
@@ -57,7 +57,7 @@ export function GraphicsBar({ className, colTypes, ganhos, gastos }: GraphicsBar
         opacity: 1,
       },
       grid: {
-        borderColor: "#80808080",
+        borderColor: "var(--border)",
       },
       series: [
         {

@@ -4,7 +4,9 @@ export {
     FaCalendarCheck, 
     FaRegCheckCircle,
     FaEdit,
-    FaTrashAlt
+    FaTrashAlt,
+    FaSun,
+    FaMoon
 } from "react-icons/fa"
 export { 
     RiLoader4Fill,

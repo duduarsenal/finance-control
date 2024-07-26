@@ -49,13 +49,13 @@ export function Graphics({
 
   return (
     <div className="flex flex-col gap-10 py-6">
-      <h4 className="text-[24px] font-semibold bg-brand-dark-gray px-4 py-1 rounded-md m-auto">
+      <h4 className="text-[24px] font-semibold bg-brand-background px-4 py-1 rounded-md m-auto">
         Gráficos
       </h4>
 
       {/* ------------------------------------------------- GRAFICO DE PIZZA MENSAL ---------------------------------------------------------- */}
       <div className="flex flex-wrap items-center justify-between w-full h-full gap-x-6 gap-y-2 lg:justify-center">
-        <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-dark-gray lg:max-w-[750px] max-w-[600px]">
+        <div className="graphic-media relative flex flex-col items-center w-full gap-6 p-4 rounded-md bg-brand-background lg:max-w-[750px] max-w-[600px]">
           {/* SELECT E LABELS */}
           <div className="flex items-center justify-between w-full">
             <div className="w-max">
@@ -106,7 +106,7 @@ export function Graphics({
                 data={
                   categoriasByMonth?.length
                     ? categoriasByMonth
-                    : [{ label: "", value: 3141592653589793, color: "#808080" }]
+                    : [{ label: "", value: 3141592653589793, color: "var(--gray-opacity)" }]
                 }
               />
             )}
@@ -116,7 +116,7 @@ export function Graphics({
         <div className="flex flex-col xl:max-w-[400px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
           <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
             Maior {typeGraphicDonut.slice(0, -1)} do mês:
-            <p className="flex items-center gap-2 px-4 py-2 font-medium truncate rounded-md bg-brand-dark-gray">
+            <p className="flex items-center gap-2 px-4 py-2 font-medium truncate rounded-md bg-brand-background">
               {categoriasByMonth?.length ?
               <>
                 
@@ -145,13 +145,13 @@ export function Graphics({
                       .map((c) => c.value) || []
                   )}%`}
                 </span>
-                <span className="text-brand-gray">{`(${currencyFormatPT(
+                <span className="text-brand-text">{`(${currencyFormatPT(
                   Array.from(categoriasByMonth || []).sort(
                     (a, b) => b.value - a.value
                   )[0]?.value
                 )})`}</span>
               </>
-              : <span className="font-normal text-brand-gray">Sem registros...</span>}
+              : <span className="font-normal text-brand-text">Sem registros...</span>}
             </p>
           </h4>
           {categoriasByMonth?.length ?
@@ -175,7 +175,7 @@ export function Graphics({
                       .map((c) => c.value)
                   )}
                   {"% "}
-                  <span className="text-brand-gray">
+                  <span className="text-brand-text">
                     {"(" + currencyFormatPT(categInfo.value) + ")"}
                   </span>
                 </span>
@@ -211,7 +211,7 @@ export function Graphics({
               .map((_, index) => (
                 <div className="flex items-center basis-1/3" key={index}>
                   <div className="w-[90%] flex flex-col items-center justify-center py-2 rounded-md bg-brand-dark-gray overflow-hidden">
-                    <span className="font-bold text-brand-white-gray">
+                    <span className="font-bold text-brand-text">
                       {
                         months.find((month) => Number(month.value) == index + 1)
                           ?.label
@@ -248,13 +248,13 @@ export function Graphics({
             <div className="flex gap-4">
               <div className="flex gap-2">
                 <span className="w-6 h-6 rounded-md bg-brand-green" />
-                <span className="font-semibold text-brand-white-gray">
+                <span className="font-semibold text-brand-text">
                   Ganhos
                 </span>
               </div>
               <div className="flex gap-2">
                 <span className="w-6 h-6 rounded-md bg-brand-red" />
-                <span className="font-semibold text-brand-white-gray">
+                <span className="font-semibold text-brand-text">
                   Gastos
                 </span>
               </div>

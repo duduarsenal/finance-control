@@ -144,7 +144,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
     
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-black p-6 mr outline-[1px] outline outline-brand-dark-gray rounded-md" ref={ref}>
+            <div className="w-[550px] min-h-[400px] flex flex-col items-center justify-center gap-6 bg-brand-background p-6 mr outline-[1px] outline outline-brand-border rounded-md" ref={ref}>
                 <div className="grid w-full grid-cols-7 grid-rows-2 gap-2">
                     <div className="col-span-5">
                         <Input
@@ -152,14 +152,14 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                             placeholder="Nome da categoria"
                             setState={setCategoria}
                             value={categoria.slice(0, 20)}
-                            className="transition-all bg-brand-black placeholder:text-brand-gray focus:placeholder:text-brand-gray outline-brand-gray outline-[1px] outline outline-offset-0 text-brand-white-gray text-[17px] focus:outline-brand-white-gray"
+                            className="transition-all bg-brand-background placeholder:text-brand-text focus:placeholder:text-brand-text outline-brand-border outline-[1px] outline outline-offset-0 text-brand-text text-[17px] focus:outline-brand-gray-opacity"
                         />
                     </div>
                     <div className="w-full col-span-2">
                         <Select
                             options={emojis}
                             transparent={false}
-                            className="min-w-max"
+                            className="min-w-max outline-brand-border"
                             optionDefault="Emoji"
                             value={emoji as CategoriaProps}
                             setValue={setEmoji}
@@ -170,7 +170,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                         <Select
                             options={cores}
                             transparent={false}
-                            className="min-w-max"
+                            className="min-w-max outline-brand-border"
                             optionDefault="Selecine uma Cor"
                             value={cor as CategoriaProps}
                             setValue={setCor}
@@ -180,17 +180,17 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                     <div className="col-span-3">
                         <Button
                             handleButton={handleAddCategoria}
-                            className={cn("w-full my-0 bg-brand-black text-brand-white-gray outline-brand-gray", { "cursor-not-allowed hover:bg-brand-black select-none": !categoria || !cor || !emoji })}
+                            className={cn("w-full my-0 text-brand-background text-brand-text-gray outline-brand-border", { "cursor-not-allowed hover:bg-brand-background select-none": !categoria || !cor || !emoji })}
                             value="Adicionar Categoria"
                             icon={<Icons.FiPlusCircle className="text-[24px] text-brand-green" />}
                         />
                     </div>
                 </div>
-                <div className="w-full h-[280px] overflow-y-auto bg-brand-black rounded-sm  outline outline-[1px] outline-brand-dark-gray">
+                <div className="w-full h-[280px] overflow-y-auto bg-brand-background rounded-sm  outline outline-[1px] outline-brand-border">
                     {tempCategorias?.map((categoria, index) => (
                         <div 
                             key={index} 
-                            className="flex justify-between px-4 py-2 text-[16px] items-center text-brand-black font-bold odd:bg-brand-dark-gray"
+                            className="flex justify-between px-4 py-2 text-[16px] items-center text-brand-text font-semibold odd:bg-brand-hover"
                         >
                             <p className={`bg-colors-${categoria.cor?.value} px-2 rounded-sm flex items-center gap-2`}>
                                 <span>{categoria?.emoji?.label}</span>
@@ -198,7 +198,7 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                             </p>
                             <Icons.FaTrashAlt
                                 onClick={() => handleRemoveCategoria(categoria.value)}
-                                className={cn("h-full text-[20px] cursor-pointer hover:scale-[1.1] z-[4] text-brand-white-gray mr-2", 
+                                className={cn("h-full text-[20px] cursor-pointer hover:scale-[1.1] z-[4] text-brand-text mr-2", 
                                 { "-mr-[3.5px]": tempCategorias.length > 7 })}
                             />
                         </div>
@@ -212,14 +212,14 @@ export function ModalCategoria({ setModalCategoria, categorias, saveCategorias }
                                 else setModalCategoria(false)
                             }}
                             value="Cancelar"
-                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-text outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />
                     </div>
                     <div className="col-span-1">
                         <Button
                             handleButton={handleSaveCategorias}
                             value="Salvar"
-                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-text outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />
                     </div>
                 </div>

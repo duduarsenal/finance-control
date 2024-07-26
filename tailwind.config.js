@@ -7,6 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        'brand-background': 'var(--background)',
+        'brand-border': 'var(--border)',
+        'brand-hover': 'var(--hover)',
+        'brand-text': 'var(--text)',
+        'brand-gray-opacity': 'var(--gray-opacity)',
         'brand-white': '#FFF',
         'brand-dark-white': '#CCCCCC',
         'brand-white-gray': '#E1E1E1',

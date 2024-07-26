@@ -115,6 +115,7 @@ export interface GenericProps{
 
 export interface ModalAddCampoProps{
     type: string
+    campos: CamposProps[]
     setModalAddCampo: (value: boolean) => void
     saveCampo: (campo: CamposProps) => Promise<void>
     salvarCampos: (campos: CamposProps[]) => Promise<void>
@@ -164,6 +165,8 @@ export interface NotifyManagerProps{
 export interface HeaderProps{
     className?: string
     setTipoDados: (value: string) => void 
+    theme: string
+    setTheme: (v: string) => void
 }
 
 export interface ConfirmActionProps{

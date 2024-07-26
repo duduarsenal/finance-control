@@ -75,7 +75,7 @@ export function DashboardTable({
                 ...camposToEdit[0],
                 valor: {
                     total: campo.valor.total,
-                    parcela: arredondar((Number(campo.valor.total,) / Number(campo.parcelas.total - 1)), 0)
+                    parcela: arredondar((Number(campo.valor.total) / Number(campo.parcelas.total - 1)), 0)
                 },
                 parcelas: {
                     total: campo.parcelas.total - 1,
@@ -111,14 +111,14 @@ export function DashboardTable({
 
     return (
         <section className="flex flex-col pb-8">
-            <h4 className="my-2 px-4 rounded-md text-[20px] text-brand-white-gray font-medium bg-brand-dark-gray w-max"
+            <h4 className="my-2 px-4 rounded-md text-[20px] text-brand-text font-medium bg-brand-dark-gray w-max"
             >
                 {"Registros de "} 
                 <span className={cn("text-brand-red font-bold", { "text-brand-green": type === "ganhos" })}>
                     {type.split("")[0].toUpperCase() + type.slice(1,)}
                 </span>
             </h4>
-            <div className="flex flex-col justify-between w-full rounded-md h-max bg-brand-black">
+            <div className="flex flex-col justify-between w-full rounded-md h-max bg-brand-background">
                 {/* INICIO TABLE */}
                 <div>
                     {/* Headers */}
@@ -134,7 +134,7 @@ export function DashboardTable({
                     </div>
 
                     {/* Content */}
-                    <div className={cn('h-full font-normal min-h-[150px] max-h-[240px] text-center text-brand-white-gray overflow-y-auto overflow-x-hidden')}>
+                    <div className={cn('h-full font-normal min-h-[150px] max-h-[240px] text-center text-brand-text overflow-y-auto overflow-x-hidden')}>
                         {[...tempCampos, ...Array(tempCampos?.length > 6 ? 0 : (6 - tempCampos?.length) < 6 ? (6 - tempCampos?.length) : 6)
                         .fill({data: null, descricao: null, categoria: null, parcelas: null, valor: null})]
                         .slice(0, tempCampos.length < 6 ? 6 : tempCampos.length)
@@ -158,7 +158,7 @@ export function DashboardTable({
                                         { "bg-colors-green": row?.categoria?.cor?.value === 'green' },
                                     )}>
                                         <span>{row?.categoria?.emoji?.label}</span>
-                                        <span className='font-bold truncate text-brand-black'>{row?.categoria?.label || '-'}</span>
+                                        <span className='font-bold truncate text-brand-text'>{row?.categoria?.label || '-'}</span>
                                     </p>
                                     <p className='col-span-1'>
                                             {row?.parcelas?.total > 1
@@ -168,12 +168,12 @@ export function DashboardTable({
                                     <p className='col-span-2 tracking-tighter'>{currencyFormatPT(row?.valor?.parcela) || '-'}</p>
                                     {row.data != null ? <p className='flex items-center justify-center col-span-1 gap-2'>
                                         <Button
-                                            className='my-0 border-none outline-0 text-[20px] px-0 hover:text-brand-gray'
+                                            className='my-0 border-none outline-0 text-[20px] px-0 hover:text-brand-text'
                                             handleButton={() => handleEditarCampo(row)}
                                             icon={<Icons.FaEdit />}
                                         />
                                         <Button
-                                            className='my-0 border-none outline-0 text-[18px] px-0 hover:text-brand-gray'
+                                            className='my-0 border-none outline-0 text-[18px] px-0 hover:text-brand-text'
                                             handleButton={() => handleConfirmAction(row)}
                                             icon={<Icons.FaTrashAlt />}
                                         />
@@ -186,13 +186,13 @@ export function DashboardTable({
                 {/* FIM TABLE */}
 
                 {/* INICIO BOTOES TABLE */}
-                <div className='grid w-full grid-cols-12 gap-6 px-4 py-5 outline outline-[2px] outline-brand-dark-gray border-brand-gray rounded-br-md rounded-bl-md'>
+                <div className='grid w-full grid-cols-12 gap-6 px-4 py-5 outline outline-[2px] outline-brand-hover rounded-br-md rounded-bl-md'>
                     <div className='col-span-2'>
                         <DateField date={dtFiltro} setDate={setDtFiltro} />
                     </div>
                     <div className='col-span-3'>
                         <Select
-                            className='my-0 truncate outline-brand-gray'
+                            className='my-0 truncate outline-brand-gray-opacity'
                             optionDefault='Selecione uma categoria'
                             value={categoriaSelected as CategoriaProps}
                             setValue={setCategoriaSelected}
@@ -204,7 +204,7 @@ export function DashboardTable({
                         />
                     </div>
                     <Button
-                        className="w-max text-[18px] px-4 my-0 col-span-2 col-start-7 lg:col-start-8 m-auto text-brand-white-gray outline-brand-gray"
+                        className="w-max text-[18px] px-4 my-0 col-span-2 col-start-7 lg:col-start-8 m-auto text-brand-text outline-brand-gray-opacity"
                         value={type === "gastos" ? "Adicionar Gasto" : "Adicionar Ganho"}
                         icon={<Icons.FiPlusCircle className={cn("text-[20px]",
                             {
@@ -228,6 +228,7 @@ export function DashboardTable({
 
             {modalAddCampo &&
                 <ModalAddCampo
+                    campos={campos}
                     saveCampo={saveCampo}
                     salvarCampos={salvarCampos}
                     setModalAddCampo={setModalAddCampo}
@@ -236,7 +237,7 @@ export function DashboardTable({
                     editCampo={editCampo as CamposProps}
                     setEditCampo={setEditCampo}
                     handleEditCampo={handleEditCampo}
-                    handleRemoveCampo={handleRemoveCampo}
+                    handleRemoveCampo={removeCampo}
             />}
 
             {modalConfirmAction &&

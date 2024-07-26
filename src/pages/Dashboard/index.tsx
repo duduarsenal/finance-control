@@ -26,7 +26,13 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export function Dashboard() {
-  const [monthSelected, setMonthSelected] = useState<GenericProps | null>(null);
+  const [monthSelected, setMonthSelected] = useState<GenericProps | null>(
+    {
+      label: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.label || "",
+      value: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.value || ""
+    }
+  );
+  
   const [modalCategoria, setModalCategoria] = useState<boolean>(false);
 
   const [categorias, setCategorias] = useState<CategoriaProps[]>([]);
@@ -295,14 +301,15 @@ export function Dashboard() {
               options={months}
               value={monthSelected as CategoriaProps}
               setValue={setMonthSelected}
-              icon={<Icons.FaCalendarCheck className="text-brand-white" />}
+              icon={<Icons.FaCalendarCheck className="text-brand-text" />}
               transparent={false}
+              className="outline-brand-border"
             />
           </div>
-          <h4 className="text-brand-white-gray text-[18px]">
+          <h4 className="text-brand-text text-[18px]">
             Saldo:{" "}
             <span
-              className={cn("text-brand-white-gray", {
+              className={cn("text-brand-text", {
                 "text-brand-red": saldoTotal < 0,
                 "text-brand-green": saldoTotal > 0,
               })}

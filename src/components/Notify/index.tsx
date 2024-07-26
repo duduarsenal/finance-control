@@ -12,7 +12,7 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
     }, [open, id, removeNotify])
 
     return (
-        <div className={cn("fixed bottom-10 right-0 w-[300px] h-[55px] bg-brand-white mx-6 rounded-md flex items-center justify-between p-2 after:absolute after:bg-brand-white-gray transition-all overflow-hidden shadow-md z-40", className,
+        <div className={cn("fixed bottom-10 right-0 w-[300px] h-[55px] bg-brand-background mx-6 rounded-md flex items-center justify-between p-2 after:absolute after:bg-brand-background transition-all overflow-hidden shadow-md z-40", className,
             {
                 "bg-notify-red after:bg-notify-dark-red": type === "danger",
                 "bg-notify-green after:bg-notify-dark-green": type === "sucess",
@@ -24,7 +24,7 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
                 {type == "sucess" && <Icons.FaRegCheckCircle className="h-full text-notify-dark-green -mt-[2px] text-[18px]" />}
                 {type == "warning" && <Icons.RiErrorWarningLine className="text-notify-dark-yellow -mt-[2px] text-[18px]" />}
                 {type == "danger" && <Icons.AiOutlineCloseCircle className="text-notify-dark-red -mt-[2px] text-[20px]" />}
-                {!type && <Icons.FaRegCircleQuestion className="-mt-[2px] text-brand-black text-[18px]" />}
+                {!type && <Icons.FaRegCircleQuestion className="-mt-[2px] text-brand-text text-[18px]" />}
                 <div className="text-[14px] leading-4 break-all font-semibold">
                     {message || "Notificação padrão"}
                 </div>
@@ -34,7 +34,7 @@ function Notify({ open = false, id, className, type, message, removeNotify }: No
                 className="flex items-center justify-center w-8 h-8 ml-1 cursor-pointer"
             >
                 <Icons.IoClose
-                    className={cn("text-[22px] text-brand-black hover:brightness-[.60] transition-all",
+                    className={cn("text-[22px] text-brand-text hover:brightness-[.60] transition-all",
                         {
                             "text-notify-dark-red": type === "danger",
                             "text-notify-dark-green": type === "sucess",

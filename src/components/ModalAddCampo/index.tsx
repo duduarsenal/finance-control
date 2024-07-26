@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export function ModalAddCampo({ 
     type, 
+    campos,
     setModalAddCampo, 
     saveCampo, 
     salvarCampos, 
@@ -30,15 +31,20 @@ export function ModalAddCampo({
 
     async function handleEditedCampo(campo: CamposProps){
             if (parcelas && Number(parcelas) > 1) {
-                await handleRemoveCampo(campo, 2)
                 
+                const primeiroCampo = campos
+                .filter((item) => campo.originalId === item.originalId)
+                .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())[0]
+                
+                await handleRemoveCampo(campo, 2)
+
                 const campoComParcelas = await preencherParcelas([], {
                     id: campo.id,
                     originalId: campo.originalId,
                     type: campo.type,
-                    data,
+                    data: primeiroCampo.data,
                     descricao,
-                    month: Number(data.split('-')[1]),
+                    month: Number(primeiroCampo.data.split('-')[1]),
                     categoria: categoria as CategoriaProps,
                     parcelas: {
                         total: Number(parcelas) ?? 1,
@@ -100,13 +106,11 @@ export function ModalAddCampo({
                         newMonth = ((newMonth - 1) % 12) + 1;
                     }
                 
-                    const dataComParcela = `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`;
-
                     camposComParcelas.push({
                         id: uuidv4(),
                         originalId: originalId,
                         type,
-                        data: dataComParcela,
+                        data: `${newYear}-${newMonth.toString().padStart(2, '0')}-${day}`, //dd-MM-yyyy
                         descricao,
                         month: newMonth,
                         categoria: categoria as CategoriaProps,
@@ -116,7 +120,7 @@ export function ModalAddCampo({
                         },
                         valor: {
                             total: Number(valor),
-                            parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                            parcela: arredondar((Number(valor) / Number(parcelas)), 0) 
                         },
                         dtadd: new Date().toISOString()
                     })
@@ -147,7 +151,6 @@ export function ModalAddCampo({
                 })
             }
         }
-
 
         // RESET FIELDS
         resetForm()
@@ -211,7 +214,7 @@ export function ModalAddCampo({
 
     return (
         <div className="fixed top-0 left-0 bg-[#00000080] w-screen h-screen z-[20] flex items-center justify-center">
-            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-black p-6 flex flex-col items-center justify-evenly outline outline-[1px] outline-brand-dark-gray rounded-md" ref={ref}>
+            <div className="w-[550px] min-h-[400px] h-max gap-2 bg-brand-background p-6 flex flex-col items-center justify-evenly outline outline-[1px] outline-brand-dark-gray rounded-md" ref={ref}>
                 <div className="grid w-full grid-cols-4 gap-3 gap-y-4 h-max">
                     {/* DATE FIELD */}
                     <div className="col-span-2 h-max">
@@ -249,7 +252,7 @@ export function ModalAddCampo({
                             setState={setParcelas}
                             value={parcelas}
                             placeholder="0"
-                            className="text-[16px] bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
+                            className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
                             type="number"
                             maxLength={2}
                         />
@@ -261,7 +264,7 @@ export function ModalAddCampo({
                             setState={setValor}
                             value={valor}
                             placeholder="R$ 0,00"
-                            className="text-[16px] bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
+                            className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
                             type="currency"
                         />
                     </div>
@@ -274,7 +277,7 @@ export function ModalAddCampo({
                         value={descricao}
                         required={true}
                         placeholder="Escreva uma breve descrição sobre o campo"
-                        className="bg-brand-black text-brand-white-gray outline-brand-gray outline-[1px] outline"
+                        className="bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
                     />
                 </div>
 
@@ -294,14 +297,14 @@ export function ModalAddCampo({
                                 }
                             }}
                             value="Cancelar"
-                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-black outline-0 hover:bg-brand-red hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-red text-[18px] text-brand-text outline-0 hover:bg-brand-red hover:scale-[1.04]"
                         />
                     </div>
                     <div className="col-span-1">
                         <Button
                             handleButton={handleSaveCampo}
                             value="Salvar"
-                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-black outline-0 hover:bg-brand-green hover:scale-[1.04]"
+                            className="w-full my-0 font-semibold bg-brand-green text-[18px] text-brand-text outline-0 hover:bg-brand-green hover:scale-[1.04]"
                         />
                     </div>
                 </div>
