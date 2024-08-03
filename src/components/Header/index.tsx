@@ -34,6 +34,8 @@ export function Header({ className, setTipoDados, theme, setTheme }: HeaderProps
         const systemTheme = window.matchMedia("(prefers-colors-scheme: dark)").matches;
         
         if(userTheme){
+            document.body.classList.remove("light")
+            document.body.classList.remove("dark")
             document.body.classList.add(userTheme)
             setTheme(userTheme)
         } else if(systemTheme){
