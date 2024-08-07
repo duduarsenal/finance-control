@@ -27,10 +27,12 @@ import { useOutletContext } from "react-router-dom";
 
 export function Dashboard() {
   const [monthSelected, setMonthSelected] = useState<GenericProps | null>(
+    months.find((month) => Number(month.value) == new Date().getMonth() + 1) ? 
     {
-      label: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.label || "",
-      value: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.value || ""
-    }
+      label: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.label as string,
+      value: months.find((month) => Number(month.value) == new Date().getMonth() + 1)?.value as string
+    } 
+    : null
   );
   
   const [modalCategoria, setModalCategoria] = useState<boolean>(false);
@@ -85,7 +87,7 @@ export function Dashboard() {
   async function salvarCampos(campos: CamposProps[]){
     await saveCampos([...await getCampos(), ...campos])
 
-    setCampos(await getCampos())
+    handleStates()
   }
 
   async function saveCampo(campo: CamposProps) {
@@ -103,7 +105,7 @@ export function Dashboard() {
       await saveCampos(camposExistentes);
       
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(camposExistentes);
+      handleStates();
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} adicionado com sucesso.`);
@@ -130,7 +132,7 @@ export function Dashboard() {
       // SALVA NOVA LISTA NO LOCALSTORAGE/BACKEND
       await saveCampos(novosCampos);
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(novosCampos);
+      handleStates();
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} editado com sucesso.`);
@@ -157,7 +159,7 @@ export function Dashboard() {
       // SALVA NOVA LISTA DE CAMPOS NO LOCALSTORAGE/BACKEND
       await saveCampos(novosCampos);
       // SALVA NOVA LISTA DE CAMPOS NO STATE
-      setCampos(novosCampos);
+      handleStates();
     }
 
     addNotification("sucess", `${campo.type === "gastos" ? "Gasto" : "Ganho"} removido com sucesso.`);

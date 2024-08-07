@@ -1,3 +1,4 @@
+import { getCampos } from '@api';
 import { Button, ConfirmAction, DateField, ModalAddCampo, Select } from '@components';
 import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, arredondar, cn, currencyFormatPT, dateFormatPT, preencherParcelas } from '@utils';
@@ -32,10 +33,10 @@ export function DashboardTable({
         const arrTotal: CamposProps[] = [];
         
         const total = tempCampos.reduce((acc, item) => {
-            if(!(arrTotal.find((element) => element.originalId === item.originalId)))
+            if(!(arrTotal.find((element) => element.id === item.id)))
             {
                 arrTotal.push(item)
-                return acc += item.valor.total
+                return acc += item.valor.parcela
             }
             return acc += 0
         }, 0)
@@ -65,9 +66,10 @@ export function DashboardTable({
 
     async function handleRemoveCampo(campo: CamposProps, idTipo: number){
         if(campo?.parcelas?.total > 1){
-            const camposToEdit = campos
+            const camposToEdit = (await getCampos())
             .filter((item) => campo.originalId === item.originalId && campo.id !== item.id)
             .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+            console.log('camposToEdit', camposToEdit)
             
             await removeCampo(campo, 2)
             
