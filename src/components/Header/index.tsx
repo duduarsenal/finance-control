@@ -49,13 +49,13 @@ export function Header({ className, setTipoDados, theme, setTheme }: HeaderProps
         <section className={cn("text-brand-text z-[10] flex items-center justify-between w-screen h-16  bg-brand-background px-28 select-none", className)}>
             <div className="flex items-center justify-center h-16 gap-8">
                 <LogoMark theme={theme} />
-                <Switch
+                {/* <Switch
                     type="button"
                     option1={"Real"}
                     option2={"Fictício"}
                     action1={() => setTipoDados("prod")}
                     action2={() => setTipoDados("mock")}
-                />
+                /> */}
             </div>
             <Icons.MdOutlineLogout className="text-[30px] mx-2 cursor-pointer rounded-sm hover:brightness-75 text-brand-text" onClick={handleLogout} />
 

@@ -25,14 +25,14 @@ export default function Layout({error}: IsErrorProps) {
       <div className={cn("px-24 text-brand-text", { "pt-0": isPageHeader == "/login"})}>
         <img src={bgGradientWhite}
           alt="Background gradient" 
-          className={cn("fixed top-0 left-0 w-screen h-screen bg-white dark:bg-black object-fit -z-10 rotate-180", 
+          className={cn("fixed top-0 left-0 w-screen h-screen object-fit -z-10 rotate-180 bg-white", 
             { "hidden": theme !== "light" }
           )} 
         />
         <img src={bgGradient}
           alt="Background gradient" 
-          className={cn("fixed top-0 left-0 w-screen h-screen bg-white dark:bg-black object-fit -z-10",
-            { "hidden": theme !== "dark" }
+          className={cn("fixed top-0 left-0 rotate-0 w-screen h-screen object-fit -z-10 transition-all bg-black duration-200",
+            { "w-0 h-0 top-2/4 left-2/4 translate-y-2/4 rounded-full": theme !== "dark" }
           )} 
         />
         {error ? error : <Outlet context={{setIsPageHeader, setIsLoading, addNotification, tipoDados}} />}

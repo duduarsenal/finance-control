@@ -93,6 +93,7 @@
     --hover: #80808060;
     --text: #E1E1E1;
     --gray-opacity: #808080;
+    duratioon: 200ms !important;
   }
 
   .light{
@@ -101,4 +102,5 @@
     --hover: #80808060;
     --text: #0F0F0F;
     --gray-opacity: #5F5F5F;
+    duration: 200ms !important;
   }

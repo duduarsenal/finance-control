@@ -1,6 +1,6 @@
-import { Button, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
+import { Button, Checkbox, ConfirmAction, DateField, Input, Select, TextArea } from "@components";
 import { CamposProps, CategoriaProps, GenericProps, ModalAddCampoProps } from "@typings";
-import { arredondar, preencherParcelas } from "@utils";
+import { cn, preencherParcelas } from "@utils";
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -18,9 +18,11 @@ export function ModalAddCampo({
 }: ModalAddCampoProps) {
     const [data, setData] = useState<string>("")
     const [categoria, setCategoria] = useState<CategoriaProps | GenericProps | null>(null)
-    const [parcelas, setParcelas] = useState<string>("")
     const [descricao, setDescricao] = useState<string>("")
     const [valor, setValor] = useState<string>("")
+    const [parcelado, setParcelado] = useState<boolean>(false)
+    const [parcelas, setParcelas] = useState<string>("")
+    const [valorParcela, setValorParcela] = useState<string>("")
 
     const [openDate, setOpenDate] = useState<boolean>(false)
 
@@ -52,7 +54,7 @@ export function ModalAddCampo({
                     },
                     valor: {
                         total: Number(valor),
-                        parcela: arredondar((Number(valor) / Number(parcelas)), 0)
+                        parcela: Number(valorParcela)
                     },
                     dtadd: campo.dtadd
                 })
@@ -118,9 +120,13 @@ export function ModalAddCampo({
                             total: Number(parcelas) ?? 1,
                             atual: i + 1
                         },
-                        valor: {
+                        valor: parcelado 
+                        ? {
                             total: Number(valor),
-                            parcela: arredondar((Number(valor) / Number(parcelas)), 0) 
+                            parcela: Number(valorParcela)
+                        } : { 
+                            total: Number(valor), 
+                            parcela: Number(valor)
                         },
                         dtadd: new Date().toISOString()
                     })
@@ -160,13 +166,16 @@ export function ModalAddCampo({
         // RESET FIELDS
         setData("")
         setCategoria(null)
-        setParcelas("")
         setDescricao("")
+        setParcelado(false)
+        setParcelas("")
+        setValorParcela("")
         setValor("")
         setEditCampo(null)
         setModalAddCampo(false)
     }
 
+    // Monitora tecla ESC ou Click fora do modal para fechar
     useEffect(() => {
         function handleEscapeOut(e: KeyboardEvent) {
             if (e.key === "Escape") {
@@ -202,12 +211,23 @@ export function ModalAddCampo({
         }
     }, [categoria, data, descricao, modalConfirmAction, openDate, setModalAddCampo, valor])
 
+    // Editar algum campo já existente
     useEffect(() => {
         if (editCampo) {
             setData(editCampo.data)
             setCategoria(editCampo.categoria)
-            setParcelas(editCampo.parcelas.total.toString())
             setValor(editCampo.valor.total.toString())
+
+            if(editCampo.parcelas.total > 1){
+                setParcelado(true)
+                setParcelas(editCampo.parcelas.total.toString())
+                setValorParcela(editCampo.valor.parcela.toString())
+            } else {
+                setParcelado(false)
+                setParcelas("")
+                setValorParcela("")
+            }
+            
             setDescricao(editCampo.descricao)
         }
     }, [editCampo])
@@ -243,30 +263,60 @@ export function ModalAddCampo({
                             required={true}
                         />
                     </div>
-
-                    {/* PARCELAS */}
-                    <div className="col-span-2 pb-6 h-max">
-                        <Input
-                            required={false}
-                            label="Parcelas"
-                            setState={setParcelas}
-                            value={parcelas}
-                            placeholder="0"
-                            className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
-                            type="number"
-                            maxLength={2}
-                        />
-                    </div>
-                    <div className="col-span-2 pb-6 h-max">
+                    <div className="col-span-1 pb-6 h-max">
                         <Input
                             required={true}
-                            label="Valor"
+                            label="Total"
                             setState={setValor}
                             value={valor}
                             placeholder="R$ 0,00"
                             className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
                             type="currency"
                         />
+                    </div>
+                    {/* PARCELAS */}
+                    <div className="grid grid-cols-6 col-span-3 gap-2">
+                        <div className="col-span-2">
+                            <Checkbox
+                                label="Parcelado"
+                                setCheck={() => {
+                                    setParcelado(!parcelado)
+                                    if(parcelado){
+                                        setParcelas("")
+                                        setValorParcela("")
+                                    }
+                                }}
+                                check={parcelado}
+                                className="text-[18px] text-brand-text"
+                            />
+                        </div>
+                        <div className={cn("grid grid-cols-4 col-span-4 gap-2", 
+                            { "cursor-not-allowed brightness-50": !parcelado}
+                        )}>
+                            <div className="col-span-2 pb-6 h-max">
+                                <Input
+                                    label="Quantidade"
+                                    setState={setParcelas}
+                                    value={parcelas}
+                                    placeholder="0"
+                                    className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
+                                    type="number"
+                                    maxLength={2}
+                                    disabled={!parcelado}
+                                />
+                            </div>
+                            <div className="col-span-2 pb-6 h-max">
+                                <Input
+                                    label="Parcela"
+                                    setState={setValorParcela}
+                                    value={valorParcela}
+                                    placeholder="R$ 0,00"
+                                    className="text-[16px] bg-brand-background text-brand-text outline-brand-gray outline-[1px] outline"
+                                    type="currency"
+                                    disabled={!parcelado}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

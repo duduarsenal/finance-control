@@ -226,3 +226,10 @@ export interface GraphicsProps{
     typeGraphicDonut: string
     setTypeGraphicDonut: (value: string) => void
 }
+
+export interface CheckboxProps{
+    label: string
+    setCheck: () => void
+    check: boolean
+    className: string
+}

@@ -35,7 +35,8 @@ export function Input({ className, type = "text", label, value, icon, setState, 
                 className={cn("h-8 rounded-sm text-[18px] text-brand-text outline-none px-1", className,
                     {
                         "pr-9": type === "password",
-                        "pl-9": icon
+                        "pl-9": icon,
+                        "cursor-not-allowed": props.disabled
                     })}
                 autoComplete={autoComplete}
             />

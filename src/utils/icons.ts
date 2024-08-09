@@ -6,7 +6,8 @@ export {
     FaEdit,
     FaTrashAlt,
     FaSun,
-    FaMoon
+    FaMoon,
+    FaCheck
 } from "react-icons/fa"
 export { 
     RiLoader4Fill,
