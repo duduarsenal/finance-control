@@ -232,7 +232,7 @@ export function Dashboard() {
       camposFiltrados.forEach((campo) => {
         if (campo.type === tipo) {
           if (!isNaN(campo.valor.total)) {
-            result[campo.month - 1] += campo.valor.total; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
+            result[campo.month - 1] += campo.valor.parcela; // Ajusta o índice do mês (0 a 11) ~ (Jan a Dez)
           }
         }
       });
@@ -273,7 +273,7 @@ export function Dashboard() {
         const existingCampo = acc.find((campo) => campo.label === ct.categoria.label);
 
         if (existingCampo) {
-          existingCampo.value += ct.valor.total;
+          existingCampo.value += ct.valor.parcela;
         } else {
           acc.push(
             {

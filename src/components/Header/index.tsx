@@ -1,12 +1,12 @@
 import { cn, Icons } from "@utils";
-import { LogoMark, Switch } from '@components'
+import { LogoMark } from '@components'
 import { HeaderProps } from "@typings";
 import { logout } from "@api";
 import { useSessionData } from "@hooks";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-export function Header({ className, setTipoDados, theme, setTheme }: HeaderProps) {
+export function Header({ className, theme, setTheme }: HeaderProps) {
 
     const { setUserData } = useSessionData()
     const navigate = useNavigate()
@@ -17,15 +17,19 @@ export function Header({ className, setTipoDados, theme, setTheme }: HeaderProps
         navigate("/login")
     }
 
-    function toggleTheme(){        
+    function toggleTheme(){       
         if(document.body.classList.contains("dark")){
-            document.body.classList.replace("dark", "light")
-            localStorage.setItem("theme", "light")
             setTheme("light")
+            setTimeout(() => {
+                document.body.classList.replace("dark", "light")
+                localStorage.setItem("theme", "light")
+            }, 300) 
         } else {
-            document.body.classList.replace("light", "dark")
-            localStorage.setItem("theme", "dark")
             setTheme("dark")
+            setTimeout(() => {
+                document.body.classList.replace("light", "dark")
+                localStorage.setItem("theme", "dark")
+            }, 300) 
         }
     }
 
@@ -49,13 +53,6 @@ export function Header({ className, setTipoDados, theme, setTheme }: HeaderProps
         <section className={cn("text-brand-text z-[10] flex items-center justify-between w-screen h-16  bg-brand-background px-28 select-none", className)}>
             <div className="flex items-center justify-center h-16 gap-8">
                 <LogoMark theme={theme} />
-                {/* <Switch
-                    type="button"
-                    option1={"Real"}
-                    option2={"Fictício"}
-                    action1={() => setTipoDados("prod")}
-                    action2={() => setTipoDados("mock")}
-                /> */}
             </div>
             <Icons.MdOutlineLogout className="text-[30px] mx-2 cursor-pointer rounded-sm hover:brightness-75 text-brand-text" onClick={handleLogout} />
 

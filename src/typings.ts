@@ -164,7 +164,6 @@ export interface NotifyManagerProps{
 
 export interface HeaderProps{
     className?: string
-    setTipoDados: (value: string) => void 
     theme: string
     setTheme: (v: string) => void
 }
