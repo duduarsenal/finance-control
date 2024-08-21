@@ -1,8 +1,9 @@
 import { getCampos } from '@api';
-import { Button, ConfirmAction, DateField, ModalAddCampo, Select } from '@components';
+import { Button, DateField, ModalAddCampo, Select } from '@components';
 import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, arredondar, cn, currencyFormatPT, dateFormatPT, preencherParcelas } from '@utils';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { RemoveField } from '../RemoveField';
 
 export function DashboardTable({ 
     type, 
@@ -25,9 +26,8 @@ export function DashboardTable({
     
     const [editCampo, setEditCampo] = useState<CamposProps | null>(null)
 
-    const [modalConfirmAction, setModalConfirmAction] = useState<boolean>(false)
-    const [messageConfirmAction, setMessageConfirmAction] = useState<string | ReactNode>("")
-    const [actionConfirmAction, setActionConfirmAction] = useState<{action: () => void} | null>(null)
+    const [modalRemoveField, setModalRemoveField] = useState<boolean>(false)
+    const [fieldRemove, setFieldRemove] = useState<CamposProps>()
 
     useEffect(() => {
         const arrTotal: CamposProps[] = [];
@@ -65,11 +65,10 @@ export function DashboardTable({
     }
 
     async function handleRemoveCampo(campo: CamposProps, idTipo: number){
-        if(campo?.parcelas?.total > 1){
+        if(campo?.parcelas?.total > 1 && idTipo == 2){
             const camposToEdit = (await getCampos())
             .filter((item) => campo.originalId === item.originalId && campo.id !== item.id)
             .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
-            console.log('camposToEdit', camposToEdit)
             
             await removeCampo(campo, 2)
             
@@ -84,30 +83,14 @@ export function DashboardTable({
                     atual: 0
                 }   
             }))
-            
         } else {
             await removeCampo(campo, idTipo)
         }
     }
 
-    function handleConfirmAction(row: CamposProps){
-        const item = 
-        <div className='font-bold leading-4'>
-            {row.categoria.label.slice(0, 10) + " - " + row.descricao.slice(0, 15)}...
-        </div>
-        
-        const valor = currencyFormatPT(row.valor.parcela)
-
-        setMessageConfirmAction(
-            <span className='font-normal leading-4'>
-                Deseja realmente excluir o campo {item} no valor de {valor}?
-            </span>
-        )
-        
-        setActionConfirmAction({
-            action: () => { handleRemoveCampo(row, 1); setModalConfirmAction(false) }
-        })
-        setModalConfirmAction(true)
+    function handleRemoveField(row: CamposProps){
+        setFieldRemove(row)
+        setModalRemoveField(true)
     }
     
 
@@ -176,7 +159,7 @@ export function DashboardTable({
                                         />
                                         <Button
                                             className='my-0 border-none outline-0 text-[18px] px-0 hover:text-brand-text'
-                                            handleButton={() => handleConfirmAction(row)}
+                                            handleButton={() => handleRemoveField(row)}
                                             icon={<Icons.FaTrashAlt />}
                                         />
                                     </p> : '-'}
@@ -242,13 +225,14 @@ export function DashboardTable({
                     handleRemoveCampo={removeCampo}
             />}
 
-            {modalConfirmAction &&
-                <ConfirmAction
-                    label={messageConfirmAction || "Desejar descartar as alterações não salvas?"}
-                    option1="Excluir"
-                    action1={actionConfirmAction?.action ?? (() => console.log("Erro ao localizar a função de descarte"))}
-                    option2="Cancelar"
-                    action2={() => setModalConfirmAction(false)}
+            {modalRemoveField &&
+                <RemoveField
+                field={fieldRemove as CamposProps}
+                actionDelete={handleRemoveCampo}
+                actionCancel={() => {
+                    setFieldRemove(undefined)
+                    setModalRemoveField(false)
+                }}
             />}
 
         </section>

@@ -230,5 +230,11 @@ export interface CheckboxProps{
     label: string
     setCheck: () => void
     check: boolean
-    className: string
+    className?: string
+}
+
+export interface RemoveFieldProps{
+    field: CamposProps
+    actionDelete: (campo: CamposProps, idTipo: number) => Promise<void>
+    actionCancel: () => void
 }
