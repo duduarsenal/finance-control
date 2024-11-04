@@ -17,22 +17,6 @@ export function Header({ className, theme, setTheme }: HeaderProps) {
         navigate("/login")
     }
 
-    function toggleTheme(){       
-        if(document.body.classList.contains("dark")){
-            setTheme("light")
-            setTimeout(() => {
-                document.body.classList.replace("dark", "light")
-                localStorage.setItem("theme", "light")
-            }, 300) 
-        } else {
-            setTheme("dark")
-            setTimeout(() => {
-                document.body.classList.replace("light", "dark")
-                localStorage.setItem("theme", "dark")
-            }, 300) 
-        }
-    }
-
     useEffect(() => {
         const userTheme = localStorage.getItem("theme");
         const systemTheme = window.matchMedia("(prefers-colors-scheme: dark)").matches;
@@ -55,15 +39,6 @@ export function Header({ className, theme, setTheme }: HeaderProps) {
                 <LogoMark theme={theme} />
             </div>
             <Icons.MdOutlineLogout className="text-[30px] mx-2 cursor-pointer rounded-sm hover:brightness-75 text-brand-text" onClick={handleLogout} />
-
-            <div className="absolute bottom-0 left-0 flex flex-col items-center justify-center gap-4 px-1 py-2 m-4 rounded-full bg-brand-hover">
-                <Icons.FaMoon className={cn("text-[24px] text-brand-gray transition-all", 
-                    {"text-brand-white drop-shadow-[1px_1px_4px_rgba(255,255,255,0.3)]": theme === "dark"}
-                )} onClick={toggleTheme}/>
-                <Icons.FaSun className={cn("text-[26px] text-brand-gray transition-all", 
-                    { "text-colors-yellow drop-shadow-[1px_1px_1px_rgba(0,0,0,0.5)]": theme === "light"}
-                )} onClick={toggleTheme}/>
-            </div>
         </section>
     )
 }

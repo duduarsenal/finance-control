@@ -12,6 +12,16 @@ export function useSessionData() {
 
   useEffect(() => {
     async function handleSession() {
+      
+      // inserindo usuario padrao ao abrir o sistema
+      const users = localStorage.getItem("usuarios")
+      if(!users) {
+        localStorage.setItem("usuarios", JSON.stringify([{usuario: "admin", password: import.meta.env.VITE_PASSWORD_BASE64}]))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } else if(!JSON.parse(users).some((u: any) => u.usuario === "admin")) {
+        localStorage.setItem("usuarios", JSON.stringify([...(JSON.parse(users)), {usuario: "admin", password: import.meta.env.VITE_PASSWORD_BASE64}]))
+      }
+
       const data = await authToken();
       if (!data) {
         logout()

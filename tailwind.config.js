@@ -39,10 +39,20 @@ export default {
         notification: {
           '0%': { width: '100%' },
           '100%': { width: '0px' },
-        }
+        },
+        slideIn: {
+          '0%': { marginLeft: '-450px', filter: 'blur(4px)' },
+          '100%': { marginLeft: '0px', filter: 'blur(0px)'}
+        },
+        slideOut: {
+          '0%': { marginRight: '-450px', filter: 'blur(4px)' },
+          '100%': { marginRight: '0px', filter: 'blur(0px)' }
+        },
       },
       animation: {
-        'notification': 'notification 3s linear'
+        'notification': 'notification 3s linear',
+        'slide-in': 'slideIn 1s cubic-bezier(0.4, 0, 0.2, 1)',
+        'slide-out': 'slideOut 1s cubic-bezier(0.4, 0, 0.2, 1)'
       }
     },
   },

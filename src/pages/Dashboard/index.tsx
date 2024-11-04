@@ -24,6 +24,7 @@ import {
 } from "@utils";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { Vigia, Detetive } from '@assets'
 
 export function Dashboard() {
   const [monthSelected, setMonthSelected] = useState<GenericProps | null>(
@@ -215,11 +216,11 @@ export function Dashboard() {
   // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
   useEffect(() => {
     // PROCESSA OS CAMPOS PARA EXIBIR NO GRAFICO ANUAL DE BARRAS
-    function processarCamposByAno(campos: CamposProps[], tipo: string, setState: (values: number[]) => void) {
+    async function processarCamposByAno(tipo: string, setState: (values: number[]) => void) {
       setLoadindBar(true)
       const result: number[] = Array(12).fill(0);
 
-      let camposFiltrados: CamposProps[] = campos;
+      let camposFiltrados: CamposProps[] = await getCampos();
 
       if (year) {
         camposFiltrados = camposFiltrados
@@ -241,8 +242,8 @@ export function Dashboard() {
       setLoadindBar(false)
     }
 
-    processarCamposByAno(campos, "ganhos", setGanhosByYear)
-    processarCamposByAno(campos, "gastos", setGastosByYear)
+    processarCamposByAno("ganhos", setGanhosByYear)
+    processarCamposByAno("gastos", setGastosByYear)
   }, [campos, categorias, totalGastos, totalGanhos, saldoTotal, year])
 
   // MONITORA QUALQUER ATUALIZAÇÃO DE DADOS PARA ATUALIZAR O GRÁFICO
@@ -294,7 +295,7 @@ export function Dashboard() {
   }, [campos, typeGraphicDonut, month, monthSelected])
 
   return (
-    <main className="px-2 overflow-y-hidden h-max">
+    <main className="px-2 h-max">
       <div className="flex justify-between w-full py-8 h-max">
         <div className="flex items-center gap-6">
           <div className="w-56">
@@ -328,29 +329,41 @@ export function Dashboard() {
         />
       </div>
 
-      {/* DASHBOARD/TABLE DE GASTOS */}
-      <DashboardTable
-        type="gastos"
-        campos={campos?.filter((campo) => campo.type === "gastos") || []}
-        saveCampo={saveCampo}
-        salvarCampos={salvarCampos}
-        handleEditCampo={editCampo}
-        removeCampo={removeCampo}
-        categorias={categorias}
-        setTotal={setTotalGastos}
-      />
 
-      {/* DASHBOARD/TABLE DE GANHOS */}
-      <DashboardTable
-        type="ganhos"
-        campos={campos?.filter((campo) => campo.type === "ganhos") || []}
-        saveCampo={saveCampo}
-        salvarCampos={salvarCampos}
-        handleEditCampo={editCampo}
-        removeCampo={removeCampo}
-        categorias={categorias}
-        setTotal={setTotalGanhos}
-      />
+      {/* DASHBOARD/TABLE DE GASTOS */}
+      <div className="relative px-2 h-max">
+        <div className="flex items-center justify-center absolute -top-6 left-1/3">
+          <img src={Vigia} className="w-36 z-20" />
+        </div>
+        <DashboardTable
+          type="gastos"
+          campos={campos?.filter((campo) => campo.type === "gastos") || []}
+          saveCampo={saveCampo}
+          salvarCampos={salvarCampos}
+          handleEditCampo={editCampo}
+          removeCampo={removeCampo}
+          categorias={categorias}
+          setTotal={setTotalGastos}
+        />
+      </div>
+
+      <div className="relative px-2 h-max">
+        <div className="flex items-center justify-center absolute top-2/4 -translate-y-2/4 -right-[66px] z-50">
+          <img src={Detetive} className="w-20 z-50" />
+        </div>
+
+        {/* DASHBOARD/TABLE DE GANHOS */}
+        <DashboardTable
+          type="ganhos"
+          campos={campos?.filter((campo) => campo.type === "ganhos") || []}
+          saveCampo={saveCampo}
+          salvarCampos={salvarCampos}
+          handleEditCampo={editCampo}
+          removeCampo={removeCampo}
+          categorias={categorias}
+          setTotal={setTotalGanhos}
+        />
+      </div>
 
       {/* MODAL PARA ADICIONAR CATEGORIA */}
       {modalCategoria && (

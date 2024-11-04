@@ -1,17 +1,19 @@
-import { validadeLogin } from "@api";
-import { Button, Input, LogoMark } from "@components";
+import { validadeLogin, registerUser } from "@api";
+import { Login, Register } from "@components";
 import { useSessionData } from "@hooks";
-import { OutletContextProps } from "@typings";
+import { OutletContextProps, UserProps } from "@typings";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
-export function Login() {
+export function LoginRegister() {
 
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
+    const [repassword, setRepassword] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [pageType, setPageType] = useState<"login" | "register">("login")
     const { userData, setUserData } = useSessionData();
-    const {addNotification,setIsPageHeader, setIsLoading} = useOutletContext<OutletContextProps>();
+    const { addNotification,setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>();
 
     useEffect(() => {
         if (userData?.usertoken) {
@@ -28,50 +30,72 @@ export function Login() {
         }, 500)
     }, [setIsLoading, setIsPageHeader])
 
-    async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    async function handleLogin(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if(!username || !password){
             return addNotification("danger", "Preencha todos os campos")
         }
 
-        if(await validadeLogin(username, password)){
-            const data = {
-                username: "Admin",
-                usertoken: "Admin"
-            }
+        const canLogin = await validadeLogin(username, password)
+        if(canLogin){
             // Criar estrutura de token/login
-            setUserData(data)
-            localStorage.setItem("user", JSON.stringify(data))
+            setUserData(canLogin as UserProps)
+            localStorage.setItem("user", JSON.stringify(canLogin))
             navigate("/")
         } else {
             addNotification("danger", "Usuario ou senha inválidos.")
         }
     }
 
+    async function handleRegister(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        if(!username || !password || !repassword) return addNotification("danger", "Preencha todos os campos")
+        if((password !== repassword)) return addNotification("warning", "As senhas nao coincidem")
+
+        if(await registerUser(username, password)){
+            const canLogin = await validadeLogin(username, password)
+            if(!canLogin) navigate("/")
+ 
+            setUserData(canLogin as UserProps)
+            localStorage.setItem("user", JSON.stringify(canLogin))
+
+            addNotification("sucess", "Registro realizado com sucesso")
+            navigate("/")
+        } else {
+            addNotification("danger", "Usuario ja registrado")
+        }
+    }
+
+    function handleForgetPassword() {
+        addNotification("warning", "Problema é seu, burro!")
+    }
+
     return (
-        <div className="flex items-center justify-center h-full select-none">
-            <form className="flex flex-col gap-4 min-h-80 w-96">
-                <LogoMark />
-                <Input
-                    required={true}
-                    label="Username"
-                    type="text"
-                    value={username}
-                    setState={setUsername}
-                />
-                <Input
-                    required={true}
-                    label="Senha"
-                    type="password"
-                    value={password}
-                    setState={setPassword}
-                />
-                <Button
-                    value="Entrar"
-                    handleButton={(e) => handleLogin(e as unknown as FormEvent<HTMLFormElement>)}
-                />
-            </form>
-        </div>
+        <>
+            {pageType === "login" && 
+            <Login 
+                username={username} 
+                setUsername={setUsername} 
+                password={password} 
+                setPassword={setPassword} 
+                handleLogin={handleLogin}
+                setPageType={setPageType}
+                handleForgetPassword={handleForgetPassword}
+            />}
+
+            {pageType === "register" &&
+            <Register 
+                username={username} 
+                setUsername={setUsername}
+                repassword={repassword}
+                setRepassword={setRepassword}
+                password={password} 
+                setPassword={setPassword} 
+                handleRegister={handleRegister}
+                setPageType={setPageType}
+            />}
+        </>
     )
 }
