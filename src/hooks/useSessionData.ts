@@ -26,7 +26,7 @@ export function useSessionData() {
       if (!data) {
         logout()
         setUserData(null)
-        navigate("/login")
+        navigate("/auth")
         return;
       }
 

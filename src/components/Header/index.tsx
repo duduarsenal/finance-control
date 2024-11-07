@@ -14,11 +14,11 @@ export function Header({ className, theme, setTheme }: HeaderProps) {
     async function handleLogout(){
         await logout()
         setUserData(null)
-        navigate("/login")
+        navigate("/auth")
     }
 
     useEffect(() => {
-        const userTheme = localStorage.getItem("theme");
+        const userTheme = localStorage.getItem("theme") as "dark" | "light";
         const systemTheme = window.matchMedia("(prefers-colors-scheme: dark)").matches;
         
         if(userTheme){

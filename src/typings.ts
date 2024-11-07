@@ -165,7 +165,7 @@ export interface NotifyManagerProps{
 export interface HeaderProps{
     className?: string
     theme: string
-    setTheme: (v: string) => void
+    setTheme: (theme: "dark" | "light") => void
 }
 
 export interface ConfirmActionProps{
@@ -237,4 +237,9 @@ export interface RemoveFieldProps{
     field: CamposProps
     actionDelete: (campo: CamposProps, idTipo: number) => Promise<void>
     actionCancel: () => void
+}
+
+export interface ToggleThemeProps{
+    theme: "dark" | "light"
+    toggleTheme: () => void
 }

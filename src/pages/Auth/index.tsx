@@ -5,7 +5,7 @@ import { OutletContextProps, UserProps } from "@typings";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
-export function LoginRegister() {
+export function AuthPage() {
 
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");

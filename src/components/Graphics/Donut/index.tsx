@@ -11,9 +11,12 @@ export function GraphicsDonut({className, data}: GraphicsPieProps) {
       colors: data.map((color) => color.color),
       dataLabels: {
         style: {
-          colors: ["var(--text)"],
+          colors: ["var(--background)"],
           fontWeight: "bold",
           fontSize: "14px"
+        },
+        formatter(val) {
+          return Math.round(val as number).toFixed(1) + "%"
         },
         dropShadow: {
           enabled: false

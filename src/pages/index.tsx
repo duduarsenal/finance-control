@@ -1,3 +1,3 @@
-export { LoginRegister } from './Login'
-export { Dashboard } from './Dashboard'
-export { NotFound } from './NotFound'
+export { AuthPage } from './Auth'
+export { DashboardPage } from './Dashboard'
+export { NotFoundPage } from './NotFound'

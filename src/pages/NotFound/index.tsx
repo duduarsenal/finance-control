@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export function NotFound() {
+export function NotFoundPage() {
     const [randomGif, setRandomGif] = useState<string>("");
 
     async function getRandomGif() {

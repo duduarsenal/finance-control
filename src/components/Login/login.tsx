@@ -34,21 +34,25 @@ export function Login({username, setUsername, password, setPassword, handleLogin
                 value={password}
                 setState={setPassword}
                 className="w-80 h-7 text-base"
-                />
+            />
             <div className="flex flex-col">
                 <Button
                     value="Entrar"
                     handleButton={(e) => handleLogin(e as unknown as FormEvent<HTMLFormElement>)}
                     className="w-80 outline-0 bg-brand-hover hover:bg-brand-gray m-0"
                 />
-            <div className="flex items-center justify-between">
-                    <span className="hover:underline cursor-pointer" onClick={() => { setPageType("register"), setUsername(""), setPassword("") }}>
+                <div className="flex items-center justify-between">
+                    <span className="hover:underline cursor-pointer" onClick={() => { 
+                        setPageType("register")
+                        setUsername("")
+                        setPassword("") 
+                    }}>
                         Registre-se
                     </span>
                     <span className="hover:underline cursor-pointer" onClick={handleForgetPassword}>
                         Esqueceu sua senha
                     </span>
-            </div>
+                </div>
             </div>
         </form>
         {/* SVG IMAGE */}

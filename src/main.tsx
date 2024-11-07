@@ -1,5 +1,5 @@
 import { AuthProvider } from '@context'
-import { Dashboard, LoginRegister, NotFound } from '@pages'
+import { DashboardPage, AuthPage, NotFoundPage } from '@pages'
 import '@style'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -10,23 +10,23 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthProvider> <Layout /> </AuthProvider> ,
-    errorElement: <Layout error={<NotFound />} />,
+    errorElement: <Layout error={<NotFoundPage />} />,
     children: [
       {
         path: "/",
-        element: <Dashboard />
+        element: <DashboardPage />
       },
       {
-        path: "/login",
-        element: <LoginRegister />
+        path: "/auth",
+        element: <AuthPage />
       },
       {
         path: "/dashboard",
-        element: <Dashboard />
+        element: <DashboardPage />
       },
       {
         path: "/home",
-        element: <Dashboard />
+        element: <DashboardPage />
       }
     ],
   }
