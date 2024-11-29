@@ -265,7 +265,8 @@ export function Graphics({
               />
             ) : (
               <GraphicsBar
-                colTypes={months.map((month) => month.label.slice(0, 3))}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                colTypes={[...months].sort((a: any, b: any) => a.value - b.value).map((month) => month.label.slice(0, 3))}
                 gastos={gastosByYear}
                 ganhos={ganhosByYear}
               />

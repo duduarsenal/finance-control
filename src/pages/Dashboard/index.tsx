@@ -52,15 +52,7 @@ export function DashboardPage() {
 
   const [categoriasByMonth, setCategoriasByMonth] = useState<CategoriasGraficoProps[] | null>(null)
 
-  const { addNotification, setIsPageHeader, setIsLoading, tipoDados } = useOutletContext<OutletContextProps>()
-
-  // Altera entre os tipos de dados mockados
-  useEffect(() => {
-    setIsLoading(true)
-    handleStates()
-    setIsLoading(false)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tipoDados])
+  const { addNotification, setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>()
 
   async function saveCategoria(values: CategoriaProps[]) {
     // SALVE LISTA DE CATEGORIAS NO LOCALSTORAGE

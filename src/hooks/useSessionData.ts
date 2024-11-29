@@ -37,12 +37,6 @@ export function useSessionData() {
     handleSession();
   }, [navigate, userData?.usertoken])
 
-  // useEffect(() => {
-  //   if (userData?.usertoken) {
-  //     localStorage.setItem("token", userData.usertoken);
-  //   }
-  // }, [userData]);
-
   return { userData, setUserData };
 }
 
