@@ -9,12 +9,12 @@ export function Input({ className, type = "text", label, value, icon, setState, 
 
     return (
         <label
-            className="relative flex flex-col text-[18px]"
+            className="relative flex flex-col text-[18px] max-w-max"
             htmlFor={id}
         >
             <span className="absolute top-2/4 translate-y-[10%] brightness-0 px-1 text-[22px]">{icon}</span>
             {label && 
-                <span className={cn({"after:absolute after:px-1 after:-mt-1 after:text-[24px] after:content-['*'] after:text-colors-red after:font-semibold after:transition-all": label && !value && props.required })}>
+                <span className={cn("font-semibold", {"after:absolute after:px-1 after:-mt-1 after:text-[24px] after:content-['*'] after:text-colors-red after:font-semibold after:transition-all text-brand-text": label && !value && props.required })}>
                     {label}
                 </span>
             }
@@ -29,10 +29,13 @@ export function Input({ className, type = "text", label, value, icon, setState, 
                 onChange={(e) => {
                     type === "currency" 
                         ? setState(e.target.value.replace(/[^\d]/g, "").trim().slice(0, 9)) 
-                        : setState(e.target.value.trim() ? e.target.value.slice(0, (props.maxLength || e.target.value.length)) : e.target.value.trim())
+                        : setState(e.target.value.trim() 
+                            ? e.target.value.slice(0, (props.maxLength || e.target.value.length)) 
+                            : e.target.value.trim()
+                        )
                 }}
                 type={thisType}
-                className={cn("h-8 rounded-sm text-[18px] text-brand-text outline-none px-1", className,
+                className={cn("h-8 rounded-sm text-[18px] text-brand-black outline-none px-1", className,
                     {
                         "pr-9": type === "password",
                         "pl-9": icon,

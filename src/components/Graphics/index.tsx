@@ -37,14 +37,12 @@ export function Graphics({
     return arr;
   }
   
-  function calcPorcentagem(valor: number, total: number[]): number {
+  function calcPorcentagem(valor: number, total: number[]) {
     if (!valor) return 0;
 
-    const somaTotal = total.reduce((soma, iterador) => {
-      return soma + iterador;
-    }, 0);
+    const somaTotal = total.reduce((soma, iterador) => soma + iterador, 0);
 
-    return Math.round((valor / somaTotal) * 100 * Math.pow(10, 1)) / Math.pow(10, 1)
+    return Math.round((valor * 100) / somaTotal)
   }
 
   return (
@@ -95,7 +93,7 @@ export function Graphics({
             />
           </div>
           {/* GRÁFICO */}
-          <div className="min-h-[370px] flex items-center overflow-hidden">
+          <div className="min-h-[370px] flex items-center">
             {loadingDonut ? (
               <Loading
                 isTrue={loadingDonut}
@@ -113,13 +111,12 @@ export function Graphics({
           </div>
         </div>
         {/* INFORMAÇÕES DO GRÁFICO */}
-        <div className="flex flex-col xl:max-w-[400px] max-w-full xl:mx-0 sm:max-w-[650px] w-full">
+        <div className="flex flex-col xl:max-w-[400px] max-w-full xl:mx-0 sm:max-w-[650px] w-full px-8">
           <h4 className="flex flex-col items-center gap-1 py-4 font-semibold leading-4">
             Maior {typeGraphicDonut.slice(0, -1)} do mês:
             <p className="flex items-center gap-2 px-4 py-2 font-medium truncate rounded-md bg-brand-background">
               {categoriasByMonth?.length ?
               <>
-                
                 <span
                   style={{
                     backgroundColor: Array.from(categoriasByMonth || []).sort(
@@ -156,9 +153,9 @@ export function Graphics({
           </h4>
           {categoriasByMonth?.length ?
           <div className="flex flex-col flex-wrap lg:flex-row gap-x-3 gap-y-[.05rem]">
-            {categoriasByMonth?.map((categInfo, index) => (
+            {categoriasByMonth?.sort((a, b) => b.value - a.value).map((categInfo, index) => (
               <div
-                className="flex items-center justify-center gap-2 w-max"
+                className="flex items-center justify-start gap-2 w-full"
                 key={index}
               >
                 <span
@@ -167,16 +164,15 @@ export function Graphics({
                 />
                 {categInfo.label}
                 {" - "}
-                <span className="">
+                <span>
                   {calcPorcentagem(
                     categInfo.value,
                     categoriasByMonth
-                      .sort((a, b) => a.value - b.value)
+                      .sort((a, b) => b.value - a.value)
                       .map((c) => c.value)
                   )}
                   {"% "}
                   <span className="text-brand-text">
-                    {"(" + currencyFormatPT(categInfo.value) + ")"}
                   </span>
                 </span>
               </div>
@@ -269,7 +265,8 @@ export function Graphics({
               />
             ) : (
               <GraphicsBar
-                colTypes={months.map((month) => month.label.slice(0, 3))}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                colTypes={[...months].sort((a: any, b: any) => a.value - b.value).map((month) => month.label.slice(0, 3))}
                 gastos={gastosByYear}
                 ganhos={ganhosByYear}
               />

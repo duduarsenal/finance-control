@@ -15,7 +15,9 @@
       "@style": ["./src/style/index.css"],
       "@hooks": ["./src/hooks/index.ts"],
       "@utils": ["./src/utils/_index.ts"],
-      "@api": ["./src/api/_index.ts"]
+      "@api": ["./src/api/_index.ts"],
+      "@assets": ["./src/assets"],
+      "@enums": ["./src/utils/enum"]
     },
 
     /* Bundler mode */

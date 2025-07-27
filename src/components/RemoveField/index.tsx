@@ -39,7 +39,7 @@ export function RemoveField({ field, actionCancel, actionDelete }: RemoveFieldPr
                             actionDelete(field, ordenarParcelas ? 2 : 1)
                             actionCancel();
                         }} 
-                        className="my-0 bg-brand-text w-[125px] py-1 rounded-sm text-[18px] text-brand-background hover:scale-[1.03] transition-all"
+                        className="my-0 bg-brand-text hover:bg-brand-text w-[125px] py-1 rounded-sm text-[18px] text-brand-background hover:scale-[1.03] transition-all"
                     />
                 </div>
             </div>

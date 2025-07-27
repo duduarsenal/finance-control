@@ -1,9 +1,8 @@
 import { getCampos } from '@api';
-import { Button, DateField, ModalAddCampo, Select } from '@components';
+import { Button, DateField, ModalAddCampo, Select, RemoveField } from '@components';
 import { CamposProps, CategoriaProps, DashboardProps, GenericProps } from '@typings';
 import { Icons, arredondar, cn, currencyFormatPT, dateFormatPT, preencherParcelas } from '@utils';
 import { useEffect, useState } from 'react';
-import { RemoveField } from '../RemoveField';
 
 export function DashboardTable({ 
     type, 
@@ -28,36 +27,6 @@ export function DashboardTable({
 
     const [modalRemoveField, setModalRemoveField] = useState<boolean>(false)
     const [fieldRemove, setFieldRemove] = useState<CamposProps>()
-
-    useEffect(() => {
-        const arrTotal: CamposProps[] = [];
-        
-        const total = tempCampos.reduce((acc, item) => {
-            if(!(arrTotal.find((element) => element.id === item.id)))
-            {
-                arrTotal.push(item)
-                return acc += item.valor.parcela
-            }
-            return acc += 0
-        }, 0)
-        
-        setTotalContent(total)
-        setTotal(total)
-    }, [tempCampos, campos, setTotal])
-
-    useEffect(() => {
-        const filtragemCategoria = categoriaSelected 
-        ? campos.filter((campo) => campo.categoria.value === categoriaSelected?.value)
-                .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
-        : campos.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
-
-        const filtragemData = dtFiltro 
-        ? filtragemCategoria.filter((campo) => campo.data === dtFiltro)
-                            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
-        : filtragemCategoria.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
-
-        setTempCampos(filtragemData)
-    }, [campos, categoriaSelected, dtFiltro])
 
     function handleEditarCampo(campo: CamposProps){
         setEditCampo(campo)
@@ -92,6 +61,36 @@ export function DashboardTable({
         setFieldRemove(row)
         setModalRemoveField(true)
     }
+
+    useEffect(() => {
+        const arrTotal: CamposProps[] = [];
+        
+        const total = tempCampos.reduce((acc, item) => {
+            if(!(arrTotal.some((element) => element.id === item.id)))
+            {
+                arrTotal.push(item)
+                return acc += item.valor.parcela
+            }
+            return acc += 0
+        }, 0)
+        
+        setTotalContent(total)
+        setTotal(total)
+    }, [tempCampos, campos, setTotal])
+
+    useEffect(() => {
+        const filtragemCategoria = categoriaSelected 
+        ? campos.filter((campo) => campo.categoria.value === categoriaSelected?.value)
+                .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        : campos.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+
+        const filtragemData = dtFiltro 
+        ? filtragemCategoria.filter((campo) => campo.data === dtFiltro)
+                            .sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        : filtragemCategoria.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+
+        setTempCampos(filtragemData)
+    }, [campos, categoriaSelected, dtFiltro])
     
 
     return (
@@ -130,7 +129,7 @@ export function DashboardTable({
                                     key={index}
                                 >
                                     <p className='col-span-2 truncate'>{dateFormatPT(row?.data) || '-'}</p>
-                                    <p className='col-span-4 pl-6 pr-2 text-left truncate'>{row?.descricao || '-'}</p>
+                                    <p className='col-span-4 pl-6 pr-2 text-left truncate' title={row?.descricao}>{row?.descricao || '-'}</p>
                                     <p className={cn( "col-span-2 px-4 flex gap-2 rounded-md w-max max-w-full m-auto",
                                         { "bg-colors-red": row?.categoria?.cor?.value === 'red' },
                                         { "bg-colors-yellow": row?.categoria?.cor?.value === 'yellow' },
@@ -181,8 +180,7 @@ export function DashboardTable({
                             optionDefault='Selecione uma categoria'
                             value={categoriaSelected as CategoriaProps}
                             setValue={setCategoriaSelected}
-                            optionsCategorias={campos?.map((campo) => { 
-                                if(campo.type === type) return campo.categoria})
+                            optionsCategorias={campos?.map((campo) => { if(campo.type === type) return campo.categoria })
                                 .filter((categoria): categoria is CategoriaProps => categoria != undefined) || []}
                             transparent={false}
                             direction={type != "gastos" ? "up" : "down"}
@@ -227,12 +225,9 @@ export function DashboardTable({
 
             {modalRemoveField &&
                 <RemoveField
-                field={fieldRemove as CamposProps}
-                actionDelete={handleRemoveCampo}
-                actionCancel={() => {
-                    setFieldRemove(undefined)
-                    setModalRemoveField(false)
-                }}
+                    field={fieldRemove as CamposProps}
+                    actionDelete={handleRemoveCampo}
+                    actionCancel={() => { setFieldRemove(undefined), setModalRemoveField(false) }}
             />}
 
         </section>

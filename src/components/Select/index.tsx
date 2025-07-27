@@ -152,7 +152,7 @@ export function Select({
                             className={cn("py-1 px-2 cursor-pointer flex items-center gap-2 basis-1/2 z-[99999] hover:bg-brand-dark-gray",
                                 {
                                     "py-2": colors,
-                                    "border-b-0": options[index + 1] === (null || undefined),
+                                    "border-b-0": options[index + 1] === undefined || options[index + 1] === null,
                                     "hover:text-brand-text": theme === "light",
                                     "basis-full": options.length <= 4,
                                     "basis-1/3 hover:bg-[#80808050] hover:brightness-100 text-[20px] justify-center transition-all rounded-md": emoji
@@ -183,7 +183,7 @@ export function Select({
                             }}
                             className={cn("py-1 px-1 odd:bg-brand-hover hover:brightness-[.85] cursor-pointer text-brand-text w-full basis-full z-[99999]", 
                                 {
-                                    "border-b-0": optionsCategorias[index + 1] === (null || undefined),
+                                    "border-b-0": optionsCategorias[index + 1] === undefined || optionsCategorias[index + 1] === null,
                                     "basis-full": optionsCategorias.length <= 4,
                                     "basis-1/3": emoji
                                 }
