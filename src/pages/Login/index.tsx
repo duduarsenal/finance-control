@@ -10,7 +10,7 @@ export function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const { userData, setUserData } = useSessionData();
+    const { userData, handleUserData } = useSessionData();
     const {addNotification,setIsPageHeader, setIsLoading} = useOutletContext<OutletContextProps>();
 
     useEffect(() => {
@@ -35,15 +35,9 @@ export function Login() {
             return addNotification("danger", "Preencha todos os campos")
         }
 
-        if(await validadeLogin(username, password)){
-            const data = {
-                username: "Admin",
-                usertoken: "Admin"
-            }
-            // Criar estrutura de token/login
-            setUserData(data)
-            localStorage.setItem("user", JSON.stringify(data))
-            navigate("/")
+        const validLogin = await validadeLogin(username, password)
+        if(!validLogin){
+            handleUserData(validLogin)
         } else {
             addNotification("danger", "Usuario ou senha inválidos.")
         }

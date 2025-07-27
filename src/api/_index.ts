@@ -1,3 +1,3 @@
 export { getCategorias, saveCategorias } from './categorias'
-export { getCampos, saveCampos } from './campos'
-export { validadeLogin, logout } from './login'
+export * from './campos'
+export * from './login'

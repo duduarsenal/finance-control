@@ -2,6 +2,7 @@ import React, { Dispatch, ReactNode, SetStateAction} from "react";
 
 export interface UserProps{
     username: string
+    id: string
     usertoken: string
 }
 
