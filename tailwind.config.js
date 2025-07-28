@@ -35,6 +35,9 @@ export default {
         'notify-dark-yellow': '#bf9000',
         'notify-dark-green': '#38761d',
       },
+      backgroundImage: {
+        'gradient-background': 'var(--bg-gradient-image)'
+      },
       keyframes: {
         notification: {
           '0%': { width: '100%' },

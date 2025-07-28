@@ -213,7 +213,6 @@ export function DashboardPage() {
         return acc
       }, [])
       
-      console.log('camposFiltrados :', camposFiltrados);
       setState(camposFiltrados)
       setLoadindDonut(false)
     }

@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 async function validadeLogin(usuario: string, senha: string){
-    const baseUrl = `${import.meta.env.VITE_PASSWORD_BASE64}/auth`;
-    const data = { usuario, senha }
+    const baseUrl = `${import.meta.env.VITE_API_URL}/auth`;
+    const data = { usuario, senha: btoa(String.fromCharCode(...new TextEncoder().encode(senha))) }
 
     const result = await fetch(`${baseUrl}/login`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(data)
     })
 
@@ -14,14 +17,14 @@ async function validadeLogin(usuario: string, senha: string){
         return null
     }
 
-    const responseApi = JSON.parse(await result.json())
+    const responseApi = await result.json()
     
     return responseApi
 }
 
 async function refreshToken(token: string) {
     try {
-        const baseUrl = `${import.meta.env.VITE_PASSWORD_BASE64}/auth`;
+        const baseUrl = `${import.meta.env.VITE_API_URL}/auth`;
         
         const result = await fetch(`${baseUrl}/refresh`, {
             method: 'POST',
@@ -42,9 +45,35 @@ async function refreshToken(token: string) {
 
 }
 
+async function registerUser(usuario: string, senha: string): Promise<boolean>{
+    const baseUrl = `${import.meta.env.VITE_API_URL}/user`
+    const data = { usuario, senha: btoa(String.fromCharCode(...new TextEncoder().encode(senha))) }
+
+    const result = await fetch(`${baseUrl}/register`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    if(result.status != 200) {
+        console.error(await result.json())
+        throw new Error(await result.json());
+        
+    }
+
+    return true
+}
+
 async function logout(): Promise<void>{
     localStorage.removeItem("user")
     localStorage.removeItem("token")
 }
 
-export { refreshToken, validadeLogin, logout }
+export { 
+    refreshToken, 
+    validadeLogin, 
+    logout, 
+    registerUser 
+}

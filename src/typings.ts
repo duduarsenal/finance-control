@@ -45,6 +45,7 @@ export interface LoadingProps {
     isTrue?: boolean;
     className?: string;
     message?: string;
+    blurMode?: boolean
 }
 
 export interface SelectProps{

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { logout, refreshToken } from "@api";
 import { UserProps } from "@typings";
-import { decodeToken, getToken, setItem } from "@utils";
+import { decodeToken, getToken, setItem, validateToken } from "@utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,23 +9,26 @@ export function useSessionData() {
   const [userData, setUserData] = useState<UserProps | null>(null);
   const navigate = useNavigate();
 
+
   function redirectToLogin() {
     logout()
     setUserData(null)
-    navigate("/login")
+    navigate("/auth")
     return
   }
 
   async function handleSession(): Promise<{data: string}> {
     const token = getToken()
     if(!token) {
-      redirectToLogin()
+      // redirectToLogin()
       throw new Error("Token nao encontrado")
     }
 
+    if(validateToken(token)) return { data: token }; 
+
     const result: {data: string} | null = await verifyLogin(token);
     if (!result) {
-      redirectToLogin()
+      // redirectToLogin()
       throw new Error("Token inválido")
     }
 
@@ -43,7 +46,7 @@ export function useSessionData() {
     const tokenData = decodeToken(result.data);
     if(!tokenData) throw new Error("Erro ao decodificar token")
     
-    setUserData({...tokenData, usertoken: result.data})
+    setUserData({...tokenData.data, usertoken: result.data})
   }
 
   async function verifyLogin(token: string): Promise<{data: string} | null> {
@@ -59,8 +62,8 @@ export function useSessionData() {
     handleSession()
       .then(handleToken)
       .then(handleUserData)
-      .catch((err) => {
-        console.error(err)
+      .catch(() => {
+        // console.error(err)
         redirectToLogin()
       })
   // eslint-disable-next-line react-hooks/exhaustive-deps

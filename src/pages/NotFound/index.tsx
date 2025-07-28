@@ -16,7 +16,7 @@ export function NotFoundPage() {
 
             const pathname = window.location.pathname.split("/")[1]
             const url = "https://api.giphy.com/v1/gifs/random"
-            const key = import.meta.env.VITE_API_KEY
+            const key = import.meta.env.VITE_GIF_API_KEY
             const tag = ["rgb", "rubberduck", "trollface", "lgbt", "creepy"].includes(pathname) 
             ? pathname : "memes"
     

@@ -1,19 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { validadeLogin, registerUser } from "@api";
-import { Login, Register } from "@components";
+import { Loading, Login, Register } from "@components";
 import { useSessionData } from "@hooks";
-import { OutletContextProps, UserProps } from "@typings";
+import { OutletContextProps } from "@typings";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 export function AuthPage() {
-
+    const { userData, handleUserData } = useSessionData();
+    const { addNotification, setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>();
     const navigate = useNavigate();
+
     const [username, setUsername] = useState<string>("");
     const [repassword, setRepassword] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
     const [pageType, setPageType] = useState<"login" | "register">("login")
-    const { userData, setUserData } = useSessionData();
-    const { addNotification,setIsPageHeader, setIsLoading } = useOutletContext<OutletContextProps>();
+
+    const [isFetchingLogin, setIsFetchingLogin] = useState<boolean>(false)
+    const [isFetchingRegister, setIsFetchingRegister] = useState<boolean>(false)
 
     useEffect(() => {
         if (userData?.usertoken) {
@@ -28,43 +33,45 @@ export function AuthPage() {
         setTimeout(() => {
             setIsLoading(false)
         }, 500)
-    }, [setIsLoading, setIsPageHeader])
+    }, [])
 
     async function handleLogin(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setIsFetchingLogin(true)
+        try {
+            if(!username || !password) return addNotification("danger", "Preencha todos os campos")
+            
+            const canLogin = await validadeLogin(username, password)
+            if(!canLogin) handleUserData(canLogin)
+            else addNotification("danger", "Usuario ou senha inválidos.")
 
-        if(!username || !password){
-            return addNotification("danger", "Preencha todos os campos")
-        }
-
-        const canLogin = await validadeLogin(username, password)
-        if(canLogin){
-            // Criar estrutura de token/login
-            setUserData(canLogin as UserProps)
-            localStorage.setItem("user", JSON.stringify(canLogin))
-            navigate("/")
-        } else {
-            addNotification("danger", "Usuario ou senha inválidos.")
+        } catch (error: any) {
+            console.error("Erro ao realizar login", error)
+            addNotification("danger", error.data ? error.data : "Ocorreu um erro inesperado ao realizar login.")
+        } finally {
+            setIsFetchingLogin(false)
         }
     }
 
     async function handleRegister(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
-        if(!username || !password || !repassword) return addNotification("danger", "Preencha todos os campos")
-        if((password !== repassword)) return addNotification("warning", "As senhas nao coincidem")
-
-        if(await registerUser(username, password)){
-            const canLogin = await validadeLogin(username, password)
-            if(!canLogin) navigate("/")
- 
-            setUserData(canLogin as UserProps)
-            localStorage.setItem("user", JSON.stringify(canLogin))
-
+        setIsFetchingRegister(true)
+        try {
+            if(!username || !password || !repassword) return addNotification("danger", "Preencha todos os campos")
+            if((password !== repassword)) return addNotification("warning", "As senhas nao coincidem")
+            
+            await registerUser(username, password)
             addNotification("sucess", "Registro realizado com sucesso")
-            navigate("/")
-        } else {
-            addNotification("danger", "Usuario ja registrado")
+
+            const canLogin = await validadeLogin(username, password)
+            if(canLogin) handleUserData(canLogin)
+            else addNotification("danger", "Ocorreu um erro inesperado ao realizar login, tente novamente")
+            
+        } catch (error: any) {
+            console.error("Erro ao realizar registro", error)
+            addNotification("danger", error.data ? error.data : "Ocorreu um erro inesperado ao realizar registro.")
+        } finally {
+            setIsFetchingRegister(false)
         }
     }
 
@@ -74,6 +81,7 @@ export function AuthPage() {
 
     return (
         <>
+            {isFetchingLogin && <Loading isTrue={isFetchingLogin || isFetchingRegister} blurMode />}
             {pageType === "login" && 
             <Login 
                 username={username} 

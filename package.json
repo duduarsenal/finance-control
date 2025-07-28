@@ -19,7 +19,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "js-base64": "^3.7.7",
-    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",

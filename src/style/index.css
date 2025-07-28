@@ -52,14 +52,6 @@
     border: none !important;
   }
 
-  .loading{
-    background-image: url('/src/assets/bg-gradient.png')
-  }
-  
-  .loading-not{
-    background-image: none;
-  }
-
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -94,6 +86,7 @@
     --text: #E1E1E1;
     --gray-opacity: #808080;
     transition-duration: 200ms !important;
+    --bg-gradient-image: url('./src/assets/bg-gradient.png')
   }
 
   .light{
@@ -103,4 +96,5 @@
     --text: #0F0F0F;
     --gray-opacity: #5F5F5F;
     transition-duration: 200ms !important;
+    --bg-gradient-image: url('./src/assets/bg-gradient-white.png')
   }
