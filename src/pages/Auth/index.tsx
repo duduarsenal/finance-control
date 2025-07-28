@@ -42,7 +42,7 @@ export function AuthPage() {
             if(!username || !password) return addNotification("danger", "Preencha todos os campos")
             
             const canLogin = await validadeLogin(username, password)
-            if(!canLogin) handleUserData(canLogin)
+            if(canLogin) handleUserData(canLogin)
             else addNotification("danger", "Usuario ou senha inválidos.")
 
         } catch (error: any) {
